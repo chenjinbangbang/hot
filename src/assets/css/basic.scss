@@ -1,0 +1,25 @@
+
+body, html{
+  font-size: 14px;
+  line-height: 14px;
+  color: $fontColor;
+}
+
+a {
+  color: $fontColor;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+ul, p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
