@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-class Home extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,4 +16,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default Register;
