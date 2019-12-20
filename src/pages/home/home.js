@@ -1,13 +1,14 @@
-import React from 'react';
-import './index.scss';
-import { Button } from 'antd';
+import React from 'react'
+import './index.scss'
+import { Button } from 'antd'
 
 class Home extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       data: []
     }
+    // console.log(this.props.location);
   }
 
   render() {

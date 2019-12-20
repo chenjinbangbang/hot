@@ -1,0 +1,53 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+/* 公共样式写在这里 */
+// 登录，注册
+.login {
+  width: 600px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+
+  .login-title {
+    font-size: 20px;
+    width: 200px;
+    margin: auto;
+    color: $theme;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $theme;
+  }
+
+  .ant-form {
+    width: 450px;
+    margin: 40px auto 0 auto;
+
+    .login-link{
+      text-align: right;
+    }
+    
+
+    .ant-input-affix-wrapper {
+      
+      // margin-top: 20px;
+    }
+  }
+}
+
+// a标签样式
+.link {
+  color: $theme;
+}

@@ -1,15 +1,16 @@
-import React from 'react';
-// import logo from './logo.svg';
-import './App.scss';
-// import './assets/css/basc.scss';
+import React from 'react'
+// import logo from './logo.svg'
+import './App.scss'
+// import './assets/css/basc.scss'
 
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
 import Home from './pages/home/home';
 import Login from './pages/login/login';
 import Register from './pages/register/register';
 
 function App() {
+  
   return (
     <div className="App">
       <Router>
