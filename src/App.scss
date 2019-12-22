@@ -37,9 +37,8 @@
   }
 } */
 
-
-@import './assets/css/basic.scss';
-@import '~antd/dist/antd.css';
+@import "./assets/css/basic.scss";
+@import "~antd/dist/antd.css";
 
 .App {
   .header {
@@ -47,7 +46,7 @@
     .header-contain {
       width: 1024px;
       height: 40px;
-      margin: auto; 
+      margin: auto;
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -58,23 +57,24 @@
           padding: 0 10px;
           display: flex;
           align-items: center;
+          cursor: pointer;
           &:last-child {
             position: relative;
             &:before {
-              content: '';
+              content: "";
               position: absolute;
               left: 0;
               height: 14px;
               width: 2px;
               background-color: #aaa;
-            }   
+            }
           }
         }
       }
     }
   }
 
-  .logo{
+  .logo {
     background-color: $theme;
     .logo-contain {
       width: 1024px;
@@ -84,15 +84,14 @@
       align-items: center;
       .logo-text {
         font-size: 30px;
-        a{
-
+        a {
           color: #fff;
         }
       }
     }
   }
 
-  .content{
+  .content {
     width: 1024px;
     margin: auto;
   }
