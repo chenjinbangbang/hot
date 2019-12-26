@@ -35,19 +35,45 @@ code {
     width: 450px;
     margin: 40px auto 0 auto;
 
-    .login-link{
+    .login-link {
       text-align: right;
     }
-    
+
 
     .ant-input-affix-wrapper {
-      
+
       // margin-top: 20px;
     }
   }
 }
 
+// 二级页面的标题样式
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid $theme;
+  color: $theme;
+}
+
 // a标签样式
 .link {
   color: $theme;
+}
+
+.theme {
+  color: $theme;
+}
+
+.red {
+  color: #f5222d;
+}
+
+.success {
+  color: #52c41a;
+}
+
+.warning {
+  color: #faad14;
 }

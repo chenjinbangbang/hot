@@ -5,9 +5,10 @@ import './App.scss'
 
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
-import Home from './pages/home/home';
-import Login from './pages/login/login';
-import Register from './pages/register/register';
+import Home from './pages/home/home'
+import Login from './pages/login/login'
+import Register from './pages/register/register'
+import WealthDetail from './pages/wealth/wealth_detail/wealth_detail'
 
 function App() {
   
@@ -35,6 +36,7 @@ function App() {
             <Route path="/" exact component={Home}></Route>
             <Route path="/login" component={Login}></Route>
             <Route path="/register" component={Register}></Route>
+            <Route path="/wealthdetail" component={WealthDetail}></Route>
           </Switch>
         </div>
 
