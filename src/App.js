@@ -20,10 +20,17 @@ import Home from './pages/home/home'
 import Login from './pages/login/login'
 import Register from './pages/register/register'
 
+// 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
+// import moment from 'moment'
+// import 'moment/locale/zh-cn'
+
 // const store = createStore(reducers, applyMiddleware(thunk))
 
 // 提示全局方法
 message.config({ maxCount: 1 }) // maxCount：最大显示数，超过限制时，最早的消息会被自动关闭
+
+// 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
+// moment.locale('zh-cn')
 
 // console.log(store)
 
@@ -38,7 +45,8 @@ class App extends React.Component {
     super(props)
     this.state = {}
     // console.log(this.props)
-    console.log(this)
+    // console.log(this)
+    // console.log(this)
   }
 
   // console.log(store.getState()) // 获取store的state

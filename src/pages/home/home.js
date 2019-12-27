@@ -1,6 +1,13 @@
 import React from 'react'
 import './index.scss'
 import { Menu, Icon } from 'antd'
+import { Route } from 'react-router-dom'
+// import { Button, Spin } from 'antd'
+
+import WealthDetail from '../wealth/wealth_detail/wealth_detail'
+import Notice from '../account/notice/notice'
+import NoticeDetail from '../account/notice_detail/notice_detail'
+import Personal from '../account/personal/personal'
 const { SubMenu } = Menu
 
 class Home extends React.Component {
@@ -17,9 +24,11 @@ class Home extends React.Component {
     this.setState({
       current: e.key
     })
+    // console.log(this.props)
   }
 
   render() {
+    // const { match } = this.props
     return (
       <div className='home'>
         <Menu theme='light' onClick={this.handleClick} defaultOpenKeys={['sub1']} selectedKeys={[this.state.current]} mode='inline' style={{ width: 200 }}>
@@ -39,6 +48,16 @@ class Home extends React.Component {
             <Menu.Item key='9'>个人信息</Menu.Item>
           </SubMenu>
         </Menu>
+
+        {/* <Link to={`${match.url}`}>财务明细 {match.url}</Link>
+          <Link to={`${match.url}/notice`}>公告</Link> */}
+        <div className='home-nav'>
+          <Route path={`/`} component={Personal}></Route>
+          <Route path={`/wealth/detail`} component={WealthDetail}></Route>
+          <Route path={`/notice`} component={Notice}></Route>
+          <Route path={`/notice/detail`} component={NoticeDetail}></Route>
+          <Route path={`/personal`} component={Personal}></Route>
+        </div>
       </div>
     )
   }

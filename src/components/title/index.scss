@@ -1,0 +1,9 @@
+// 二级页面的标题样式
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid $theme;
+  color: $theme;
+}

@@ -52,6 +52,7 @@ code {
       display: flex;
       justify-content: space-between;
       color: $theme;
+
       span {
         cursor: pointer;
       }
@@ -66,4 +67,21 @@ code {
 // a标签样式
 .link {
   color: $theme;
+}
+
+// 公共样式
+.theme {
+  color: $theme;
+}
+
+.red {
+  color: #f5222d;
+}
+
+.success {
+  color: #52c41a;
+}
+
+.warning {
+  color: #faad14;
 }
