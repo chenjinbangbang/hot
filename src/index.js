@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './util/config';
 
 // createStore：创建一个Redux store来以存放应用中所有的state。应用中应有且仅有一个store
 import { createStore, applyMiddleware } from 'redux'

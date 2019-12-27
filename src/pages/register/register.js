@@ -1,12 +1,12 @@
 import React from 'react'
 import './index.scss'
-import axios from 'axios'
 // import { Link } from 'react-router-dom'
+import { request } from '@/util/api'
 
 import { Form, Input, Button, message } from 'antd'
 
 import { connect } from 'react-redux'
-import { register } from '../../redux/user.redux'
+import { register } from '@/redux/user.redux'
 
 @connect(
   state => state.user,
@@ -34,9 +34,39 @@ class Register extends React.Component {
   //   }))
   // }
 
-  componentWillMount() {
-    this.checkUsername()
+  UNSAFE_componentWillMount() {
+    // this.checkUsername()
   }
+
+  // 用户名校验
+  validateUsername = (rule, value, callback) => {
+    console.log(value)
+    if (value) {
+      if (/^\w{6,18}$/.test(value)) {
+        // 检查用户名是否已注册
+        request('/check/username', 'get', { username: value }).then(res => {
+          // console.log(res.msg)
+          if (res.success) {
+            callback()
+          } else {
+            callback(res.msg)
+          }
+        })
+      } else {
+        callback('请输入6-18个字符的字母/数字/下划线组成的用户名')
+      }
+    } else {
+      callback('请输入用户名')
+    }
+
+  }
+
+  // 检查用户名是否已注册
+  // checkUsername = () => {
+  //   request('/check/username', 'get', { username: '123' }).then(res => {
+  //     console.log(res)
+  //   })
+  // }
 
 
   // 密码校验
@@ -99,16 +129,6 @@ class Register extends React.Component {
     callback()
   }
 
-  // 检查用户名是否已注册
-  checkUsername = () => {
-    axios.get('/check/username', { query: { username: '123' } }).then(res => {
-      console.log(res)
-      if (res.status === 200) {
-
-      }
-    })
-  }
-
   // 提交表单
   handleSubmit = e => {
     e.preventDefault();
@@ -161,7 +181,8 @@ class Register extends React.Component {
             {
               getFieldDecorator('username', {
                 initialValue: '',
-                rules: [{ required: true, message: '请输入用户名' }, { pattern: /^\w{6,18}$/, message: '请输入6-18个字符的字母/数字/下划线组成的用户名' }]
+                validateTrigger: 'onBlur',
+                rules: [{ required: true, validator: this.validateUsername }]
               })(
                 <Input placeholder='请输入用户名' />
               )

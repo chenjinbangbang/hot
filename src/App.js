@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { logout } from './redux/user.redux'
 import AuthRoute from './components/authroute/authroute'
 
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom'
 import { message, Menu, Dropdown, Icon } from 'antd'
 
 import Home from './pages/home/home'
@@ -37,7 +37,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    console.log(this.props)
+    // console.log(this.props)
     console.log(this)
   }
 
@@ -47,6 +47,8 @@ class App extends React.Component {
   // let username = '11'
   render() {
     const { username } = this.props
+    // const pathname = this.props.location.pathname
+    // console.log(this.props)
 
     // 登录菜单
     const menu = (
@@ -84,6 +86,15 @@ class App extends React.Component {
           <div className="logo">
             <div className="logo-contain">
               <div className="logo-text"><Link to="/">LOGO设计</Link></div>
+            </div>
+          </div>
+
+          <div className="nav">
+            <div className="nav-contain">
+              <ul>
+                <li><NavLink to="/" exact activeClassName="active">首页</NavLink></li>
+                <li><NavLink to="/register" activeClassName="active">已发任务</NavLink></li>
+              </ul>
             </div>
           </div>
 

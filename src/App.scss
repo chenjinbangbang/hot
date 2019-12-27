@@ -75,7 +75,7 @@
   }
 
   .logo {
-    background-color: $theme;
+    background-color: #eee;
     .logo-contain {
       width: 1024px;
       height: 80px;
@@ -85,7 +85,37 @@
       .logo-text {
         font-size: 30px;
         a {
-          color: #fff;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  .nav {
+    background-color: $theme;
+    // border-top: 1px solid #ccc;
+    .nav-contain {
+      width: 1024px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      ul {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        margin: auto;
+        li {
+          a {
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            // border: 1px solid #000;
+            padding: 0 30px;
+            color: #fff;
+            &.active {
+              background-color: #e32f2f;
+            }
+          }
         }
       }
     }
