@@ -1,0 +1,22 @@
+.home {
+
+  // 二级页面样式
+  .home-nav {
+    padding: 20px;
+
+    // 搜索
+    .ant-form {
+      margin-top: 20px;
+    }
+
+    // 提示
+    .wealth-detail-note {
+      margin-top: 20px;
+    }
+
+    // 表格
+    .ant-table-wrapper {
+      margin-top: 20px;
+    }
+  }
+}
