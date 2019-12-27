@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.scss'
-import { Button } from 'antd'
+import { Button, Spin } from 'antd'
 
 class Home extends React.Component {
   constructor(props) {
@@ -8,12 +8,13 @@ class Home extends React.Component {
     this.state = {
       data: []
     }
-    // console.log(this.props.location);
+    console.log(this);
   }
 
   render() {
     return (
       <div>
+        <Spin size='large' />
         首页
         <Button type="primary">primary</Button>
       </div>

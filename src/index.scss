@@ -13,16 +13,25 @@ code {
 } */
 
 /* 公共样式写在这里 */
+// 公共样式
+.theme {
+  color: $theme;
+}
+
+.font-color {
+  color: $fontColor;
+}
+
 // 登录，注册
 .login {
   width: 600px;
-  margin: 100px auto;
+  margin: 50px auto;
   padding: 30px;
   border-radius: 10px;
   border: 1px solid #ddd;
 
   .login-title {
-    font-size: 20px;
+    font-size: 18px;
     width: 200px;
     margin: auto;
     color: $theme;
@@ -32,16 +41,23 @@ code {
   }
 
   .ant-form {
-    width: 450px;
-    margin: 40px auto 0 auto;
+    // width: 450px;
+    margin: 30px auto 0 auto;
 
-    .login-link {
-      text-align: right;
+    .ant-form-item {
+      // margin-bottom: 10px;
     }
 
+    .login-link {
+      display: flex;
+      justify-content: space-between;
+      color: $theme;
+      span {
+        cursor: pointer;
+      }
+    }
 
     .ant-input-affix-wrapper {
-
       // margin-top: 20px;
     }
   }

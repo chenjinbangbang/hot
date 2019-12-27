@@ -2,19 +2,26 @@ import React from 'react'
 import './index.scss'
 import { Link } from 'react-router-dom'
 
-import { Form, Icon, Input, Button, message } from 'antd'; 
+import { Form, Input, Button, message, Modal } from 'antd'
 
+import { connect } from 'react-redux'
+import { login } from '../../redux/user.redux'
+
+@connect(
+  state => state.user,
+  { login }
+)
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       // form: {
       //   username: '',
-      //   pwd: ''
+      //   password: ''
       // },
       loading: false // 登录按钮加载
     }
-    // console.log(this.props)
+    console.log('login：', this.props)
   }
 
   // 表单数据的双向绑定
@@ -26,6 +33,14 @@ class Login extends React.Component {
   //   }))
   // }
 
+  // 忘记密码
+  forgetPwd() {
+    Modal.info({
+      content: <p>若忘记密码，请使用绑定的QQ联系在线客服处理，客服QQ：<span className='theme'>1312480793</span></p>,
+      okText: '确定'
+    })
+  }
+
   // 提交表单
   handleSubmit = e => {
     e.preventDefault();
@@ -33,25 +48,29 @@ class Login extends React.Component {
 
     // console.log(this.props.form.getFieldsValue(['username']))
     // console.log(this.props.form.getFieldValue('username'))
-    // this.props.form.getFieldValue('pwd')
+    // this.props.form.getFieldValue('password')
 
     // 校验并获取一组输入域的值与Error，若fieldNames参数为空，则校验全部组件
     this.props.form.validateFields((err, values) => {
-      if(!err) {
+      if (!err) {
         console.log(values)
 
         // 登录接口
         this.setState({ loading: true })
-        setTimeout(() => {
-          this.setState({ loading: false })
-          message.success({ content: '登录成功', duration: 2, onClose: () => {
-            // this.props.history.push({ pathname: '/', state: { } })
-          } })
-          this.props.history.push({ pathname: '/' })
-        }, 500)
+        // setTimeout(() => {
+        //   this.setState({ loading: false })
+        //   message.success({
+        //     content: '登录成功', duration: 2, onClose: () => {
+        //       // this.props.history.push({ pathname: '/', state: { } })
+        //     }
+        //   })
+        //   this.props.history.push({ pathname: '/' })
+        // }, 500)
+        this.props.login(values)
+
       } else {
-        console.log(err)
-        message.error('登录失败，用户名或密码输入错误')
+        // console.log(err)
+        message.error('登录失败，请填写正确的用户名和密码')
       }
     });
 
@@ -65,37 +84,42 @@ class Login extends React.Component {
     return (
       <div className='login'>
 
+        {/* {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null} */}
+
         <div className='login-title'>登录</div>
 
-        <Form onSubmit={this.handleSubmit} labelCol={{ span: 4 }}  wrapperCol={{ span: 20 }} className='login-form'>
-          <Form.Item label='用户名'>
+        <Form onSubmit={this.handleSubmit} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} className='login-form'>
+          <Form.Item label='用户名' hasFeedback>
             {
               getFieldDecorator('username', {
-                initialValue: 'dd',
-                rules: [{required: true, message: '请输入用户名' }, { pattern: /^[\u4e00-\u9fa5\w]{6,18}$/, message: '请输入6-18个字符/字母/数字/下划线组成的用户名' }]
+                initialValue: 'jinbang',
+                rules: [{ required: true, message: '请输入用户名' }, { pattern: /\w{6,18}$/, message: '请输入6-18个字符的字母/数字/下划线组成的用户名' }]
               })(
-                <Input placeholder='请输入用户名' size='large' />
+                <Input placeholder='请输入用户名' />
               )
             }
-            {/* <Input value={form.username} defaultValue={form.username} prefix={<Icon type='user' style={{color: 'rgba(0,0,0,.25)'}} />} placeholder='请输入用户名' onChange={this.handleChange.bind(this, 'username')} size='large' /> */}
+            {/* <Input value={form.username} defaultValue={form.username} prefix={<Icon type='user' style={{color: 'rgba(0,0,0,.25)'}} />} placeholder='请输入用户名' onChange={this.handleChange.bind(this, 'username')} size='' /> */}
           </Form.Item>
-          <Form.Item label='密码'>
+          <Form.Item label='密码' hasFeedback>
             {
-              getFieldDecorator('pwd', {
-                initialValue: '1',
-                rules: [{required: true, message: '请输入密码'}, { pattern: /^[\u4e00-\u9fa5\w]{8,18}$/, message: '请输入8-18个字符/字母/数字/下划线组成的密码' }]
+              getFieldDecorator('password', {
+                initialValue: '12345678',
+                rules: [{ required: true, message: '请输入密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的密码' }]
               })(
-                <Input type='password' placeholder='请输入密码' size='large' />
+                <Input.Password placeholder='请输入密码' />
               )
             }
-            {/* <Input value={form.pwd} defaultValue={form.pwd} prefix={<Icon type='lock' style={{color: 'rgba(0,0,0,.25)'}} /> } placeholder='请输入密码' onChange={this.handleChange.bind(this, 'pwd')} size='large' /> */}
+            {/* <Input value={form.password} defaultValue={form.password} prefix={<Icon type='lock' style={{color: 'rgba(0,0,0,.25)'}} /> } placeholder='请输入密码' onChange={this.handleChange.bind(this, 'password')} size='' /> */}
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
-            <p class='login-link'><Link className='link' to='/register'>前往注册</Link></p>
-            <Button type='primary' htmlType='submit' size='large' block loading={loading}>登录</Button>
+            <p className='login-link'>
+              <span onClick={this.forgetPwd}>忘记密码？</span>
+              <Link className='link' to='/register'>前往注册</Link>
+            </p>
+            <Button type='primary' htmlType='submit' block loading={loading}>登录</Button>
           </Form.Item>
         </Form>
-        
+
       </div>
     )
   }
