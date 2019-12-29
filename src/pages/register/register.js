@@ -73,9 +73,16 @@ class Register extends React.Component {
   validatePassword = (rule, value, callback) => {
     const { form } = this.props
     if (value) {
-      // 校验并获取一组输入域的值与Error
-      // 和确认密码必须一样，和安全密码必须不一样
-      form.validateFields(['password_confirm', 'password_security'], { force: true })
+      if (/^\w{8,18}$/.test(value)) {
+        // 校验并获取一组输入域的值与Error
+        // 密码和确认密码必须一样，和安全密码必须不一样
+        form.validateFields(['password_confirm', 'password_security'], { force: true })
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+
+    } else {
+      callback('请输入密码')
     }
     callback()
   }
@@ -83,33 +90,37 @@ class Register extends React.Component {
   // 确认密码校验
   validatePasswordConfirm = (rule, value, callback) => {
     const { form } = this.props
-
     if (value) {
-      let reg = /^\w{6,18}$/
-      if (!reg.test(value)) {
-        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
-      } else {
+      if (/^\w{6,18}$/.test(value)) {
         if (value !== form.getFieldValue('password')) {
           callback('密码和确认密码不一致')
         }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
       }
+    } else {
+      callback('请再次输入密码')
     }
-    callback()
   }
 
   // 安全密码校验
   validatePasswordSecurity = (rule, value, callback) => {
     const { form } = this.props
     if (value) {
-
-      if (value === form.getFieldValue('password')) {
-        callback('安全密码不能和密码相同')
+      if (/^\w{8,18}$/.test(value)) {
+        if (value === form.getFieldValue('password')) {
+          callback('安全密码不能和密码相同')
+        } else {
+          // 校验并获取一组输入域的值与Error
+          form.validateFields(['password_security_confirm'], { force: true })
+        }
       } else {
-        // 校验并获取一组输入域的值与Error
-        form.validateFields(['password_security_confirm'], { force: true })
+        callback('请输入8-18个字符的字母/数字/下划线组成的安全密码')
       }
+
+    } else {
+      callback('请输入安全密码')
     }
-    callback()
   }
 
   // 确认安全密码校验
@@ -117,21 +128,21 @@ class Register extends React.Component {
     const { form } = this.props
 
     if (value) {
-      let reg = /^\w{6,18}$/
-      if (!reg.test(value)) {
-        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
-      } else {
+      if (/^\w{6,18}$/.test(value)) {
         if (value !== form.getFieldValue('password_security')) {
           callback('安全密码和确认安全密码不一致')
         }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
       }
+    } else {
+      callback('请再次输入安全密码')
     }
-    callback()
   }
 
   // 提交表单
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     // console.log(e, this.state.form, this.props.form)
 
     // console.log(this.props.form.getFieldsValue(['username']))
@@ -160,7 +171,6 @@ class Register extends React.Component {
         message.error('请填写正确的信息')
       }
     });
-
   }
 
   render() {
@@ -188,25 +198,27 @@ class Register extends React.Component {
               )
             }
           </Form.Item>
-          <Form.Item label='密码' hasFeedback>
+          <Form.Item label='密码' hasFeedback required>
             {
               getFieldDecorator('password', {
                 initialValue: '',
-                rules: [{ required: true, message: '请输入密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的密码' }, { validator: this.validatePassword }]
+                validateTrigger: 'onBlur',
+                rules: [{ validator: this.validatePassword }]
               })(
                 <Input.Password placeholder='请输入密码' />
               )
             }
           </Form.Item>
-          <Form.Item label='确认密码' hasFeedback>
+          <Form.Item label='确认密码' hasFeedback required>
             {
               getFieldDecorator('password_confirm', {
                 initialValue: '',
-                rules: [{ required: true, message: '请再次输入密码' }, {
+                validateTrigger: 'onBlur',
+                rules: [{
                   validator: this.validatePasswordConfirm
                 }]
               })(
-                <Input.Password placeholder='请输入确认密码' />
+                <Input.Password placeholder='请再次输入密码' />
               )
             }
           </Form.Item>
@@ -214,6 +226,7 @@ class Register extends React.Component {
             {
               getFieldDecorator('email', {
                 initialValue: '',
+                validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入邮箱' }, { type: 'email', message: '请输入正确的邮箱' }]
               })(
                 <Input placeholder='请输入邮箱' />
@@ -224,6 +237,7 @@ class Register extends React.Component {
             {
               getFieldDecorator('qq', {
                 initialValue: '',
+                validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入QQ号' }, { pattern: /^[1-9]{1}[0-9]{4,11}$/, message: '请输入正确的QQ号' }]
               })(
                 <Input placeholder='请输入QQ号' />
@@ -234,37 +248,40 @@ class Register extends React.Component {
             {
               getFieldDecorator('mobile', {
                 initialValue: '',
+                validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入手机号' }, { pattern: /^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2,5,6,7]|17[0-8]|18[0-9]|19[1,3,5,8,9])\d{8}$/, message: '请输入正确的手机号' }]
               })(
                 <Input placeholder='请输入手机号' />
               )
             }
           </Form.Item>
-          <Form.Item label='安全密码' hasFeedback>
+          <Form.Item label='安全密码' hasFeedback required>
             {
               getFieldDecorator('password_security', {
                 initialValue: '',
-                rules: [{ required: true, message: '请输入安全密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的安全密码' }, { validator: this.validatePasswordSecurity }]
+                validateTrigger: 'onBlur',
+                rules: [{ validator: this.validatePasswordSecurity }]
               })(
                 <Input.Password placeholder='请输入安全密码' />
               )
             }
           </Form.Item>
-          <Form.Item label='确认安全密码' hasFeedback>
+          <Form.Item label='确认安全密码' hasFeedback required>
             {
               getFieldDecorator('password_security_confirm', {
                 initialValue: '',
-                rules: [{ required: true, message: '请再次输入安全密码' }, {
+                validateTrigger: 'onBlur',
+                rules: [{
                   validator: this.validatePasswordSecurityConfirm
                 }]
               })(
-                <Input.Password placeholder='请输入确认安全密码' />
+                <Input.Password placeholder='请再次输入安全密码' />
               )
             }
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6 }}>
             {/* <p className='login-link'><Link className='link' to='/login'>前往登录</Link></p> */}
-            <Button type='primary' htmlType='submit' block loading={loading}>立即注册</Button>
+            <Button type='primary' htmlType='submit' loading={loading}>立即注册</Button>
           </Form.Item>
         </Form>
 

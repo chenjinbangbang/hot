@@ -1,0 +1,17 @@
+.identity {
+  .identity-note {
+    p {
+      margin-top: 20px;
+    }
+    .identity-note-status {
+      font-size: 18px;
+      font-weight: bold;
+      span {
+        color: $theme;
+      }
+    }
+    .identity-note-detail {
+      line-height: 24px;
+    }
+  }
+}

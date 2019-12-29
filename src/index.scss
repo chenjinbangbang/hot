@@ -74,14 +74,18 @@ code {
   color: $theme;
 }
 
-.red {
-  color: #f5222d;
+.primary {
+  color: $primary;
+}
+
+.error {
+  color: $error;
 }
 
 .success {
-  color: #52c41a;
+  color: $success;
 }
 
 .warning {
-  color: #faad14;
+  color: $warning;
 }

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { Form, Input, Button, message, Modal } from 'antd'
 
 import { connect } from 'react-redux'
-import { login } from '../../redux/user.redux'
+import { login } from '@/redux/user.redux'
 
 @connect(
   state => state.user,
@@ -43,7 +43,7 @@ class Login extends React.Component {
 
   // 提交表单
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     // console.log(e, this.state.form, this.props.form)
 
     // console.log(this.props.form.getFieldsValue(['username']))

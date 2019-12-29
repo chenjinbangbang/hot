@@ -1,20 +1,170 @@
 import React from 'react'
 import './index.scss'
-import { Icon, Form, Button, Input } from 'antd'
-import Title from '../../../components/title/title'
+import { Icon, Form, Button, Input, message } from 'antd'
+import Title from '@/components/title/title'
 
-import userImg from '../../../assets/imgs/user.jpg'
+import userImg from '@/assets/imgs/user.jpg'
 
 class Personal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loginLoading: false // 修改登录密码按钮加载
+      loginLoading: false, // 修改登录密码按钮加载
+      securityLoading: false // 修改安全密码按钮加载
     }
   }
 
+
+  // 修改图片
+  changeAvatar(info) {
+    console.log(info)
+  }
+
+  // ======================================== 修改登录密码表单 ========================================
+  // 原登录密码校验
+  validatePassword = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{8,18}$/.test(value)) {
+        // 校验并获取一组输入域的值与Error
+        // 原登录密码和新登录密码必须不一样
+        form.validateFields(['new_password'], { force: true })
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请输入原登录密码')
+    }
+    callback()
+  }
+
+  // 新登录密码校验
+  validateNewPassword = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{6,18}$/.test(value)) {
+        if (value === form.getFieldValue('password')) {
+          callback('原登录密码不能和新登录密码相同')
+        } else {
+          // 新登录密码和确认新登录密码必须不一样
+          form.validateFields(['new_password_confirm'], { force: true })
+        }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请输入新登录密码')
+    }
+    callback()
+  }
+
+  // 确认新登录密码校验
+  validateNewPasswordConfirm = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{6,18}$/.test(value)) {
+        if (value !== form.getFieldValue('new_password')) {
+          callback('新登录密码和确认新登录密码不一致')
+        }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请再次输入新登录密码')
+    }
+    callback()
+  }
+
+  // 点击修改登录密码
+  alterPassword = e => {
+    e.preventDefault()
+
+    // 校验并获取一组输入域的值与Error，若fieldNames参数为空，则校验全部组件
+    this.props.form.validateFields(['password', 'new_password', 'new_password_confirm'], (err, values) => {
+      if (!err) {
+        console.log(values)
+
+        this.setState({ loginLoading: true })
+      } else {
+        message.error('请填写正确的信息')
+      }
+    });
+  }
+
+  // ======================================== 修改安全密码表单 ========================================
+  // 原安全密码校验
+  validatePasswordSecurity = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{8,18}$/.test(value)) {
+        // 校验并获取一组输入域的值与Error
+        // 原安全密码和新安全密码必须不一样
+        form.validateFields(['new_password_security'], { force: true })
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请输入原安全密码')
+    }
+    callback()
+  }
+
+  // 新安全密码校验
+  validateNewPasswordSecurity = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{6,18}$/.test(value)) {
+        if (value === form.getFieldValue('password_security')) {
+          callback('原安全密码不能和新安全密码相同')
+        } else {
+          // 新安全密码和确认新安全密码必须不一样
+          form.validateFields(['new_password_security_confirm'], { force: true })
+        }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请输入新安全密码')
+    }
+    callback()
+  }
+
+  // 确认新安全密码校验
+  validateNewPasswordSecurityConfirm = (rule, value, callback) => {
+    const { form } = this.props
+    if (value) {
+      if (/^\w{6,18}$/.test(value)) {
+        if (value !== form.getFieldValue('new_password_security')) {
+          callback('新安全密码和确认新安全密码不一致')
+        }
+      } else {
+        callback('请输入8-18个字符的字母/数字/下划线组成的密码')
+      }
+    } else {
+      callback('请再次输入新安全密码')
+    }
+    callback()
+  }
+
+  // 点击修改安全密码
+  alterPasswordSecurity = e => {
+    e.preventDefault()
+
+    // 校验并获取一组输入域的值与Error，若fieldNames参数为空，则校验全部组件
+    this.props.form.validateFields(['password_security', 'new_password_security', 'new_password_security_confirm'], (err, values) => {
+      console.log(values)
+      if (!err) {
+        // console.log(values)
+
+        this.setState({ securityLoading: true })
+      } else {
+        message.error('请填写正确的安全密码信息')
+      }
+    });
+  }
+
   render() {
-    // const { content } = this.state
+    const { loginLoading, securityLoading } = this.state
     const { getFieldDecorator } = this.props.form
     return (
       <div className='personal'>
@@ -23,10 +173,12 @@ class Personal extends React.Component {
         <div className='personal-home'>
           <div className='personal-title'>基本资料</div>
           <div className='personal-info'>
+            {/* <Upload onChange={this.changeAvatar} listType='picture-card'> */}
             <div className='personal-avatar'>
               <div className='avatar-alter'><Icon type='camera' /></div>
               <img src={userImg} alt='' />
             </div>
+            {/* </Upload> */}
             <div className='personal-detail'>
               <ul>
                 <li><span>角色：</span><span>用户</span></li>
@@ -34,6 +186,7 @@ class Personal extends React.Component {
                 <li><span>手机号：</span><span>13360502844</span></li>
                 <li><span>联系QQ：</span><span>905690338</span></li>
                 <li><span>注册时间：</span><span>2019-22-22 10:10:10</span></li>
+                {/* <li><span>是否实名：</span><span>未实名，前去实名</span></li> */}
               </ul>
             </div>
           </div>
@@ -41,69 +194,94 @@ class Personal extends React.Component {
 
         <div className='personal-home'>
           <div className='personal-title'>修改登录密码</div>
-          <Form onSubmit={this.handleSubmit} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} className='login-form'>
-          <Form.Item label='推荐人'>
-            <p className='theme'>我的唯一</p>
-          </Form.Item>
-          <Form.Item label='用户名' hasFeedback>
-            {
-              getFieldDecorator('username', {
-                initialValue: '',
-                rules: [{ required: true, message: '请输入用户名' }, { pattern: /^\w{6,18}$/, message: '请输入6-18个字符的字母/数字/下划线组成的用户名' }]
-              })(
-                <Input placeholder='请输入用户名' />
-              )
-            }
-          </Form.Item>
-          <Form.Item label='密码' hasFeedback>
-            {
-              getFieldDecorator('password', {
-                initialValue: '',
-                rules: [{ required: true, message: '请输入密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的密码' }, { validator: this.validatePassword }]
-              })(
-                <Input.Password placeholder='请输入密码' />
-              )
-            }
-          </Form.Item>
-          <Form.Item label='确认密码' hasFeedback>
-            {
-              getFieldDecorator('password_confirm', {
-                initialValue: '',
-                rules: [{ required: true, message: '请再次输入密码' }, {
-                  validator: this.validatePasswordConfirm
-                }]
-              })(
-                <Input.Password placeholder='请输入确认密码' />
-              )
-            }
-          </Form.Item>
-          {/* <Form.Item label='安全密码' hasFeedback>
-            {
-              getFieldDecorator('password_security', {
-                initialValue: '',
-                rules: [{ required: true, message: '请输入安全密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的安全密码' }, { validator: this.validatePasswordSecurity }]
-              })(
-                <Input.Password placeholder='请输入安全密码' />
-              )
-            }
-          </Form.Item>
-          <Form.Item label='确认安全密码' hasFeedback>
-            {
-              getFieldDecorator('password_security_confirm', {
-                initialValue: '',
-                rules: [{ required: true, message: '请再次输入安全密码' }, {
-                  validator: this.validatePasswordSecurityConfirm
-                }]
-              })(
-                <Input.Password placeholder='请输入确认安全密码' />
-              )
-            }
-          </Form.Item> */}
-          <Form.Item wrapperCol={{ offset: 6 }}>
-            {/* <p className='login-link'><Link className='link' to='/login'>前往登录</Link></p> */}
-            <Button type='primary' htmlType='submit' block loading={loading}>立即注册</Button>
-          </Form.Item>
-        </Form>
+          <Form onSubmit={this.alterPassword} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} className='login-form'>
+            <Form.Item label='原登录密码' hasFeedback required>
+              {
+                getFieldDecorator('password', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{ validator: this.validatePassword }]
+                })(
+                  <Input.Password placeholder='请输入原登录密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item label='新登录密码' hasFeedback required>
+              {
+                getFieldDecorator('new_password', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{
+                    validator: this.validateNewPassword
+                  }]
+                })(
+                  <Input.Password placeholder='请输入新登录密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item label='确认新登录密码' hasFeedback required>
+              {
+                getFieldDecorator('new_password_confirm', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{
+                    validator: this.validateNewPasswordConfirm
+                  }]
+                })(
+                  <Input.Password placeholder='请再次输入新登录密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8 }}>
+              <Button type='primary' htmlType='submit' loading={loginLoading}>修改登录密码</Button>
+            </Form.Item>
+          </Form>
+        </div>
+
+        <div className='personal-home'>
+          <div className='personal-title'>修改安全密码</div>
+          <Form onSubmit={this.alterPasswordSecurity} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} className='login-form'>
+            <Form.Item label='原安全密码' hasFeedback required>
+              {
+                getFieldDecorator('password_security', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{ validator: this.validatePasswordSecurity }]
+                })(
+                  <Input.Password placeholder='请输入原安全密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item label='新安全密码' hasFeedback required>
+              {
+                getFieldDecorator('new_password_security', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{
+                    validator: this.validateNewPasswordSecurity
+                  }]
+                })(
+                  <Input.Password placeholder='请输入新安全密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item label='确认新安全密码' hasFeedback required>
+              {
+                getFieldDecorator('new_password_security_confirm', {
+                  initialValue: '',
+                  validateTrigger: 'onBlur',
+                  rules: [{
+                    validator: this.validateNewPasswordSecurityConfirm
+                  }]
+                })(
+                  <Input.Password placeholder='请再次输入新安全密码' />
+                )
+              }
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8 }}>
+              <Button type='primary' htmlType='submit' loading={securityLoading}>修改安全密码</Button>
+            </Form.Item>
+          </Form>
         </div>
 
       </div>

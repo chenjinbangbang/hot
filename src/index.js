@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
-import './util/config';
+import * as serviceWorker from './serviceWorker'
+import './util/config'
+
+// 全局化配置，设置成中文
+import { ConfigProvider } from 'antd'
+import zhCN from 'antd/es/locale/zh_CN'
 
 // createStore：创建一个Redux store来以存放应用中所有的state。应用中应有且仅有一个store
 import { createStore, applyMiddleware } from 'redux'
@@ -15,7 +19,7 @@ import { Provider } from 'react-redux'
 const store = createStore(reducers, applyMiddleware(thunk))
 
 // function render() {
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'))
+ReactDOM.render(<Provider store={store}><ConfigProvider locale={zhCN}><App /></ConfigProvider></Provider>, document.getElementById('root'))
 // }
 // render()
 

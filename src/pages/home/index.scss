@@ -1,8 +1,12 @@
 .home {
+  display: flex;
 
   // 二级页面样式
   .home-nav {
     padding: 20px;
+    margin-left: 20px;
+    border-left: 1px solid #ccc;
+    flex: 1;
 
     // 搜索
     .ant-form {

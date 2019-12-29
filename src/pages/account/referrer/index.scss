@@ -1,0 +1,60 @@
+.referrer {
+  .referrer-note {
+    // margin-top: 20px;
+    p {
+      margin-top: 20px;
+    }
+
+    .clip {
+      cursor: pointer;
+      margin-left: 10px;
+      color: $primary;
+    }
+
+    .referrer-note-detail {
+      line-height: 20px;
+    }
+  }
+
+  .referrer-data {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+    > div {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      p {
+        margin-top: 15px;
+        &:nth-child(1) {
+          // font-size: 16px;
+        }
+        &:nth-child(2) {
+          // margin-top: 15px;
+          font-size: 12px;
+          span {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    .month-data {
+      background-color: $theme;
+    }
+    .total-data {
+      background-color: $primary;
+      margin-left: 50px;
+    }
+  }
+
+  .ant-tabs {
+    .ant-table-wrapper {
+      margin-top: 0;
+    }
+  }
+}

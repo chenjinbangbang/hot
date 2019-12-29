@@ -2,7 +2,7 @@ import React from 'react'
 import './index.scss'
 import { Link } from 'react-router-dom'
 import { Table } from 'antd'
-import Title from '../../../components/title/title'
+import Title from '@/components/title/title'
 
 class Notice extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class Notice extends React.Component {
           dataIndex: 'title',
           key: 'title',
           align: 'center',
-          render: text => <span><Link to={{pathname: '/notice/detail', query: { name: 1 }}}>{text}</Link></span>
+          render: (text, record) => <span><Link to={{ pathname: '/noticedetail', state: { title: record.title, time: record.time, content: record.content } }}>{text}</Link></span>
         },
         {
           title: '时间',
@@ -46,6 +46,7 @@ class Notice extends React.Component {
           sender: '系统管理员',
           title: '《待付款确认协议书》及签约须知',
           time: '2019-12-22 22:22:10',
+          content: '《待付款确认协议书》及签约须知内容内容内容内容内容内容内容'
         },
         {
           key: '2',
@@ -53,6 +54,7 @@ class Notice extends React.Component {
           sender: '系统管理员',
           title: '《待付款确认协议书》及签约须知',
           time: '2019-12-22 22:22:10',
+          content: '《待付款确认协议书》及签约须知内容内容内容内容内容内容内容'
         },
         {
           key: '3',
@@ -60,6 +62,7 @@ class Notice extends React.Component {
           sender: '系统管理员',
           title: '《待付款确认协议书》及签约须知',
           time: '2019-12-22 22:22:10',
+          content: '《待付款确认协议书》及签约须知内容内容内容内容内容内容内容'
         }
       ]
     }
@@ -76,7 +79,7 @@ class Notice extends React.Component {
       <div className='notice'>
         <Title title='公告' />
 
-        <Table columns={columns} dataSource={data} pagination={{current, defaultPageSize: 2, onChange: this.changePage}}></Table>
+        <Table columns={columns} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
       </div>
     )
   }

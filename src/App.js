@@ -10,15 +10,28 @@ import './App.scss'
 // import reducers from './redux/reducer'
 // import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
-import { logout } from './redux/user.redux'
-import AuthRoute from './components/authroute/authroute'
+import { logout } from '@/redux/user.redux'
+import AuthRoute from '@/components/authroute/authroute'
 
-import { BrowserRouter as Router, Route, Switch, Link, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Link, NavLink, Route } from 'react-router-dom'
 import { message, Menu, Dropdown, Icon } from 'antd'
 
-import Home from './pages/home/home'
-import Login from './pages/login/login'
-import Register from './pages/register/register'
+import Home from '@/pages/home/home'
+import Login from '@/pages/login/login'
+import Register from '@/pages/register/register'
+
+// 任务中心
+import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表
+
+// 钱包中心
+import WealthDetail from '@/pages/wealth/wealth_detail/wealth_detail' // 财务明细
+
+// 账号中心
+import Personal from '@/pages/account/personal/personal' // 个人信息
+import Identity from '@/pages/account/identity/identity' // 实名认证
+import Referrer from '@/pages/account/referrer/referrer' // 推广分享
+import Notice from '@/pages/account/notice/notice' // 公告
+import NoticeDetail from '@/pages/account/notice_detail/notice_detail' // 公告详情
 
 // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
 // import moment from 'moment'
@@ -58,6 +71,52 @@ class App extends React.Component {
     // const pathname = this.props.location.pathname
     // console.log(this.props)
 
+    // 路由
+    const routes = [
+      {
+        path: '/home',
+        component: Home,
+        routes: [
+          {
+            path: '/home',
+            component: Tasklist
+          },
+          {
+            path: '/home/wealthdetail',
+            component: WealthDetail
+          },
+          {
+            path: '/home/personal',
+            component: Personal
+          },
+          {
+            path: '/home/identity',
+            component: Identity
+          },
+          {
+            path: '/home/referrer',
+            component: Referrer
+          },
+          {
+            path: '/home/notice',
+            component: Notice
+          },
+          {
+            path: '/home/noticedetail',
+            component: NoticeDetail
+          }
+        ]
+      },
+      {
+        path: '/login',
+        component: Login
+      },
+      {
+        path: '/register',
+        component: Register
+      }
+    ]
+
     // 登录菜单
     const menu = (
       <Menu onClick={this.props.logout}>
@@ -93,14 +152,14 @@ class App extends React.Component {
 
           <div className="logo">
             <div className="logo-contain">
-              <div className="logo-text"><Link to="/">LOGO设计</Link></div>
+              <div className="logo-text"><Link to="/home">LOGO设计</Link></div>
             </div>
           </div>
 
           <div className="nav">
             <div className="nav-contain">
               <ul>
-                <li><NavLink to="/" exact activeClassName="active">首页</NavLink></li>
+                <li><NavLink to="/home" strict activeClassName="active">首页</NavLink></li>
                 <li><NavLink to="/register" activeClassName="active">已发任务</NavLink></li>
               </ul>
             </div>
@@ -108,9 +167,16 @@ class App extends React.Component {
 
           <div className="content">
             <Switch>
-              <Route path="/" exact component={Home}></Route>
+              {
+                routes.map((item, key) => (
+                  <Route key={key} path={item.path} render={props => (
+                    <item.component {...props} routes={item.routes} />
+                  )} />
+                ))
+              }
+              {/* <Route path="/home" exact component={Home}></Route>
               <Route path="/login" component={Login}></Route>
-              <Route path="/register" component={Register}></Route>
+              <Route path="/register" component={Register}></Route> */}
             </Switch>
           </div>
         </Router>

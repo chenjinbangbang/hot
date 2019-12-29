@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.scss'
 import { Form, Button, DatePicker, Select, Table } from 'antd'
-import Title from '../../../components/title/title'
+import Title from '@/components/title/title'
 
 // import moment from 'moment'
 const { RangePicker } = DatePicker
@@ -125,7 +125,7 @@ class WealthDetail extends React.Component {
               getFieldDecorator('time_range', {
                 // initialValue: [moment('2015/01/01', 'YYYY/MM/DD'), moment('2015/01/02', 'YYYY/MM/DD')]
               })(
-                <RangePicker format='YYYY/MM/DD' placeholder={['开始日期','结束日期']}></RangePicker>
+                <RangePicker format='YYYY/MM/DD' placeholder={['开始日期', '结束日期']}></RangePicker>
               )
             }
           </Form.Item>
@@ -134,7 +134,7 @@ class WealthDetail extends React.Component {
               getFieldDecorator('type', {
                 initialValue: '0'
               })(
-                <Select style={{width: 150}}>
+                <Select style={{ width: 150 }}>
                   <Option value='0'>购买金币</Option>
                   <Option value='1'>金币兑换现金</Option>
                   <Option value='2'>发布任务</Option>
@@ -151,7 +151,7 @@ class WealthDetail extends React.Component {
 
         <div className='wealth-detail-note'>账户余额：<span className='theme'>100</span>元，金币：<span className='theme'>99</span>个，平台只保留2个月的记录</div>
 
-        <Table columns={columns} dataSource={data} pagination={{current, defaultPageSize: 2, onChange: this.changePage}}></Table>
+        <Table columns={columns} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
       </div>
     )
   }
