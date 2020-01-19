@@ -1,0 +1,29 @@
+.deposit {
+  .ant-tabs {
+    margin-top: 10px;
+
+    .deposit-note {
+      // margin: 20px;
+      padding: 20px;
+      border: 1px solid #f84e4e;
+      border-radius: 10px;
+      background-color: rgba(248, 78, 78, 0.02);
+      // display: inline-block;
+      .deposit-note-title {
+        font-size: 16px;
+        // font-weight: bold;
+        margin-top: 0;
+      }
+      p {
+        margin-top: 20px;
+        .error {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .deposit-form {
+      margin-top: 40px;
+    }
+  }
+}

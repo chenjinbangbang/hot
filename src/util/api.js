@@ -1,4 +1,5 @@
 import instance from './config'
+import { message } from 'antd'
 // import axios from 'axios'
 
 // 请求
@@ -34,3 +35,29 @@ export function request(url, method = 'get', data = {}) {
     })
   })
 }
+
+// 上传文件，判断支持格式图片，支持则返回blob
+export function checkFile(file) {
+  // console.log(file)
+  // 仅支持jpg,png,gif,jpeg格式的图片
+  if (!/(jpg|png|gif|jpeg)/.test(file.type)) {
+    message.error('仅支持jpg，png，gif，jpeg格式的图片')
+    return false
+  }
+
+  let windowURL = window.URL || window.webkitUrl
+  let src = windowURL.createObjectURL(file)
+  // console.log(src)
+  return src
+}
+
+// 根据是否是VIP会员，返回金币兑换汇率
+export function getRate() {
+  let isVip = 1
+  return isVip === 1 ? 0.9 : 0.8
+}
+
+// 保留两位小数
+// export function fixed(val) { 
+//   return val.toFixed(2)
+// }

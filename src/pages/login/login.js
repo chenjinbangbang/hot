@@ -93,30 +93,30 @@ class Login extends React.Component {
             {
               getFieldDecorator('username', {
                 initialValue: 'jinbang',
+                validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入用户名' }, { pattern: /\w{6,18}$/, message: '请输入6-18个字符的字母/数字/下划线组成的用户名' }]
               })(
                 <Input placeholder='请输入用户名' />
               )
             }
-            {/* <Input value={form.username} defaultValue={form.username} prefix={<Icon type='user' style={{color: 'rgba(0,0,0,.25)'}} />} placeholder='请输入用户名' onChange={this.handleChange.bind(this, 'username')} size='' /> */}
           </Form.Item>
           <Form.Item label='密码' hasFeedback>
             {
               getFieldDecorator('password', {
                 initialValue: '12345678',
+                validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入密码' }, { pattern: /^\w{8,18}$/, message: '请输入8-18个字符的字母/数字/下划线组成的密码' }]
               })(
                 <Input.Password placeholder='请输入密码' />
               )
             }
-            {/* <Input value={form.password} defaultValue={form.password} prefix={<Icon type='lock' style={{color: 'rgba(0,0,0,.25)'}} /> } placeholder='请输入密码' onChange={this.handleChange.bind(this, 'password')} size='' /> */}
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 4 }}>
             <p className='login-link'>
               <span onClick={this.forgetPwd}>忘记密码？</span>
               <Link className='link' to='/register'>前往注册</Link>
             </p>
-            <Button type='primary' htmlType='submit' block loading={loading}>登录</Button>
+            <Button type='primary' htmlType='submit' loading={loading}>登录</Button>
           </Form.Item>
         </Form>
 

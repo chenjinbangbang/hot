@@ -181,7 +181,7 @@ class Register extends React.Component {
     return (
       <div className='login'>
 
-        <div className='login-title'>商家注册</div>
+        <div className='login-title'>创作者注册</div>
 
         <Form onSubmit={this.handleSubmit} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} className='login-form'>
           <Form.Item label='推荐人'>

@@ -77,11 +77,11 @@ class Referrer extends React.Component {
           render: text => <span>{text}</span>
         },
         {
-          title: '商家/用户',
+          title: '创作者/刷手',
           dataIndex: 'role',
           key: 'role',
           align: 'center',
-          render: text => <span>{text === 0 ? '用户' : '商家'}</span>
+          render: text => <span>{text === 0 ? '刷手' : '创作者'}</span>
         },
         {
           title: '是否实名',
@@ -129,7 +129,7 @@ class Referrer extends React.Component {
     }
     this.setState({ data })
 
-    // 序号（前端控制），徒弟，QQ，商家/用户，是否实名，是否绑定了平台账号，注册时间
+    // 序号（前端控制），徒弟，QQ，创作者/刷手，是否实名，是否绑定了平台账号，注册时间
     // 推广记录数据
     let data1 = []
     for (let i = 1; i <= 5; i++) {
@@ -145,7 +145,6 @@ class Referrer extends React.Component {
       })
     }
     this.setState({ data1 })
-
   }
 
   // 复制推广链接
@@ -194,11 +193,11 @@ class Referrer extends React.Component {
           <p>推荐人：<span className='theme'>陈进帮</span></p>
           <p className='theme' style={{ fontWeight: 'bold' }}>分享奖励规则：</p>
           <p className='referrer-note-detail'>
-            推广<span className='theme'>1</span>个徒弟（商家），并成功发布<span className='theme'>10</span>个任务，说明推广成功，奖励<span className='theme'>1</span>个金币。每发布<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。
-            {/* 推广<span className='theme'>1</span>个徒弟（用户），每完成<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。<br />
+            推广<span className='theme'>1</span>个徒弟（创作者），并成功发布<span className='theme'>10</span>个任务，说明推广成功，奖励<span className='theme'>2</span>个金币。每发布<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。
+            {/* 推广<span className='theme'>1</span>个徒弟（刷手），每完成<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。<br />
             获取的金币自动算入师傅的账户中。 */}
           </p>
-          <p>推广<span className='theme'>1</span>个徒弟（用户），每完成<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。</p>
+          <p>推广<span className='theme'>1</span>个徒弟（刷手），每完成<span className='theme'>10</span>个任务，师傅可获取<span className='theme'>0.5</span>个金币，以此内推。</p>
           <p>获取的金币自动算入师傅的账户中。</p>
         </div>
 

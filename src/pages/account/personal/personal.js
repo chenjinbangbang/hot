@@ -1,7 +1,8 @@
 import React from 'react'
 import './index.scss'
-import { Icon, Form, Button, Input, message } from 'antd'
+import { Form, Button, Input, message, Modal } from 'antd'
 import Title from '@/components/title/title'
+import { checkFile } from '@/util/api'
 
 import userImg from '@/assets/imgs/user.jpg'
 
@@ -10,14 +11,31 @@ class Personal extends React.Component {
     super(props)
     this.state = {
       loginLoading: false, // 修改登录密码按钮加载
-      securityLoading: false // 修改安全密码按钮加载
+      securityLoading: false, // 修改安全密码按钮加载
+
+      // 用户信息
+      userInfo: {
+        head_thumb: ''
+      },
+
+      head_thumb: null, // 头像
+      idcardVisible: false, // 头像预览图片modal显示与隐藏
     }
   }
 
 
-  // 修改图片
-  changeAvatar(info) {
-    console.log(info)
+  // 上传头像
+  head_thumbFileUpload = (e) => {
+    let file = this.refs.head_thumb.files[0]
+
+    // 上传文件，判断支持格式图片，支持则返回blob
+    let src = checkFile(file)
+    if (src) {
+      this.setState(state => ({
+        head_thumb: file,
+        userInfo: { ...state.userInfo, head_thumb: src }
+      }))
+    }
   }
 
   // ======================================== 修改登录密码表单 ========================================
@@ -86,7 +104,7 @@ class Personal extends React.Component {
 
         this.setState({ loginLoading: true })
       } else {
-        message.error('请填写正确的信息')
+        message.error(Object.values(err)[0].errors[0].message)
       }
     });
   }
@@ -158,13 +176,13 @@ class Personal extends React.Component {
 
         this.setState({ securityLoading: true })
       } else {
-        message.error('请填写正确的安全密码信息')
+        message.error(Object.values(err)[0].errors[0].message)
       }
     });
   }
 
   render() {
-    const { loginLoading, securityLoading } = this.state
+    const { loginLoading, securityLoading, userInfo, head_thumbVisible } = this.state
     const { getFieldDecorator } = this.props.form
     return (
       <div className='personal'>
@@ -175,13 +193,19 @@ class Personal extends React.Component {
           <div className='personal-info'>
             {/* <Upload onChange={this.changeAvatar} listType='picture-card'> */}
             <div className='personal-avatar'>
-              <div className='avatar-alter'><Icon type='camera' /></div>
-              <img src={userImg} alt='' />
+              {/* <div className='avatar-alter'><Icon type='camera' /></div> */}
+              <input type='file' ref='head_thumb' onChange={this.head_thumbFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
+              <Modal visible={head_thumbVisible} footer={null} onCancel={() => { this.setState({ head_thumbVisible: false }) }}>
+                <img src={userInfo.head_thumb || userImg} style={{ width: '100%' }} alt='head_thumb' />
+              </Modal>
+
+              <img src={userInfo.head_thumb || userImg} alt='' onClick={() => { this.setState({ head_thumbVisible: true }) }} />
+              <div className='img-alter' onClick={() => { this.refs.head_thumb.click() }}>修改图片</div>
             </div>
             {/* </Upload> */}
             <div className='personal-detail'>
               <ul>
-                <li><span>角色：</span><span>用户</span></li>
+                <li><span>角色：</span><span>刷手</span></li>
                 <li><span>用户名：</span><span>陈进帮</span></li>
                 <li><span>手机号：</span><span>13360502844</span></li>
                 <li><span>联系QQ：</span><span>905690338</span></li>

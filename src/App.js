@@ -22,13 +22,19 @@ import Register from '@/pages/register/register'
 
 // 任务中心
 import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表
+import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务
 
 // 钱包中心
+import Pay from '@/pages/wealth/pay/pay' // 充值
+import Buygold from '@/pages/wealth/buygold/buygold' // 购买金币
+import Deposit from '@/pages/wealth/deposit/deposit' // 财务明细
 import WealthDetail from '@/pages/wealth/wealth_detail/wealth_detail' // 财务明细
 
 // 账号中心
 import Personal from '@/pages/account/personal/personal' // 个人信息
 import Identity from '@/pages/account/identity/identity' // 实名认证
+import Bank from '@/pages/account/bank/bank' // 银行卡管理
+import Platform from '@/pages/account/platform/platform' // 账号管理
 import Referrer from '@/pages/account/referrer/referrer' // 推广分享
 import Notice from '@/pages/account/notice/notice' // 公告
 import NoticeDetail from '@/pages/account/notice_detail/notice_detail' // 公告详情
@@ -82,7 +88,23 @@ class App extends React.Component {
             component: Tasklist
           },
           {
-            path: '/home/wealthdetail',
+            path: '/home/task/publish',
+            component: Taskpublish
+          },
+          {
+            path: '/home/deposit',
+            component: Deposit
+          },
+          {
+            path: '/home/pay',
+            component: Pay
+          },
+          {
+            path: '/home/buygold',
+            component: Buygold
+          },
+          {
+            path: '/home/wealth/detail',
             component: WealthDetail
           },
           {
@@ -92,6 +114,14 @@ class App extends React.Component {
           {
             path: '/home/identity',
             component: Identity
+          },
+          {
+            path: '/home/bank',
+            component: Bank
+          },
+          {
+            path: '/home/platform',
+            component: Platform
           },
           {
             path: '/home/referrer',
@@ -159,8 +189,8 @@ class App extends React.Component {
           <div className="nav">
             <div className="nav-contain">
               <ul>
-                <li><NavLink to="/home" strict activeClassName="active">首页</NavLink></li>
-                <li><NavLink to="/register" activeClassName="active">已发任务</NavLink></li>
+                <li><NavLink to="/home" exact activeClassName="active">首页</NavLink></li>
+                <li><NavLink to="/home/referrer" activeClassName="active">推广分享</NavLink></li>
               </ul>
             </div>
           </div>

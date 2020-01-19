@@ -1,0 +1,156 @@
+.taskpublish {
+  position: relative;
+
+  .total-amount {
+    position: sticky;
+    margin-left: 700px;
+    top: 20px;
+    background-color: rgba(24, 144, 255, 0.7);
+    color: #fff;
+    padding: 10px;
+    z-index: 1;
+    width: 220px;
+    display: inline-block;
+    height: 140px;
+    border-radius: 10px;
+    line-height: 30px;
+    text-align: center;
+    p {
+      &.total {
+        font-size: 16px;
+      }
+    }
+    span {
+      font-size: 24px;
+    }
+  }
+
+  .taskpublish-form {
+    margin-top: -120px !important;
+  }
+
+  // 评论内容，转发内容样式
+  .taskpublish-content-list {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      // margin-top: 10px;
+      li {
+        border-radius: 20px;
+        padding: 0 30px 0 20px;
+        // height: 30px;
+        // border: 1px solid #ccc;
+        background-color: rgba(248, 78, 78, 0.1);
+        margin-right: 20px;
+        margin-top: 10px;
+        // font-size: 12px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 34px;
+        p {
+          max-width: 600px;
+        }
+        .anticon {
+          position: absolute;
+          cursor: pointer;
+          right: 10px;
+          color: #999;
+          &:hover {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+
+  .taskpublish-form {
+    .taskpublish-content {
+      display: flex;
+      textarea {
+        width: 250px;
+      }
+      .text-example {
+        margin-left: 10px;
+        flex: 1;
+        line-height: 18px;
+        font-size: 12px;
+        color: $theme;
+        button {
+          margin-top: 10px;
+        }
+      }
+    }
+
+    .taskpublish-gold {
+      color: $success;
+      margin-left: 10px;
+      .gold {
+        display: inline-block;
+        min-width: 50px;
+      }
+    }
+
+    // .taskpublish-note {
+    //   margin-left: 10px;
+    //   color: #999;
+    // }
+  }
+
+  .transpond-content {
+    .transpond-item {
+      display: flex;
+      // align-items: center;
+      margin-top: 20px;
+      .transpond-type {
+        width: 140px;
+        text-align: right;
+      }
+      .ant-input-number {
+        // margin-left: 10px;
+      }
+      textarea {
+        width: 250px;
+        // margin-top: 22px;
+        margin-left: 20px;
+      }
+      .text-example {
+        // border: 1px solid #f00;
+        display: flex;
+        margin-left: 10px;
+        // flex: 1;
+        // line-height: 18px;
+        // font-size: 12px;
+        // color: $theme;
+        button {
+          margin-top: auto;
+          // margin-bottom: 10px;
+        }
+      }
+    }
+    .transpond-error {
+      margin-left: 250px;
+      color: $error;
+    }
+    .transpond-note {
+      margin-top: 20px;
+      color: $theme;
+      line-height: 26px;
+      // font-size: 12px;
+    }
+  }
+
+  .taskpublish-total {
+    display: flex;
+    align-items: center;
+    p {
+      margin-left: 20px;
+      font-size: 16px;
+      .error {
+        // font-weight: bold;
+        font-size: 24px;
+      }
+    }
+  }
+}

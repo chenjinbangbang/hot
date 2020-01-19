@@ -6,12 +6,23 @@
     .identity-note-status {
       font-size: 18px;
       font-weight: bold;
-      span {
-        color: $theme;
-      }
     }
     .identity-note-detail {
       line-height: 24px;
+    }
+  }
+
+  .identity-form {
+    margin-top: 40px;
+    .identity-form-title {
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      font-size: 16px;
+    }
+    .ant-form {
+      width: 600px;
+      margin: 20px auto;
     }
   }
 }

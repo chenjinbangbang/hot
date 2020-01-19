@@ -1,5 +1,6 @@
 .home {
   display: flex;
+  // width: 1200px;
 
   // 二级页面样式
   .home-nav {
@@ -11,6 +12,9 @@
     // 搜索
     .ant-form {
       margin-top: 20px;
+      .form-note {
+        margin-left: 10px;
+      }
     }
 
     // 提示

@@ -4,7 +4,7 @@
     padding: 20px;
     border: 1px solid $theme;
     border-radius: 10px;
-    background-color: rgba(248, 78, 78, 0.03);
+    background-color: rgba(248, 78, 78, 0.02);
     .personal-title {
       height: 40px;
       font-size: 16px;
@@ -38,33 +38,46 @@
       justify-content: center;
       align-items: center;
 
-      .avatar-alter {
-        background-color: rgba(0, 0, 0, 0.5);
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
+      // .avatar-alter {
+      //   background-color: rgba(0, 0, 0, 0.5);
+      //   position: absolute;
+      //   width: 100%;
+      //   height: 100%;
+      //   left: 0;
+      //   top: 0;
+      //   display: flex;
+      //   justify-content: center;
+      //   align-items: center;
+      //   opacity: 0;
 
-        .anticon {
-          color: #fff;
-          font-size: 30px;
-        }
-      }
+      //   .anticon {
+      //     color: #fff;
+      //     font-size: 30px;
+      //   }
+      // }
 
       &:hover {
-        .avatar-alter {
-          opacity: 1;
+        .img-alter {
+          display: block;
         }
       }
 
       img {
         width: 100%;
         height: 100%;
+      }
+
+      .img-alter {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        display: none;
       }
     }
 

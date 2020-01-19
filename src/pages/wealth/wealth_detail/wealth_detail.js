@@ -7,6 +7,13 @@ import Title from '@/components/title/title'
 const { RangePicker } = DatePicker
 const { Option } = Select
 
+let wealthDict = {
+  0: '购买金币',
+  1: '金币兑换现金',
+  2: '发布任务',
+  3: '完成任务',
+}
+
 class WealthDetail extends React.Component {
   constructor(props) {
     super(props)
@@ -15,8 +22,8 @@ class WealthDetail extends React.Component {
       columns: [
         {
           title: '序号',
-          dataIndex: 'id',
-          key: 'id',
+          dataIndex: 'index',
+          key: 'index',
           align: 'center',
           render: text => <span>{text}</span>
         },
@@ -32,65 +39,70 @@ class WealthDetail extends React.Component {
           dataIndex: 'type',
           key: 'type',
           align: 'center',
-          render: text => <span>{text}</span>
+          render: text => <span>{wealthDict[text]}</span>
         },
         {
           title: '详情',
           dataIndex: 'detail',
           key: 'detail',
           align: 'center',
+          width: 260,
           render: text => <span>{text}</span>
+        },
+        {
+          title: '金币变化',
+          dataIndex: 'change_gold',
+          key: 'change_gold',
+          align: 'center',
+          render: (text, record, index) => <span className={record.change_gold_type === 0 ? 'error' : 'success'}>{record.change_gold_type === 0 ? '-' : '+'}{text.toFixed(2)}</span>
+        },
+        {
+          title: '剩余金币',
+          dataIndex: 'gold',
+          key: 'gold',
+          align: 'center',
+          render: text => <span>{text.toFixed(2)}</span>
         },
         {
           title: '现金变化',
           dataIndex: 'change_wealth',
           key: 'change_wealth',
           align: 'center',
-          render: (text, record, index) => <span className={record.change_wealth_type === 0 ? 'red' : 'success'}>{record.change_wealth_type === 0 ? '-' : '+'}{text}</span>
+          render: (text, record, index) => <span className={record.change_wealth_type === 0 ? 'error' : 'success'}>{record.change_wealth_type === 0 ? '-' : '+'}{text.toFixed(2)}</span>
         },
         {
           title: '剩余现金',
           dataIndex: 'balance',
           key: 'balance',
           align: 'center',
-          render: text => <span>{text}</span>
+          render: text => <span>{text.toFixed(2)}</span>
         }
       ],
-      data: [
-        {
-          key: '1',
-          id: '1',
-          time: '2019-12-22 22:22:10',
-          type: '金币兑换现金',
-          detail: '提现金币成功，已转入平台现金账户',
-          change_wealth: 360.5,
-          change_wealth_type: 0,
-          balance: 2000.88,
-        },
-        {
-          key: '2',
-          id: '2',
-          time: '2019-12-22 22:22:10',
-          type: '金币兑换现金',
-          detail: '提现金币成功，已转入平台现金账户',
-          change_wealth: 360.5,
-          change_wealth_type: 1,
-          balance: 2000.88,
-        },
-        {
-          key: '3',
-          id: '3',
-          time: '2019-12-22 22:22:10',
-          type: '金币兑换现金',
-          detail: '提现金币成功，已转入平台现金账户',
-          change_wealth: 100.20,
-          change_wealth_type: 1,
-          balance: 2000.88,
-        }
-
-      ]
+      data: []
     }
     // console.log(this.props.location);
+  }
+
+  UNSAFE_componentWillMount() {
+
+    // 获取财务明细数据
+    let data = []
+    for (let i = 1; i <= 30; i++) {
+      data.push({
+        key: i,
+        index: i,
+        time: '2019-12-22 22:22:10',
+        type: 1,
+        detail: '提现金币成功，已转入平台现金账户',
+        change_gold: 100,
+        change_gold_type: 1,
+        gold: 200,
+        change_wealth: 360.5,
+        change_wealth_type: 0,
+        balance: 2000.88,
+      })
+    }
+    this.setState({ data })
   }
 
   // 提交表单 - 点击搜索

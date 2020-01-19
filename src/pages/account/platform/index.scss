@@ -1,0 +1,72 @@
+.platform {
+  .note {
+    p {
+      margin-top: 20px;
+    }
+  }
+
+  .platform-home {
+    margin-top: 40px;
+    .platform-account {
+      padding: 10px 0;
+      .platform-title {
+        font-size: 16px;
+        color: $primary;
+      }
+      .platform-list {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+
+        // justify-content: space-between;
+        > div {
+          width: 120px;
+          // flex: 1;
+          // height: 100px;
+          // border: 1px dashed #ccc;
+          border-radius: 8px;
+          margin-right: 20px;
+          cursor: pointer;
+        }
+        .list-item {
+          // border: 1px solid #f00;
+          text-align: center;
+          padding: 10px;
+          .user-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+          }
+          .user-name {
+            margin: 12px 0;
+            color: #666;
+          }
+          .user-status {
+            font-size: 12px;
+          }
+        }
+        .list-plus {
+          // margin: 20px;
+          // width: 100px;
+          height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          border: 1px dashed #ccc;
+          border-radius: 50%;
+          &:hover {
+            border-color: #999;
+          }
+          .anticon {
+            font-size: 20px;
+            color: #666;
+          }
+          p {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+}

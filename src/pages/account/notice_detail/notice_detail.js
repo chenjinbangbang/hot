@@ -7,7 +7,7 @@ class NoticeDetail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      // content: '撤销退款，及冻结用户，处理方法。  \n 请各位买家注意：'
+      // content: '撤销退款，处理方法。  \n 请各位买家注意：'
     }
     // console.log(props)
   }
