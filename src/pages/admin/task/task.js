@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Table } from 'antd'
 import Title from '@/components/title/title'
 
-class Notice extends React.Component {
+class Task extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -71,8 +71,8 @@ class Notice extends React.Component {
   render() {
     const { columns, data, current } = this.state
     return (
-      <div className='notice'>
-        <Title title='公告' />
+      <div className='task'>
+        <Title title='任务管理' />
 
         <Table columns={columns} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
       </div>
@@ -80,4 +80,4 @@ class Notice extends React.Component {
   }
 }
 
-export default Notice;
+export default Task;

@@ -17,7 +17,7 @@ class Home extends React.Component {
     this.state = {
       current: '1'
     }
-    console.log(this.props)
+    // console.log(this.props)
     // console.log(this.context)
   }
 
@@ -38,11 +38,15 @@ class Home extends React.Component {
 
     return (
       <div className='home'>
-        <Menu theme='light' onClick={this.handleClick} defaultOpenKeys={['task', 'wealth', 'account']} selectedKeys={[this.props.location.pathname]} mode='inline' style={{ width: 160 }}>
+        <Menu theme='light' onClick={this.handleClick} defaultOpenKeys={['admin', 'task', 'wealth', 'account']} selectedKeys={[this.props.location.pathname]} mode='inline' style={{ width: 160 }}>
+          <SubMenu key='admin' title={<span><Icon type="appstore" /><span>后台管理</span></span>}>
+            <Menu.Item key='/admin/user'>用户管理</Menu.Item>
+            <Menu.Item key='/admin/task'>任务管理</Menu.Item>
+            <Menu.Item key='/admin/bank'>银行卡管理</Menu.Item>
+          </SubMenu>
           <SubMenu key='task' title={<span><Icon type="appstore" /><span>任务中心</span></span>}>
             <Menu.Item key='/home'>任务列表</Menu.Item>
             <Menu.Item key='/home/task/publish'>发布任务</Menu.Item>
-            {/* <Menu.Item key='2'>任务教程</Menu.Item> */}
           </SubMenu>
           <SubMenu key='wealth' title={<span><Icon type="property-safety" /><span>钱包中心</span></span>}>
             <Menu.Item key='/home/pay'>充值</Menu.Item>

@@ -20,6 +20,11 @@ import Home from '@/pages/home/home'
 import Login from '@/pages/login/login'
 import Register from '@/pages/register/register'
 
+// 后台管理
+import UserAdmin from '@/pages/admin/user/user' // 用户管理
+import TaskAdmin from '@/pages/admin/task/task' // 任务管理
+import BankAdmin from '@/pages/admin/bank/bank' // 银行卡管理
+
 // 任务中心
 import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表
 import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务
@@ -80,9 +85,31 @@ class App extends React.Component {
     // 路由
     const routes = [
       {
+        path: '/admin',
+        component: Home,
+        routes: [
+          // 后台管理
+          {
+            path: '/admin/user',
+            component: UserAdmin
+          },
+          {
+            path: '/admin/task',
+            component: TaskAdmin
+          },
+          {
+            path: '/admin/bank',
+            component: BankAdmin
+          }
+        ]
+      },
+      {
         path: '/home',
         component: Home,
         routes: [
+
+
+          // 任务中心
           {
             path: '/home',
             component: Tasklist
@@ -91,6 +118,8 @@ class App extends React.Component {
             path: '/home/task/publish',
             component: Taskpublish
           },
+
+          // 钱包中心
           {
             path: '/home/deposit',
             component: Deposit
@@ -107,6 +136,8 @@ class App extends React.Component {
             path: '/home/wealth/detail',
             component: WealthDetail
           },
+
+          // 账号中心
           {
             path: '/home/personal',
             component: Personal
@@ -160,6 +191,11 @@ class App extends React.Component {
       // <Provider store={store}>
       <div className="App">
         <Router>
+
+          {/* {
+            this.props.location.pathname.includes('/') &&
+            <Redirect to='/home' />
+          } */}
 
           <AuthRoute />
 

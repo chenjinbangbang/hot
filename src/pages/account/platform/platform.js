@@ -5,9 +5,11 @@ import './index.scss'
 // import { Link } from 'react-router-dom'
 import { Form, Input, Button, message, Icon, Modal } from 'antd'
 import Title from '@/components/title/title'
+import UploadImg from '@/components/uploadimg/uploadimg'
 
 import userImg from '@/assets/imgs/user.jpg'
 
+// 截图示例
 // 今日头条
 import toutiao_platform_head_thumb from '@/assets/imgs/toutiao_platform_head_thumb.png'
 import toutiao_platform_image_src from '@/assets/imgs/toutiao_platform_image_src.png'
@@ -22,9 +24,9 @@ import kuaishou_platform_head_thumb from '@/assets/imgs/kuaishou_platform_head_t
 import kuaishou_platform_image_src from '@/assets/imgs/kuaishou_platform_image_src.png'
 
 
-import { checkFile } from '@/util/api'
+// import { checkFile } from '@/util/api'
 
-// 根据平台账号类型，判断modal的标题和截图实例
+// 根据平台账号类型，判断modal的标题和截图示例
 let platformTitle = {
   0: {
     title: '头条号',
@@ -172,10 +174,10 @@ class Platform extends React.Component {
       ],
 
       imgSrc: null, // modal预览图片路径
-      imgVisibile: false, // modal浮层的显示与隐藏
+      imgVisible: false, // modal浮层的显示与隐藏
 
-      platform_head_thumb: null, // 平台账号头像（file对象格式）
-      platform_image_src: null, // 平台账号截图（file对象格式）
+      // platform_head_thumb: null, // 平台账号头像（file对象格式）
+      // platform_image_src: null, // 平台账号截图（file对象格式）
     }
   }
 
@@ -220,32 +222,38 @@ class Platform extends React.Component {
   }
 
   // 上传平台账号头像
-  platform_head_thumbFileUpload = (e) => {
-    let file = this.refs.platform_head_thumb.files[0]
+  platform_head_thumbFileUpload = (src) => {
+    // let file = this.refs.platform_head_thumb.files[0]
 
-    // 上传文件，判断支持格式图片，支持则返回blob
-    let src = checkFile(file)
-    console.log(src)
-    if (src) {
-      this.setState(state => ({
-        platform_head_thumb: file,
-        platformDetail: { ...state.platformDetail, platform_head_thumb: src }
-      }))
-    }
+    // // 上传文件，判断支持格式图片，支持则返回blob
+    // let src = checkFile(file)
+    // console.log(src)
+    // if (src) {
+    //   this.setState(state => ({
+    //     platform_head_thumb: file,
+    //     platformDetail: { ...state.platformDetail, platform_head_thumb: src }
+    //   }))
+    // }
+    this.setState(state => ({
+      platformDetail: { ...state.platformDetail, platform_head_thumb: src }
+    }))
   }
 
   // 上传平台账号截图
-  platform_image_srcFileUpload = (e) => {
-    let file = this.refs.platform_image_src.files[0]
+  platform_image_srcFileUpload = (src) => {
+    // let file = this.refs.platform_image_src.files[0]
 
-    // 上传文件，判断支持格式图片，支持则返回blob
-    let src = checkFile(file)
-    if (src) {
-      this.setState(state => ({
-        platform_image_src: file,
-        platformDetail: { ...state.platformDetail, platform_image_src: src }
-      }))
-    }
+    // // 上传文件，判断支持格式图片，支持则返回blob
+    // let src = checkFile(file)
+    // if (src) {
+    //   this.setState(state => ({
+    //     platform_image_src: file,
+    //     platformDetail: { ...state.platformDetail, platform_image_src: src }
+    //   }))
+    // }
+    this.setState(state => ({
+      platformDetail: { ...state.platformDetail, platform_image_src: src }
+    }))
   }
 
   // 关闭浮层
@@ -253,8 +261,8 @@ class Platform extends React.Component {
     // 重置表单
     this.props.form.resetFields()
     this.setState(state => ({
-      platform_head_thumb: null,
-      platform_image_src: null,
+      // platform_head_thumb: null,
+      // platform_image_src: null,
       platformDetail: { ...state.platformDetail, platform_head_thumb: '', platform_image_src: '' },
       visible: false
     }))
@@ -274,10 +282,10 @@ class Platform extends React.Component {
       if (!err) {
 
         // 判断是否上传身份证正面和手持身份证半身照
-        if (!this.state.platform_head_thumb) {
+        if (!this.state.platformDetail.platform_head_thumb) {
           return message.error('请上传平台账号头像')
         }
-        if (!this.state.platform_image_src) {
+        if (!this.state.platformDetail.platform_image_src) {
           return message.error('请上传平台账号截图')
         }
 
@@ -360,7 +368,7 @@ class Platform extends React.Component {
               </Form.Item>
               <Form.Item label='平台账号头像' required>
                 <div className='file-src'>
-                  <div>
+                  {/* <div>
                     <input type='file' ref='platform_head_thumb' onChange={this.platform_head_thumbFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
                     {
                       platformDetail.platform_head_thumb ?
@@ -377,7 +385,8 @@ class Platform extends React.Component {
                         :
                         <Icon type="plus" onClick={() => { this.refs.platform_head_thumb.click() }}></Icon>
                     }
-                  </div>
+                  </div> */}
+                  <UploadImg isDetail={platformOperation === 0} img_src={platformDetail.platform_head_thumb} fileUpload={this.platform_head_thumbFileUpload} ></UploadImg>
                   {
                     // 1新增，2编辑时显示
                     platformOperation !== 0 &&
@@ -388,7 +397,7 @@ class Platform extends React.Component {
               </Form.Item>
               <Form.Item label='平台账号截图' required>
                 <div className='file-src'>
-                  <div>
+                  {/* <div>
                     <input type='file' ref='platform_image_src' onChange={this.platform_image_srcFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
                     {
                       platformDetail.platform_image_src ?
@@ -405,7 +414,8 @@ class Platform extends React.Component {
                         :
                         <Icon type="plus" onClick={() => { this.refs.platform_image_src.click() }}></Icon>
                     }
-                  </div>
+                  </div> */}
+                  <UploadImg isDetail={platformOperation === 0} img_src={platformDetail.platform_image_src} fileUpload={this.platform_image_srcFileUpload} ></UploadImg>
                   {
                     // 1新增，2编辑时显示
                     platformOperation !== 0 &&

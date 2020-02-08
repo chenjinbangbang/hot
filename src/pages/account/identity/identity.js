@@ -2,10 +2,11 @@ import React from 'react'
 // import ReactDOM from 'react-dom'
 import './index.scss'
 // import { Link } from 'react-router-dom'
-import { Form, Input, Button, message, Icon, Modal } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import Title from '@/components/title/title'
+import UploadImg from '@/components/uploadimg/uploadimg'
 
-import { checkFile } from '@/util/api'
+// import { checkFile } from '@/util/api'
 
 class Identity extends React.Component {
   constructor(props) {
@@ -22,11 +23,11 @@ class Identity extends React.Component {
         body_idcard_src: ''
       },
 
-      imgSrc: null, // modal预览图片路径
-      imgVisibile: false, // modal浮层的显示与隐藏
+      // imgSrc: null, // modal预览图片路径
+      // imgVisible: false, // modal浮层的显示与隐藏
 
-      idcard_src: null, // 身份证正面（file对象格式）
-      body_idcard_src: null, // 手持身份证半身照（file对象格式）
+      // idcard_src: null, // 身份证正面（file对象格式）
+      // body_idcard_src: null, // 手持身份证半身照（file对象格式）
     }
   }
 
@@ -35,39 +36,46 @@ class Identity extends React.Component {
   }
 
   // modal预览图片
-  showImg(imgSrc) {
-    this.setState({
-      imgSrc,
-      imgVisible: true
-    })
-  }
+  // showImg(imgSrc) {
+  //   this.setState({
+  //     imgSrc,
+  //     imgVisible: true
+  //   })
+  // }
 
   // 上传身份证正面
-  idcardFileUpload = (e) => {
-    let file = this.refs.idcard_src.files[0]
+  idcardFileUpload = (src) => {
+    console.log(src)
+    // let file = this.refs.idcard_src.files[0]
 
-    // 上传文件，判断支持格式图片，支持则返回blob
-    let src = checkFile(file)
-    if (src) {
-      this.setState(state => ({
-        idcard_src: file,
-        userInfo: { ...state.userInfo, idcard_src: src }
-      }))
-    }
+    // // 上传文件，判断支持格式图片，支持则返回blob
+    // let src = checkFile(file)
+    // if (src) {
+    //   this.setState(state => ({
+    //     idcard_src: file,
+    //     userInfo: { ...state.userInfo, idcard_src: src }
+    //   }))
+    // }
+    this.setState(state => ({
+      userInfo: { ...state.userInfo, idcard_src: src }
+    }))
   }
 
   // 上传手持身份证半身照
-  body_idcardFileUpload = (e) => {
-    let file = this.refs.body_idcard_src.files[0]
+  body_idcardFileUpload = (src) => {
+    // let file = this.refs.body_idcard_src.files[0]
 
-    // 上传文件，判断支持格式图片，支持则返回blob
-    let src = checkFile(file)
-    if (src) {
-      this.setState(state => ({
-        body_idcard_src: file,
-        userInfo: { ...state.userInfo, body_idcard_src: src }
-      }))
-    }
+    // // 上传文件，判断支持格式图片，支持则返回blob
+    // let src = checkFile(file)
+    // if (src) {
+    //   this.setState(state => ({
+    //     body_idcard_src: file,
+    //     userInfo: { ...state.userInfo, body_idcard_src: src }
+    //   }))
+    // }
+    this.setState(state => ({
+      userInfo: { ...state.userInfo, body_idcard_src: src }
+    }))
   }
 
   // 提交表单
@@ -84,10 +92,10 @@ class Identity extends React.Component {
       if (!err) {
 
         // 判断是否上传身份证正面和手持身份证半身照
-        if (!this.state.idcard_src) {
+        if (!this.state.userInfo.idcard_src) {
           return message.error('请上传身份证正面')
         }
-        if (!this.state.body_idcard_src) {
+        if (!this.state.userInfo.body_idcard_src) {
           return message.error('请上传手持身份证半身照')
         }
 
@@ -100,7 +108,7 @@ class Identity extends React.Component {
   }
 
   render() {
-    const { loading, userInfo, imgSrc, imgVisible } = this.state
+    const { loading, userInfo } = this.state
     const { getFieldDecorator } = this.props.form
 
     return (
@@ -114,9 +122,9 @@ class Identity extends React.Component {
         </div>
 
         {/* modal预览图片 */}
-        <Modal visible={imgVisible} footer={null} onCancel={() => { this.setState({ imgVisible: false }) }}>
+        {/* <Modal visible={imgVisible} footer={null} onCancel={() => { this.setState({ imgVisible: false }) }}>
           <img src={imgSrc} style={{ width: '100%' }} alt='imgSrc' />
-        </Modal>
+        </Modal> */}
 
         <div className='identity-form'>
           <div className='identity-form-title'>实名认证</div>
@@ -151,7 +159,7 @@ class Identity extends React.Component {
             </Form.Item>
             <Form.Item label='身份证正面' required>
               <div className='file-src'>
-                <div>
+                {/* <div>
                   <input type='file' ref='idcard_src' onChange={this.idcardFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
                   {
                     userInfo.idcard_src || userInfo.isReal ?
@@ -166,14 +174,14 @@ class Identity extends React.Component {
                       :
                       <Icon type="plus" onClick={() => { this.refs.idcard_src.click() }}></Icon>
                   }
-                </div>
+                </div> */}
+                <UploadImg isDetail={userInfo.isReal} img_src={userInfo.idcard_src} fileUpload={this.idcardFileUpload} ></UploadImg>
                 <p className='text-example'>身份证可用文字写上"仅供点点赚审核使用"</p>
               </div>
-
             </Form.Item>
             <Form.Item label='手持身份证半身照' required>
               <div className='file-src'>
-                <div>
+                {/* <div>
                   <input type='file' ref='body_idcard_src' onChange={this.body_idcardFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
                   {
                     userInfo.body_idcard_src || userInfo.isReal ?
@@ -188,7 +196,9 @@ class Identity extends React.Component {
                       :
                       <Icon type="plus" onClick={() => { this.refs.body_idcard_src.click() }}></Icon>
                   }
-                </div>
+                </div> */}
+                <UploadImg isDetail={userInfo.isReal} img_src={userInfo.body_idcard_src} fileUpload={this.body_idcardFileUpload} ></UploadImg>
+
                 <p className='text-example'>要求身份证信息清晰可见，照片中露出手臂，可用文字写上"仅供点点赚审核使用"</p>
               </div>
             </Form.Item>

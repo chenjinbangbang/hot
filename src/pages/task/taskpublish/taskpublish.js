@@ -2,9 +2,45 @@ import React from 'react'
 import recomputed, { $state, $props } from 'recomputed'
 import './index.scss'
 // import { Link } from 'react-router-dom'
-import { Form, Radio, Select, Switch, Input, Icon, Button, InputNumber, message, } from 'antd'
+import { Form, Radio, Select, Switch, Input, Icon, Button, InputNumber, message, Modal } from 'antd'
 import Title from '@/components/title/title'
+import UploadImg from '@/components/uploadimg/uploadimg'
 import dict from '@/util/dict'
+
+// 截图示例
+// 今日头条
+import toutiao_task1 from '@/assets/imgs/toutiao_task1.jpg'
+import toutiao_task2 from '@/assets/imgs/toutiao_task2.jpg'
+// 抖音短视频
+import douyin_task1 from '@/assets/imgs/douyin_task1.jpg'
+import douyin_task2 from '@/assets/imgs/douyin_task2.jpg'
+// 火山小视频
+import huoshan_task1 from '@/assets/imgs/huoshan_task1.jpg'
+import huoshan_task2 from '@/assets/imgs/huoshan_task2.jpg'
+// 快手
+import kuaishou_task1 from '@/assets/imgs/kuaishou_task1.jpg'
+import kuaishou_task2 from '@/assets/imgs/kuaishou_task2.jpg'
+
+// 根据平台账号类型，判断modal的截图示例
+let taskImgs = {
+  0: {
+    task_img1: toutiao_task1,
+    task_img2: toutiao_task2
+  },
+  1: {
+    task_img1: douyin_task1,
+    task_img2: douyin_task2
+  },
+  2: {
+    task_img1: huoshan_task1,
+    task_img2: huoshan_task2
+  },
+  3: {
+    task_img1: kuaishou_task1,
+    task_img2: kuaishou_task2
+  },
+}
+
 
 const { Option } = Select
 const { TextArea } = Input
@@ -15,6 +51,9 @@ class Taskpublish extends React.Component {
     this.state = {
       loading: false, // 点击按钮加载
       mount: 10,
+
+      task_img1: null, // 任务图片1
+      task_img2: null, // 任务图片2
 
       comment: '', // 输入框的评论
       // comment_content: ['你好漂亮！！', '哈哈哈，搞笑', '我要统一地球，谁也不要拦着我', '我爱你，群主，你是我的最爱', '哈哈哈，搞笑', '我爱你，群主，你是我的最爱'] // 评论
@@ -32,7 +71,10 @@ class Taskpublish extends React.Component {
         //   contentList: []
         // },
         // ...
-      ]
+      ],
+
+      imgSrc: null, // modal预览图片路径
+      imgVisible: false, // modal浮层的显示与隐藏
     }
 
     // 计算消耗金币总计
@@ -50,11 +92,18 @@ class Taskpublish extends React.Component {
         // transpond_content.forEach(item => {
         //   num += item.num
         // })
+        // console.log(data)
+        // console.log(data.platform_type === 0)
+        // console.log(data.collect)
+        // console.log(data.platform_type === 0)
 
-        // 起步：0.2金币， 关注：0.1金币， 关注保留时间：时间*0.1金币， 点赞：0.1金币， 收藏：0.1金币，评论：0.2金币， 转发：0.2金币
-        let gold = data.task_num *
-          (0.2 * 10 + (data.attention && 0.1) * 10 + (data.attention_time * 0.1) * 10 + (data.comment && 0.2) * 10 + (data.give_like && 0.1) * 10 + (data.collect && 0.1) * 10) / 10
-          || 0.7
+        // 起步：0.2金币， 关注：0.1金币， 关注保留时间：时间*0.1金币， 点赞：0.1金币， 收藏：0.1金币，评论：0.2金币， 转发：0.2金币（今日头条才有收藏）
+        let gold = 0.7
+        if (data.attention) {
+          gold = data.task_num *
+            (0.2 * 10 + (data.attention && 0.1) * 10 + (data.attention_time * 0.1) * 10 + (data.comment && 0.2) * 10 + (data.give_like && 0.1) * 10 + (data.platform_type === 0 ? 0.1 : 0) * 10) / 10
+        }
+
         return gold
       }
     )
@@ -110,11 +159,36 @@ class Taskpublish extends React.Component {
     })
   }
 
+  // modal预览图片
+  showImg(imgSrc) {
+    this.setState({
+      imgSrc,
+      imgVisible: true
+    })
+  }
+
+
+  // 上传图片
+  taskImageFileUpload = (index, src) => {
+    if (index === 0) {
+      this.setState({
+        task_img1: src
+      })
+    } else if (index === 1) {
+      this.setState({
+        task_img2: src
+      })
+    }
+
+  }
+
   // 发布任务数校验
   validateTaskNum = (rule, value, callback) => {
     const { comment_content, transpond_content } = this.state
     if (value) {
-      if (value < comment_content.length) {
+      if (value > 1000) {
+        callback('一次最多发布1000个任务')
+      } else if (value < comment_content.length) {
         callback('发布任务数不能少于评论内容数，请删除部分评论内容')
       } else {
         let num = 0
@@ -266,7 +340,7 @@ class Taskpublish extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     // console.log(this.props.form.getFieldsValue())
-    const { comment_content, transpond_content } = this.state
+    const { task_img1, task_img2, comment_content, transpond_content } = this.state
 
     // console.log(this.props.form.getFieldsValue(['username']))
     // console.log(this.props.form.getFieldValue('username'))
@@ -284,6 +358,17 @@ class Taskpublish extends React.Component {
         // })
 
         // this.setState({ loading: true })
+
+        if (!task_img1) {
+          return message.error('请上传任务截图1')
+        }
+        if (!task_img2) {
+          return message.error('请上传任务截图2')
+        }
+
+
+        values.task_img1 = task_img1
+        values.task_img2 = task_img2
         values.comment_content = comment_content
         values.transpond_content = transpond_content
 
@@ -299,13 +384,15 @@ class Taskpublish extends React.Component {
 
 
   render() {
-    const { loading, comment, comment_content, transpond_content } = this.state
+    const { loading, task_img1, task_img2, comment, comment_content, transpond_content, imgSrc, imgVisible } = this.state
     const { getFieldDecorator } = this.props.form
+    const { form } = this.props
 
     return (
       <div className='taskpublish'>
         <Title title='发布任务' />
 
+        {/* 金币总计 */}
         <div className='total-amount'>
           <p>基础金币：{this.getBasicAmount()}金币</p>
           <p>转发金币：{this.getTranspondAmount()}金币</p>
@@ -313,7 +400,11 @@ class Taskpublish extends React.Component {
           <p>（起步需0.2金币/任务）</p>
         </div>
 
-        <Form onSubmit={this.handleSubmit} labelCol={{ span: 3 }} wrapperCol={{ span: 16 }} className='taskpublish-form'>
+        <Modal visible={imgVisible} footer={null} onCancel={() => { this.setState({ imgVisible: false }) }}>
+          <img src={imgSrc} style={{ width: '100%' }} alt='img_src' />
+        </Modal>
+
+        <Form onSubmit={this.handleSubmit} labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} className='taskpublish-form'>
           <Form.Item label='活动平台'>
             {
               getFieldDecorator('platform_type', {
@@ -341,6 +432,15 @@ class Taskpublish extends React.Component {
                 </Select>
               )
             }
+          </Form.Item>
+          <Form.Item label='任务截图' required>
+            <div className='file-src'>
+              <UploadImg isDetail={false} img_src={task_img1} fileUpload={this.taskImageFileUpload.bind(this, 0)} ></UploadImg>
+              <Button className='img-example' type='link' onClick={this.showImg.bind(this, taskImgs[form.getFieldValue('platform_type')].task_img1)}>截图示例1</Button>
+              <UploadImg isDetail={false} img_src={task_img2} fileUpload={this.taskImageFileUpload.bind(this, 1)} ></UploadImg>
+              <Button className='img-example' type='link' onClick={this.showImg.bind(this, taskImgs[form.getFieldValue('platform_type')].task_img2)}>截图示例2</Button>
+              <span className='taskpublish-note' style={{ marginTop: 'auto' }}>上传任务截图，让刷手更容易找到</span>
+            </div>
           </Form.Item>
           <Form.Item label='活动入口' required>
             {
@@ -376,7 +476,7 @@ class Taskpublish extends React.Component {
                 </Select>
               )
             }
-            <span className='taskpublish-gold'>（注意：若刷手超过该时间，则被认定为自动放弃任务）</span>
+            <span className='taskpublish-note'>若刷手超过该时间，则被认定为自动放弃任务</span>
           </Form.Item>
           <Form.Item label='发布任务数'>
             {
@@ -385,10 +485,11 @@ class Taskpublish extends React.Component {
                 // validateTrigger: 'onBlur',
                 rules: [{ required: true, message: '请输入发布任务数' }, { validator: this.validateTaskNum }]
               })(
-                <InputNumber min={1} step={1} precision={0}></InputNumber>
+                <InputNumber min={1} max={1000} step={1} precision={0}></InputNumber>
               )
             }
             <span className='form-note'>个</span>
+            <span className='taskpublish-note'>一次最多发布1000个任务</span>
           </Form.Item>
           <Form.Item label='是否关注' required>
             {
@@ -417,9 +518,9 @@ class Taskpublish extends React.Component {
               )
             }
 
-            <span className='taskpublish-gold' style={{ marginLeft: '0' }}><span className='gold'>{this.props.form.getFieldValue('attention_time') * 10 * 0.1 / 10}金币</span></span>
+            <span className='taskpublish-gold' style={{ marginLeft: '0' }}><span className='gold'>{form.getFieldValue('attention_time') * 10 * 0.1 / 10}金币</span></span>
             <br />
-            <span className='success'>注意：关注必须保留3个月，创作者可在3个月内随机抽查刷手是否取消关注。若3个月内查不到该刷手，则扣除用户0.2金币给创作者，并记录一次违规。若选择了其他时间，刷手在该时间内取消关注，则在扣除0.2金币的基础上再扣除对应的金币，如半年扣除0.3金币，1年扣除0.4金币，以此内推，并记录一次违规</span>
+            <span className='font-color1'>关注必须保留3个月，创作者可在3个月内随机抽查刷手是否取消关注。若3个月内查不到该刷手，则扣除用户0.2金币给创作者，并记录一次违规。若选择了其他时间，刷手在该时间内取消关注，则在扣除0.2金币的基础上再扣除对应的金币，如半年扣除0.3金币，1年扣除0.4金币，以此内推，并记录一次违规</span>
           </Form.Item>
           <Form.Item label='是否点赞' required>
             {
@@ -432,17 +533,22 @@ class Taskpublish extends React.Component {
             }
             <span className='taskpublish-gold'>0.1金币（默认点赞）</span>
           </Form.Item>
-          <Form.Item label='是否收藏' required>
-            {
-              getFieldDecorator('collect', {
-                initialValue: true,
-                valuePropName: 'checked'
-              })(
-                <Switch checkedChildren='是' unCheckedChildren='否' disabled={true} />
-              )
-            }
-            <span className='taskpublish-gold'>0.1金币（默认收藏）</span>
-          </Form.Item>
+          {
+            // 今日头条才有收藏
+            form.getFieldValue('platform_type') === 0 &&
+            <Form.Item label='是否收藏' required>
+              {
+                getFieldDecorator('collect', {
+                  initialValue: true,
+                  valuePropName: 'checked'
+                })(
+                  <Switch checkedChildren='是' unCheckedChildren='否' disabled={true} />
+                )
+              }
+              <span className='taskpublish-gold'>0.1金币（默认收藏，今日头条才有）</span>
+            </Form.Item>
+          }
+
           <Form.Item label='是否评论' required>
             {
               getFieldDecorator('comment', {
@@ -453,12 +559,12 @@ class Taskpublish extends React.Component {
               )
             }
             {
-              this.props.form.getFieldValue('comment') &&
+              form.getFieldValue('comment') &&
               <span className='taskpublish-gold'>0.2金币（默认评论）</span>
             }
           </Form.Item>
           {
-            this.props.form.getFieldValue('comment') &&
+            form.getFieldValue('comment') &&
             <Form.Item label='评论内容'>
               <div className='taskpublish-content'>
                 <TextArea value={comment} maxLength={50} placeholder='请输入评论内容' rows={3} onChange={this.handleChangeComment} />
@@ -492,13 +598,12 @@ class Taskpublish extends React.Component {
               )
             }
             {
-              this.props.form.getFieldValue('transpond') &&
-              <span className='taskpublish-gold'><span className='gold'>{this.getTranspondAmount()}金币</span>（0.2金币/转发数，<span className={this.props.form.getFieldValue('task_num') < this.getTranspondAmount() * 10 / 0.2 / 10 ? 'error' : null}>注意：转发数不能超过发布任务数</span>）</span>
+              form.getFieldValue('transpond') &&
+              <span className='taskpublish-gold'><span className='gold'>{this.getTranspondAmount()}金币</span>（0.2金币/转发数，<span className={form.getFieldValue('task_num') < this.getTranspondAmount() * 10 / 0.2 / 10 ? 'error' : null}>注意：转发数不能超过发布任务数</span>）</span>
 
             }
           </Form.Item>
-          {
-            this.props.form.getFieldValue('transpond') &&
+          {form.getFieldValue('transpond') &&
             <React.Fragment>
               {/* <Form.Item label='转发数'>
                 {
@@ -533,7 +638,7 @@ class Taskpublish extends React.Component {
                       <React.Fragment key={index}>
                         <div className='transpond-item' key={index}>
                           <div className='transpond-type'>{item.name}：</div>
-                          {/* <InputNumber value={item.num} min={0} max={this.props.form.getFieldValue('task_num') - this.getTranspondAmount() * 10 / 0.2 / 10 + item.num} step={1} precision={0} onChange={this.changeTranspondNum.bind(this, index)}></InputNumber> */}
+                          {/* <InputNumber value={item.num} min={0} max={form.getFieldValue('task_num') - this.getTranspondAmount() * 10 / 0.2 / 10 + item.num} step={1} precision={0} onChange={this.changeTranspondNum.bind(this, index)}></InputNumber> */}
                           <InputNumber value={item.num} min={0} step={1} precision={0} onChange={this.changeTranspondNum.bind(this, index)}></InputNumber>
                           <TextArea value={item.content} maxLength={50} placeholder='请输入转发内容' rows={3} onChange={this.handleChangeTranspond.bind(this, index)} />
                           <div className='text-example'>
@@ -566,6 +671,16 @@ class Taskpublish extends React.Component {
                   }
                   <div className='transpond-note'>注意：可添加评论内容，随机分配给刷手进行评论，其余未分配的评论由刷手进行自由评论，每条评论不能大于50个字</div>
                 </div>
+              </Form.Item>
+              <Form.Item label='任务备注' wrapperCol={{ span: 10 }}>
+                {
+                  getFieldDecorator('remark', {
+                    initialValue: '',
+                    valuePropName: 'checked'
+                  })(
+                    <TextArea maxLength={300} placeholder='请输入任务备注，最多输入300个字' rows={3} />
+                  )
+                }
               </Form.Item>
             </React.Fragment>
           }

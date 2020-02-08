@@ -19,10 +19,9 @@ export function user(state = initState, action) {
       return {
         ...state,
         ...action.data,
-        redirectTo: '/'
+        redirectTo: '/home'
       }
     case LOGOUT:
-
       return {
         ...initState,
         redirectTo: '/login'
