@@ -1,9 +1,8 @@
 import React from 'react'
 import './index.scss'
-import { Form, Button, Input, message, Modal } from 'antd'
+import { Form, Button, Input, message } from 'antd'
 import Title from '@/components/title/title'
 import UploadImg from '@/components/uploadimg/uploadimg'
-import { checkFile } from '@/util/api'
 
 import userImg from '@/assets/imgs/user.jpg'
 
@@ -186,7 +185,7 @@ class Personal extends React.Component {
   }
 
   render() {
-    const { loginLoading, securityLoading, userInfo, head_thumbVisible } = this.state
+    const { loginLoading, securityLoading, userInfo } = this.state
     const { getFieldDecorator } = this.props.form
     return (
       <div className='personal'>
@@ -195,16 +194,6 @@ class Personal extends React.Component {
         <div className='personal-home'>
           <div className='personal-title'>基本资料</div>
           <div className='personal-info'>
-            {/* <Upload onChange={this.changeAvatar} listType='picture-card'> */}
-            {/* <div className='personal-avatar'>
-              <input type='file' ref='head_thumb' onChange={this.head_thumbFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
-              <Modal visible={head_thumbVisible} footer={null} onCancel={() => { this.setState({ head_thumbVisible: false }) }}>
-                <img src={userInfo.head_thumb || userImg} style={{ width: '100%' }} alt='head_thumb' />
-              </Modal>
-
-              <img src={userInfo.head_thumb || userImg} alt='' onClick={() => { this.setState({ head_thumbVisible: true }) }} />
-              <div className='img-alter' onClick={() => { this.refs.head_thumb.click() }}>修改图片</div>
-            </div> */}
             <UploadImg isDetail={false} img_src={userInfo.head_thumb || userImg} fileUpload={this.head_thumbFileUpload} shape='circle' ></UploadImg>
             {/* </Upload> */}
             <div className='personal-detail'>
@@ -222,7 +211,7 @@ class Personal extends React.Component {
 
         <div className='personal-home'>
           <div className='personal-title'>修改登录密码</div>
-          <Form onSubmit={this.alterPassword} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} className='login-form'>
+          <Form onSubmit={this.alterPassword} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
             <Form.Item label='原登录密码' hasFeedback required>
               {
                 getFieldDecorator('password', {

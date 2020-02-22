@@ -2,17 +2,11 @@ import React from 'react'
 import './index.scss'
 import { Form, Button, DatePicker, Select, Table } from 'antd'
 import Title from '@/components/title/title'
+import dict from '@/util/dict'
 
 // import moment from 'moment'
 const { RangePicker } = DatePicker
 const { Option } = Select
-
-let wealthDict = {
-  0: '购买金币',
-  1: '金币兑换现金',
-  2: '发布任务',
-  3: '完成任务',
-}
 
 class WealthDetail extends React.Component {
   constructor(props) {
@@ -39,7 +33,7 @@ class WealthDetail extends React.Component {
           dataIndex: 'type',
           key: 'type',
           align: 'center',
-          render: text => <span>{wealthDict[text]}</span>
+          render: text => <span>{dict.wealth_dict[text]}</span>
         },
         {
           title: '详情',
@@ -54,28 +48,28 @@ class WealthDetail extends React.Component {
           dataIndex: 'change_gold',
           key: 'change_gold',
           align: 'center',
-          render: (text, record, index) => <span className={record.change_gold_type === 0 ? 'error' : 'success'}>{record.change_gold_type === 0 ? '-' : '+'}{text.toFixed(2)}</span>
+          render: (text, record, index) => <span className={record.change_gold_type === 0 ? 'danger' : 'success'} > {record.change_gold_type === 0 ? '-' : '+'}{text}</span >
         },
         {
           title: '剩余金币',
           dataIndex: 'gold',
           key: 'gold',
           align: 'center',
-          render: text => <span>{text.toFixed(2)}</span>
+          render: text => <span>{text}</span>
         },
         {
           title: '现金变化',
           dataIndex: 'change_wealth',
           key: 'change_wealth',
           align: 'center',
-          render: (text, record, index) => <span className={record.change_wealth_type === 0 ? 'error' : 'success'}>{record.change_wealth_type === 0 ? '-' : '+'}{text.toFixed(2)}</span>
+          render: (text, record, index) => <span className={record.change_wealth_type === 0 ? 'danger' : 'success'} > {record.change_wealth_type === 0 ? '-' : '+'}{text}</span >
         },
         {
           title: '剩余现金',
           dataIndex: 'balance',
           key: 'balance',
           align: 'center',
-          render: text => <span>{text.toFixed(2)}</span>
+          render: text => <span>{text}</span>
         }
       ],
       data: []
@@ -92,13 +86,13 @@ class WealthDetail extends React.Component {
         key: i,
         index: i,
         time: '2019-12-22 22:22:10',
-        type: 1,
+        type: Math.round(Math.random() * 10),
         detail: '提现金币成功，已转入平台现金账户',
         change_gold: 100,
-        change_gold_type: 1,
+        change_gold_type: Math.round(Math.random()),
         gold: 200,
         change_wealth: 360.5,
-        change_wealth_type: 0,
+        change_wealth_type: Math.round(Math.random()),
         balance: 2000.88,
       })
     }
@@ -137,20 +131,22 @@ class WealthDetail extends React.Component {
               getFieldDecorator('time_range', {
                 // initialValue: [moment('2015/01/01', 'YYYY/MM/DD'), moment('2015/01/02', 'YYYY/MM/DD')]
               })(
-                <RangePicker format='YYYY/MM/DD' placeholder={['开始日期', '结束日期']}></RangePicker>
+                <RangePicker format='YYYY/MM/DD'></RangePicker>
               )
             }
           </Form.Item>
           <Form.Item label='类型'>
             {
               getFieldDecorator('type', {
-                initialValue: '0'
+                initialValue: 0
               })(
                 <Select style={{ width: 150 }}>
-                  <Option value='0'>购买金币</Option>
-                  <Option value='1'>金币兑换现金</Option>
-                  <Option value='2'>发布任务</Option>
-                  <Option value='3'>完成任务</Option>
+                  <Option value=''>全部</Option>
+                  {
+                    Object.values(dict.wealth_dict).map((item, index) => {
+                      return <Option value={index} key={index}>{item}</Option>
+                    })
+                  }
                 </Select>
               )
             }

@@ -107,14 +107,14 @@ class Deposit extends React.Component {
 
           <TabPane tab='金币兑换' key='1'>
             <div className='deposit-note'>
-              <p className='deposit-note-title'>金币总计：<span className='error'>{gold.toFixed(2)}</span>个</p>
-              <p><span className='error'>10</span>金币起兑换，兑换金币数是<span className='error'>10</span>的倍数</p>
-              <p>VIP会员：<span className='error'>1</span>金币=<span className='error'>0.9</span>元。普通会员：<span className='error'>1</span>金币=<span className='error'>0.8</span>元</p>
-            </div>
+              <p className='deposit-note-title'>金币总计：<span className='danger'>{gold.toFixed(2)}</span>个</p>
+              <p><span className='danger'>10</span>金币起兑换，兑换金币数是<span className='danger'>10</span>的倍数</p>
+              <p>VIP会员：<span className='danger'>1</span>金币=<span className='danger'>0.9</span>元。普通会员：<span className='danger'>1</span>金币 = <span className='danger'>0.8</span>元</p >
+            </div >
 
             <Form onSubmit={this.handleSubmitGold} labelCol={{ span: 3 }} wrapperCol={{ span: 9 }} className='deposit-form'>
               <Form.Item label='兑换汇率'>
-                <p><span className='error'>{getRate()}</span>元/金币</p>
+                <p><span className='danger'>{getRate()}</span>元/金币</p>
               </Form.Item>
               <Form.Item label='兑换金币'>
                 {
@@ -139,29 +139,29 @@ class Deposit extends React.Component {
                 }
               </Form.Item>
               <Form.Item label='获得现金'>
-                <p><span className='error'>{(getRate() * this.props.form.getFieldValue('gold_exchange')).toFixed(2)}</span>元</p>
-              </Form.Item>
+                <p><span className='danger'>{(getRate() * this.props.form.getFieldValue('gold_exchange')).toFixed(2)}</span>元</p>
+              </Form.Item >
               <Form.Item wrapperCol={{ offset: 3 }}>
                 <Button type='primary' htmlType='submit' loading={loading}>提交审核</Button>
-                <p className='error'>若忘记密码可联系问题咨询客服QQ：2496028803</p>
-              </Form.Item>
-            </Form>
+                <p className='danger'>若忘记密码可联系问题咨询客服QQ：2496028803</p>
+              </Form.Item >
+            </Form >
 
-          </TabPane>
+          </TabPane >
 
 
           <TabPane tab='现金提现' key='2'>
 
             <div className='deposit-note'>
-              <p className='deposit-note-title'>现金总计：<span className='error'>{wealth.toFixed(2)}</span>元</p>
-              <p><span className='error'>10</span>元起提现，提现金额是<span className='error'>10</span>的倍数</p>
+              <p className='deposit-note-title'>现金总计：<span className='danger'>{wealth.toFixed(2)}</span>元</p>
+              <p><span className='danger'>10</span>元起提现，提现金额是<span className='danger'>10</span>的倍数</p >
               <p>温馨提示：每天只能申请提现1次，提现按照银行处理的时间到账</p>
               <p>有问题联系财务客服，QQ：
                 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1653103050&site=qq&menu=yes">
                   <img border="0" src="http://wpa.qq.com/pa?p=2:1653103050:41" alt="财务-客服" title="财务-客服" />
                 </a>
               </p>
-            </div>
+            </div >
 
             <Form onSubmit={this.handleSubmitWealth} labelCol={{ span: 3 }} wrapperCol={{ span: 9 }} className='deposit-form'>
               <Form.Item label='提现金额'>
@@ -192,7 +192,7 @@ class Deposit extends React.Component {
                 }
               </Form.Item>
               <Form.Item label='手续费'>
-                <p><span className='error'>0</span>元</p>
+                <p><span className='danger'>0</span>元</p>
               </Form.Item>
               <Form.Item label='安全密码' hasFeedback required>
                 {
@@ -208,14 +208,14 @@ class Deposit extends React.Component {
 
               <Form.Item wrapperCol={{ offset: 3 }}>
                 <Button type='primary' htmlType='submit' loading={loading}>提交审核</Button>
-                <p className='error'>若忘记密码可联系问题咨询客服QQ：2496028803</p>
-              </Form.Item>
-            </Form>
-          </TabPane>
-        </Tabs>
+                <p className='danger'>若忘记密码可联系问题咨询客服QQ：2496028803</p>
+              </Form.Item >
+            </Form >
+          </TabPane >
+        </Tabs >
 
 
-      </div>
+      </div >
     )
   }
 }

@@ -43,6 +43,7 @@ class Home extends React.Component {
             <Menu.Item key='/admin/user'>用户管理</Menu.Item>
             <Menu.Item key='/admin/task'>任务管理</Menu.Item>
             <Menu.Item key='/admin/bank'>银行卡管理</Menu.Item>
+            <Menu.Item key='/admin/platform'>账号管理</Menu.Item>
           </SubMenu>
           <SubMenu key='task' title={<span><Icon type="appstore" /><span>任务中心</span></span>}>
             <Menu.Item key='/home'>任务列表</Menu.Item>

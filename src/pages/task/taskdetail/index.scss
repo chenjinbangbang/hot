@@ -1,0 +1,99 @@
+.taskdetail {
+  .taskdetail-info {
+    margin-top: 20px;
+    display: flex;
+    .taskdetail-info-left {
+      margin: 0 40px;
+      .taskdetail-img {
+        text-align: center;
+        &:nth-child(2) {
+          margin-top: 20px;
+        }
+        p {
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .taskdetail-info-right {
+      .taskdetail-cancel {
+        color: $theme;
+        font-size: 17px;
+        margin-top: 30px;
+      }
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          width: 50%;
+          display: flex;
+          margin-top: 30px;
+          &.taskdetail-status {
+            > span {
+              margin-right: 20px;
+            }
+          }
+          p {
+            &:nth-child(1) {
+              width: 120px;
+            }
+            &:nth-child(2) {
+              // line-height: 20px;
+              flex: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ant-form {
+    margin-top: 40px !important;
+  }
+
+  .taskdetail-batch {
+    button {
+      &:nth-child(2) {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .ant-table-wrapper {
+    margin-top: 10px !important;
+  }
+
+  .tasklist-table {
+    text-align: left;
+    p {
+      margin-top: 6px;
+      display: flex;
+      &:first-child {
+        margin-top: 0;
+      }
+      span {
+        display: inline-block;
+        &:nth-child(1) {
+          width: 75px;
+        }
+        &:nth-child(2) {
+          width: 120px;
+          // flex: 1;
+        }
+      }
+    }
+  }
+  .tasklist-table1 {
+    p {
+      margin-top: 6px;
+      &:first-child {
+        margin-top: 0;
+      }
+      .anticon-question-circle {
+        margin-left: 5px;
+        cursor: pointer;
+        color: $theme;
+      }
+    }
+  }
+}

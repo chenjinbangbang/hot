@@ -51,6 +51,8 @@ class Taskpublish extends React.Component {
     this.state = {
       loading: false, // 点击按钮加载
       mount: 10,
+      publishVisible: false, // 发布任务之前的浮层提示显示与隐藏
+      form: {}, // 表单数据
 
       task_img1: null, // 任务图片1
       task_img2: null, // 任务图片2
@@ -97,11 +99,11 @@ class Taskpublish extends React.Component {
         // console.log(data.collect)
         // console.log(data.platform_type === 0)
 
-        // 起步：0.2金币， 关注：0.1金币， 关注保留时间：时间*0.1金币， 点赞：0.1金币， 收藏：0.1金币，评论：0.2金币， 转发：0.2金币（今日头条才有收藏）
-        let gold = 0.7
+        // 起步：0.1金币， 关注：0.1金币， 关注保留时间：时间*0.1金币， 点赞：0.1金币， 收藏：0.1金币，评论：0.2金币， 转发：0.2金币（今日头条才有收藏）
+        let gold = 0.6
         if (data.attention) {
           gold = data.task_num *
-            (0.2 * 10 + (data.attention && 0.1) * 10 + (data.attention_time * 0.1) * 10 + (data.comment && 0.2) * 10 + (data.give_like && 0.1) * 10 + (data.platform_type === 0 ? 0.1 : 0) * 10) / 10
+            (0.1 * 10 + (data.attention && 0.1) * 10 + (data.attention_time * 0.1) * 10 + (data.comment && 0.2) * 10 + (data.give_like && 0.1) * 10 + (data.platform_type === 0 ? 0.1 : 0) * 10) / 10
         }
 
         return gold
@@ -124,6 +126,7 @@ class Taskpublish extends React.Component {
       }
     )
 
+    // 消耗金币总计
     this.getTotalAmount = composer(
       $props('form'),
       (form) => {
@@ -146,8 +149,9 @@ class Taskpublish extends React.Component {
     const share_dict = dict.share_dict_toutiao // 分享字典表
     let transpond_content = []
     for (let i in share_dict) {
+      // console.log(typeof i)
       transpond_content.push({
-        type: i,
+        type: Number(i),
         name: share_dict[i],
         num: 0,
         content: '',
@@ -359,12 +363,12 @@ class Taskpublish extends React.Component {
 
         // this.setState({ loading: true })
 
-        if (!task_img1) {
-          return message.error('请上传任务截图1')
-        }
-        if (!task_img2) {
-          return message.error('请上传任务截图2')
-        }
+        // if (!task_img1) {
+        //   return message.error('请上传任务截图1')
+        // }
+        // if (!task_img2) {
+        //   return message.error('请上传任务截图2')
+        // }
 
 
         values.task_img1 = task_img1
@@ -374,6 +378,21 @@ class Taskpublish extends React.Component {
 
         console.log(values)
 
+        this.setState({
+          publishVisible: true,
+          form: values
+        })
+        // Modal.confirm({
+        //   // content: `消耗金币总计${this.getTotalAmount()}金币。发布后不可修改任务，请检查确定无误后再发布`,
+        //   content: <div>
+        //     <p>消耗金币总计<span className='danger' style={{ fontSize: '24px' }}>{this.getTotalAmount()}</span>金币</p>
+        //     <p>发布后不可修改任务，请检查确定无误后再发布</p>
+        //   </div>,
+        //   onOk: () => {
+        //     message.success('任务发布成功')
+        //   }
+        // })
+
       } else {
         // console.log(err)
         message.error(Object.values(err)[0].errors[0].message)
@@ -381,10 +400,15 @@ class Taskpublish extends React.Component {
     });
   }
 
-
+  // 发布任务
+  publishFn = () => {
+    const { form } = this.state
+    console.log(form)
+    message.success('任务发布成功')
+  }
 
   render() {
-    const { loading, task_img1, task_img2, comment, comment_content, transpond_content, imgSrc, imgVisible } = this.state
+    const { loading, publishVisible, task_img1, task_img2, comment, comment_content, transpond_content, imgSrc, imgVisible } = this.state
     const { getFieldDecorator } = this.props.form
     const { form } = this.props
 
@@ -397,12 +421,21 @@ class Taskpublish extends React.Component {
           <p>基础金币：{this.getBasicAmount()}金币</p>
           <p>转发金币：{this.getTranspondAmount()}金币</p>
           <p className="total">消耗金币总计：<span>{this.getTotalAmount()}</span>金币</p>
-          <p>（起步需0.2金币/任务）</p>
+          <p>（起步需0.1金币/任务）</p>
         </div>
+
 
         <Modal visible={imgVisible} footer={null} onCancel={() => { this.setState({ imgVisible: false }) }}>
           <img src={imgSrc} style={{ width: '100%' }} alt='img_src' />
         </Modal>
+
+        <Modal title='发布任务' visible={publishVisible} width={400} onCancel={() => { this.setState({ publishVisible: false }) }} onOk={this.publishFn}>
+          <div className='taskpublish-modal'>
+            <p>发布任务数：<span className='danger'>{this.state.form.task_num}</span>个</p>
+            <p>消耗金币总计：<span className='danger'>{this.getTotalAmount()}</span>金币</p>
+            <p>发布后不可修改任务，请检查确定无误后再发布</p>
+          </div>
+        </Modal >
 
         <Form onSubmit={this.handleSubmit} labelCol={{ span: 3 }} wrapperCol={{ span: 18 }} className='taskpublish-form'>
           <Form.Item label='活动平台'>
@@ -509,11 +542,11 @@ class Taskpublish extends React.Component {
                 initialValue: 0,
               })(
                 <Radio.Group>
-                  <Radio value={0}>3个月</Radio>
-                  <Radio value={1}>半年</Radio>
-                  <Radio value={2}>1年</Radio>
-                  <Radio value={3}>2年</Radio>
-                  <Radio value={4}>3年</Radio>
+                  {
+                    Object.values(dict.attention_time_dict).map((item, index) => {
+                      return <Radio key={index} value={index}>{item}</Radio>
+                    })
+                  }
                 </Radio.Group>
               )
             }
@@ -567,7 +600,7 @@ class Taskpublish extends React.Component {
             form.getFieldValue('comment') &&
             <Form.Item label='评论内容'>
               <div className='taskpublish-content'>
-                <TextArea value={comment} maxLength={50} placeholder='请输入评论内容' rows={3} onChange={this.handleChangeComment} />
+                <TextArea value={comment} maxLength={50} placeholder='请输入评论内容' autoSize={{ minRows: 4, maxRows: 4 }} onChange={this.handleChangeComment} />
                 <div className='text-example'>
                   <p>可添加评论内容，随机分配给刷手进行评论，其余未分配的评论由刷手进行自由评论，每条评论不能大于50个字</p>
                   <Button type='primary' size='small' onClick={this.commentFn}>确定</Button>
@@ -599,11 +632,12 @@ class Taskpublish extends React.Component {
             }
             {
               form.getFieldValue('transpond') &&
-              <span className='taskpublish-gold'><span className='gold'>{this.getTranspondAmount()}金币</span>（0.2金币/转发数，<span className={form.getFieldValue('task_num') < this.getTranspondAmount() * 10 / 0.2 / 10 ? 'error' : null}>注意：转发数不能超过发布任务数</span>）</span>
+              <span className='taskpublish-gold'><span className='gold'>{this.getTranspondAmount()}金币</span>（0.2金币/转发数，<span className={form.getFieldValue('task_num') < this.getTranspondAmount() * 10 / 0.2 / 10 ? 'danger' : null}>注意：转发数不能超过发布任务数</span>）</span>
 
             }
           </Form.Item>
-          {form.getFieldValue('transpond') &&
+          {
+            form.getFieldValue('transpond') &&
             <React.Fragment>
               {/* <Form.Item label='转发数'>
                 {
@@ -640,7 +674,7 @@ class Taskpublish extends React.Component {
                           <div className='transpond-type'>{item.name}：</div>
                           {/* <InputNumber value={item.num} min={0} max={form.getFieldValue('task_num') - this.getTranspondAmount() * 10 / 0.2 / 10 + item.num} step={1} precision={0} onChange={this.changeTranspondNum.bind(this, index)}></InputNumber> */}
                           <InputNumber value={item.num} min={0} step={1} precision={0} onChange={this.changeTranspondNum.bind(this, index)}></InputNumber>
-                          <TextArea value={item.content} maxLength={50} placeholder='请输入转发内容' rows={3} onChange={this.handleChangeTranspond.bind(this, index)} />
+                          <TextArea value={item.content} maxLength={50} placeholder='请输入转发内容' autoSize={{ minRows: 4, maxRows: 4 }} onChange={this.handleChangeTranspond.bind(this, index)} />
                           <div className='text-example'>
                             <Button type='primary' size='small' onClick={this.transpondFn.bind(this, index)}>确定</Button>
                           </div>
@@ -678,7 +712,7 @@ class Taskpublish extends React.Component {
                     initialValue: '',
                     valuePropName: 'checked'
                   })(
-                    <TextArea maxLength={300} placeholder='请输入任务备注，最多输入300个字' rows={3} />
+                    <TextArea maxLength={300} placeholder='请输入任务备注，最多输入300个字' autoSize={{ minRows: 4 }} />
                   )
                 }
               </Form.Item>
@@ -688,12 +722,12 @@ class Taskpublish extends React.Component {
           <Form.Item wrapperCol={{ offset: 3 }}>
             <div className='taskpublish-total'>
               <Button type='primary' htmlType='submit' loading={loading}>发布任务</Button>
-              {/* <p>消耗金币总计：<span className='error'>0.2</span>金币（起步需<span className='error'>0.2</span>金币/任务）</p> */}
+              {/* <p>消耗金币总计：<span className='danger'>0.2</span>金币（起步需<span className='danger'>0.2</span>金币/任务）</p> */}
             </div>
           </Form.Item>
-        </Form>
+        </Form >
 
-      </div>
+      </div >
     )
   }
 }

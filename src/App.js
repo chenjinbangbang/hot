@@ -24,10 +24,12 @@ import Register from '@/pages/register/register'
 import UserAdmin from '@/pages/admin/user/user' // 用户管理
 import TaskAdmin from '@/pages/admin/task/task' // 任务管理
 import BankAdmin from '@/pages/admin/bank/bank' // 银行卡管理
+import PlatformAdmin from '@/pages/admin/platform/platform' // 账号管理
 
 // 任务中心
-import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表
-import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务
+import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表（创作者）
+import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务（创作者）
+import Taskdetail from '@/pages/task/taskdetail/taskdetail' // 任务详情（创作者）
 
 // 钱包中心
 import Pay from '@/pages/wealth/pay/pay' // 充值
@@ -44,17 +46,12 @@ import Referrer from '@/pages/account/referrer/referrer' // 推广分享
 import Notice from '@/pages/account/notice/notice' // 公告
 import NoticeDetail from '@/pages/account/notice_detail/notice_detail' // 公告详情
 
-// 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
-// import moment from 'moment'
-// import 'moment/locale/zh-cn'
-
 // const store = createStore(reducers, applyMiddleware(thunk))
 
 // 提示全局方法
 message.config({ maxCount: 1 }) // maxCount：最大显示数，超过限制时，最早的消息会被自动关闭
 
-// 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
-// moment.locale('zh-cn')
+
 
 // console.log(store)
 
@@ -100,6 +97,10 @@ class App extends React.Component {
           {
             path: '/admin/bank',
             component: BankAdmin
+          },
+          {
+            path: '/admin/platform',
+            component: PlatformAdmin
           }
         ]
       },
@@ -117,6 +118,10 @@ class App extends React.Component {
           {
             path: '/home/task/publish',
             component: Taskpublish
+          },
+          {
+            path: '/home/task/detail',
+            component: Taskdetail
           },
 
           // 钱包中心

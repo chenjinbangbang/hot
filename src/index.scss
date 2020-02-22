@@ -22,6 +22,10 @@ code {
   color: $fontColor;
 }
 
+.gray {
+  color: $gray;
+}
+
 .font-color1 {
   color: $fontColor1;
 }
@@ -39,8 +43,8 @@ code {
   color: $primary;
 }
 
-.error {
-  color: $error;
+.danger {
+  color: $danger;
 }
 
 .success {
@@ -61,6 +65,10 @@ code {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 // 登录，注册
@@ -109,51 +117,6 @@ code {
   // 表单上传文件样式
   .file-src {
     display: flex;
-    // > div {
-    //   // background-color: #f00;
-    //   width: 150px;
-    //   height: 150px;
-    //   display: flex;
-    //   justify-content: center;
-    //   align-items: center;
-    //   border: 1px solid #ddd;
-    //   border-radius: 4px;
-    //   position: relative;
-    //   cursor: pointer;
-    //   &:hover {
-    //     // border: 1px solid #ccc;
-    //     // opacity: 0.9;
-    //   }
-    //   img {
-    //     width: 100%;
-    //     height: 100%;
-    //   }
-    //   .img-alter {
-    //     position: absolute;
-    //     bottom: 0;
-    //     left: 0;
-    //     height: 40px;
-    //     line-height: 40px;
-    //     text-align: center;
-    //     width: 100%;
-    //     background-color: rgba(0, 0, 0, 0.5);
-    //     color: #fff;
-    //   }
-    //   .anticon-plus {
-    //     font-size: 22px;
-    //     color: #999;
-    //     display: inline-block;
-    //     width: 100%;
-    //     height: 100%;
-    //     // border: 1px solid #f00;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //   }
-    // }
-    // .img-example {
-    //   margin-top: auto;
-    // }
     .text-example {
       margin-top: auto;
       margin-left: 10px;
@@ -169,6 +132,19 @@ code {
 .ant-modal-root {
   .ant-modal-title {
     text-align: center;
+  }
+
+  // 发布任务的
+  .taskpublish-modal {
+    p {
+      &:last-child {
+        margin-top: 10px;
+      }
+
+      .danger {
+        font-size: 20px;
+      }
+    }
   }
 
   // 添加，编辑银行卡的手机验证码样式
@@ -188,5 +164,12 @@ code {
     }
     .platform-form {
     }
+  }
+
+  // 银行卡管理的样式
+  .bank-note {
+    line-height: 20px;
+    color: $theme;
+    margin-bottom: 10px;
   }
 }

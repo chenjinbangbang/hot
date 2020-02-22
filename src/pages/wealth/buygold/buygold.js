@@ -43,14 +43,14 @@ class Pay extends React.Component {
         <Title title='购买金币' />
 
         <div className='buygold-note'>
-          <p className='buygold-note-title'>金币总计：<span className='error'>{gold.toFixed(2)}</span>个</p>
+          <p className='buygold-note-title'>金币总计：<span className='danger'>{gold.toFixed(2)}</span>个</p>
           {/* <p>购买金币可选择10金币，20金币，50金币，100金币，200金币，500金币，1000金币，2000金币，5000金币，1:1兑换</p> */}
-          <p>只能使用平台的现金余额进行购买，剩余现金余额：<span className='error'>{wealth.toFixed(2)}</span>元</p>
+          <p>只能使用平台的现金余额进行购买，剩余现金余额：<span className='danger'>{wealth.toFixed(2)}</span>元</p>
           <p>如需充值，请前往充值，有问题可联系财务客服QQ：
             <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1653103050&site=qq&menu=yes">
               <img border="0" src="http://wpa.qq.com/pa?p=2:1653103050:41" alt="财务-客服" title="财务-客服" />
             </a></p>
-        </div>
+        </div >
 
         <div className='buygold-content'>
           <ul>
@@ -70,13 +70,13 @@ class Pay extends React.Component {
             }
           </ul>
 
-          <div className='buygold-wealth'>需要<span className='error'>{buygoldData[buygoldChoose].toFixed(2)}</span>元，将从现金余额扣除</div>
+          <div className='buygold-wealth'>需要<span className='danger'>{buygoldData[buygoldChoose].toFixed(2)}</span>元，将从现金余额扣除</div>
 
           <Button className='success-btn' type='primary' onClick={this.submit} loading={loading}>点击购买</Button>
 
-        </div>
+        </div >
 
-      </div>
+      </div >
     )
   }
 }

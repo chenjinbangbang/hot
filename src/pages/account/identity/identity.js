@@ -116,7 +116,7 @@ class Identity extends React.Component {
         <Title title='实名认证' />
 
         <div className='identity-note'>
-          <p className='identity-note-status'>状态：{userInfo.isReal ? <span className='success'>已实名</span> : <span className='error'>未实名认证</span>}</p>
+          <p className='identity-note-status'>状态：{userInfo.isReal ? <span className='success'>已实名</span> : <span className='danger'>未实名认证</span>}</p>
           <p className='identity-note-detail'>为了加强对创作者和刷手的管理，避免有任务纠纷，请先通过实名认证才能发布/接手任务。请认真填写真实姓名，身份证号码，身份证正面，手持身份证半身照，完成实名认证。</p>
           <p>注意：一但提交审核通过了就不能更改，请提交之前检查好</p>
         </div>
@@ -159,44 +159,12 @@ class Identity extends React.Component {
             </Form.Item>
             <Form.Item label='身份证正面' required>
               <div className='file-src'>
-                {/* <div>
-                  <input type='file' ref='idcard_src' onChange={this.idcardFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
-                  {
-                    userInfo.idcard_src || userInfo.isReal ?
-                      (
-                        <React.Fragment>
-                          <img src={userInfo.idcard_src} alt='imgSrc' onClick={this.showImg.bind(this, userInfo.idcard_src)} />
-                          {
-                            !userInfo.isReal && <div className='img-alter' onClick={() => { this.refs.idcard_src.click() }}>修改图片</div>
-                          }
-                        </React.Fragment>
-                      )
-                      :
-                      <Icon type="plus" onClick={() => { this.refs.idcard_src.click() }}></Icon>
-                  }
-                </div> */}
                 <UploadImg isDetail={userInfo.isReal} img_src={userInfo.idcard_src} fileUpload={this.idcardFileUpload} ></UploadImg>
                 <p className='text-example'>身份证可用文字写上"仅供点点赚审核使用"</p>
               </div>
             </Form.Item>
             <Form.Item label='手持身份证半身照' required>
               <div className='file-src'>
-                {/* <div>
-                  <input type='file' ref='body_idcard_src' onChange={this.body_idcardFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
-                  {
-                    userInfo.body_idcard_src || userInfo.isReal ?
-                      (
-                        <React.Fragment>
-                          <img src={userInfo.body_idcard_src} alt='body_img_src' onClick={this.showImg.bind(this, userInfo.body_idcard_src)} />
-                          {
-                            !userInfo.isReal && <div className='img-alter' onClick={() => { this.refs.body_idcard_src.click() }}>修改图片</div>
-                          }
-                        </React.Fragment>
-                      )
-                      :
-                      <Icon type="plus" onClick={() => { this.refs.body_idcard_src.click() }}></Icon>
-                  }
-                </div> */}
                 <UploadImg isDetail={userInfo.isReal} img_src={userInfo.body_idcard_src} fileUpload={this.body_idcardFileUpload} ></UploadImg>
 
                 <p className='text-example'>要求身份证信息清晰可见，照片中露出手臂，可用文字写上"仅供点点赚审核使用"</p>
@@ -208,16 +176,8 @@ class Identity extends React.Component {
                 <Button type='primary' htmlType='submit' loading={loading}>提交审核</Button>
               </Form.Item>
             }
-
           </Form>
-
-
-
-
         </div>
-
-
-
       </div >
     )
   }

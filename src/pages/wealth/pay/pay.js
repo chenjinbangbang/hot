@@ -60,7 +60,7 @@ class Pay extends React.Component {
           dataIndex: 'status',
           key: 'status',
           align: 'center',
-          render: text => <span className={text === 1 ? 'success' : 'error'}>{text === 0 ? '已充值，未到账' : '充值成功'}</span>
+          render: text => <span className={text === 1 ? 'success' : 'danger'} > {text === 0 ? '已充值，未到账' : '充值成功'}</span >
         },
         {
           title: '充值金额',
@@ -107,7 +107,7 @@ class Pay extends React.Component {
         <Title title='充值' />
 
         <div className='pay-note'>
-          <p className='pay-note-title'>现金余额：<span className='error'>{wealth.toFixed(2)}</span>元</p>
+          <p className='pay-note-title'>现金余额：<span className='danger'>{wealth.toFixed(2)}</span>元</p>
           <p>充值成功后，5分钟内到账，若5分钟未到账，可联系财务客服QQ：
             <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1653103050&site=qq&menu=yes">
               <img border="0" src="http://wpa.qq.com/pa?p=2:1653103050:41" alt="财务-客服" title="财务-客服" />
@@ -151,7 +151,7 @@ class Pay extends React.Component {
         <div className='pay-table-title'>充值记录</div>
         <Table columns={columns} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
 
-      </div>
+      </div >
     )
   }
 }

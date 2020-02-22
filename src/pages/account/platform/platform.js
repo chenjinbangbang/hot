@@ -58,7 +58,7 @@ let statusDict = {
   },
   1: {
     text: '未通过',
-    class: 'error'
+    class: 'danger'
   },
   2: {
     text: '正常',
@@ -66,7 +66,7 @@ let statusDict = {
   },
   3: {
     text: '已冻结',
-    class: 'error'
+    class: 'danger'
   }
 }
 
@@ -92,8 +92,6 @@ class Platform extends React.Component {
         1: '新增',
         2: '编辑'
       },
-
-
 
       // 某个平台账号详情
       platformDetail: {
@@ -126,8 +124,8 @@ class Platform extends React.Component {
             user_id: 20,
             platform_name: '我的唯一',
             platform_type: 0,
-            platform_head_thumb: '',
-            platform_image_src: '',
+            platform_head_thumb: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
+            platform_image_src: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
             status: 3,
             reasion: 0
           }
@@ -139,8 +137,8 @@ class Platform extends React.Component {
             user_id: 10,
             platform_name: 'huoshan',
             platform_type: 2,
-            platform_head_thumb: '',
-            platform_image_src: '',
+            platform_head_thumb: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
+            platform_image_src: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
             status: 2,
             reasion: 0
           }
@@ -152,8 +150,8 @@ class Platform extends React.Component {
             user_id: 10,
             platform_name: 'huoshan',
             platform_type: 2,
-            platform_head_thumb: '',
-            platform_image_src: '',
+            platform_head_thumb: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
+            platform_image_src: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
             status: 2,
             reasion: 0
           }
@@ -165,8 +163,8 @@ class Platform extends React.Component {
             user_id: 10,
             platform_name: 'kuaishou',
             platform_type: 3,
-            platform_head_thumb: '',
-            platform_image_src: '',
+            platform_head_thumb: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
+            platform_image_src: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
             status: 2,
             reasion: 0
           }
@@ -193,23 +191,14 @@ class Platform extends React.Component {
     })
   }
 
-  // 点击平台账号，进行查看，新增，编辑账号浮层（index: 0 今日头条，1 抖音短视频，2 火山小视频，3 快手，type：0 查看，1 新增, id：平台账号id）
-  showPlatform = (index, type, id, e) => {
-    console.log(index, type, id)
+  // 点击平台账号，进行查看，新增，编辑账号浮层（index: 0 今日头条，1 抖音短视频，2 火山小视频，3 快手，type：0 查看，1 新增, detail：平台账号详情）
+  showPlatform = (index, type, detail, e) => {
+    console.log(index, type, detail)
 
     if (type === 0) {
       // 查看
       this.setState({
-        platformDetail: {
-          id: 1,
-          user_id: 10,
-          platform_name: '蓝色_天空',
-          platform_type: 0,
-          platform_head_thumb: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
-          platform_image_src: 'http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png',
-          status: 2,
-          reasion: 0
-        }
+        platformDetail: detail
       })
     } else if (type === 1) {
       // 新增
@@ -261,11 +250,22 @@ class Platform extends React.Component {
     // 重置表单
     this.props.form.resetFields()
     this.setState(state => ({
-      // platform_head_thumb: null,
-      // platform_image_src: null,
       platformDetail: { ...state.platformDetail, platform_head_thumb: '', platform_image_src: '' },
       visible: false
     }))
+  }
+
+  // 删除平台账号
+  deleteFn = () => {
+    console.log(this.state.platformDetail)
+    const { platformDetail } = this.state
+    Modal.confirm({
+      content: `是否删除${platformDetail.platform_name}？`,
+      onOk: () => {
+        message.success('删除成功')
+        this.onCancel()
+      }
+    })
   }
 
   // 提交表单
@@ -349,8 +349,12 @@ class Platform extends React.Component {
             {
               // 0查看时显示
               platformOperation === 0 &&
-              <Button className='platform-alter' type='dashed' onClick={() => { this.setState({ platformOperation: 2 }) }}>修改</Button>
+              <div className='platform-alter'>
+                <Button type='dashed' style={{ marginRight: '10px' }} onClick={() => { this.setState({ platformOperation: 2 }) }}>修改</Button>
+                <Button type='danger' onClick={this.deleteFn}>删除</Button>
+              </div>
             }
+
             <Form onSubmit={this.handleSubmit} labelCol={{ span: 6 }} wrapperCol={{ span: 12 }} className='platform-form'>
               <Form.Item label='平台账号名称' hasFeedback>
                 {
@@ -368,24 +372,6 @@ class Platform extends React.Component {
               </Form.Item>
               <Form.Item label='平台账号头像' required>
                 <div className='file-src'>
-                  {/* <div>
-                    <input type='file' ref='platform_head_thumb' onChange={this.platform_head_thumbFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
-                    {
-                      platformDetail.platform_head_thumb ?
-                        (
-                          <React.Fragment>
-                            <img src={platformDetail.platform_head_thumb} alt='img_src' onClick={this.showImg.bind(this, platformDetail.platform_head_thumb)} />
-                            {
-                              // 1新增，2编辑时显示
-                              platformOperation !== 0 &&
-                              <div className='img-alter' onClick={() => { this.refs.platform_head_thumb.click() }}>修改图片</div>
-                            }
-                          </React.Fragment>
-                        )
-                        :
-                        <Icon type="plus" onClick={() => { this.refs.platform_head_thumb.click() }}></Icon>
-                    }
-                  </div> */}
                   <UploadImg isDetail={platformOperation === 0} img_src={platformDetail.platform_head_thumb} fileUpload={this.platform_head_thumbFileUpload} ></UploadImg>
                   {
                     // 1新增，2编辑时显示
@@ -397,24 +383,6 @@ class Platform extends React.Component {
               </Form.Item>
               <Form.Item label='平台账号截图' required>
                 <div className='file-src'>
-                  {/* <div>
-                    <input type='file' ref='platform_image_src' onChange={this.platform_image_srcFileUpload} style={{ position: 'fixed', top: '-1000px' }} />
-                    {
-                      platformDetail.platform_image_src ?
-                        (
-                          <React.Fragment>
-                            <img src={platformDetail.platform_image_src} alt='img_src' onClick={this.showImg.bind(this, platformDetail.platform_image_src)} />
-                            {
-                              // 1新增，2编辑时显示
-                              platformOperation !== 0 &&
-                              <div className='img-alter' onClick={() => { this.refs.platform_image_src.click() }}>修改图片</div>
-                            }
-                          </React.Fragment>
-                        )
-                        :
-                        <Icon type="plus" onClick={() => { this.refs.platform_image_src.click() }}></Icon>
-                    }
-                  </div> */}
                   <UploadImg isDetail={platformOperation === 0} img_src={platformDetail.platform_image_src} fileUpload={this.platform_image_srcFileUpload} ></UploadImg>
                   {
                     // 1新增，2编辑时显示
@@ -434,7 +402,7 @@ class Platform extends React.Component {
                 // 0查看和2编辑时，并且状态为1未通过或3已冻结时显示
                 (platformOperation !== 1 && (platformDetail.status === 1 || platformDetail.status === 3)) &&
                 <Form.Item label={platformDetail.status === 1 ? '审核不通过原因' : platformDetail.status === 3 ? '冻结原因' : ''}>
-                  <span className='error'>{reasionDict[platformDetail.reasion]}</span>
+                  <span className='danger'>{reasionDict[platformDetail.reasion]}</span>
                 </Form.Item>
               }
               {
@@ -447,7 +415,6 @@ class Platform extends React.Component {
 
             </Form>
           </div>
-
         </Modal>
 
         <div className='platform-home'>
@@ -460,7 +427,7 @@ class Platform extends React.Component {
                 <div className='platform-list'>
                   {
                     item.map((item1, index1) => (
-                      <div className='list-item' key={index1} onClick={this.showPlatform.bind(this, index, 0, item1.id)}>
+                      <div className='list-item' key={index1} onClick={this.showPlatform.bind(this, index, 0, item1)}>
                         <img className='user-img' src={item1.platform_head_thumb || userImg} alt='账号名称' />
                         <p className='user-name ellipsis'>{item1.platform_name}</p>
                         <p className='user-status'>

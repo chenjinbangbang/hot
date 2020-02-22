@@ -14,7 +14,7 @@ let statusDict = {
   },
   1: {
     text: '未通过',
-    class: 'error'
+    class: 'danger'
   },
   2: {
     text: '正常',
@@ -22,7 +22,7 @@ let statusDict = {
   },
   3: {
     text: '已冻结',
-    class: 'error'
+    class: 'danger'
   }
 }
 
@@ -45,7 +45,7 @@ class Bank extends React.Component {
       loading: false, // 点击按钮加载
       visible: false, // 添加，修改银行卡modal浮层的显示与隐藏
       bankOperation: 0, // 银行卡操作类型，0：添加，1：修改
-      codeTime: 0, // 验证码倒计时
+      // codeTime: 0, // 验证码倒计时
 
       cities: cityData[provinceData[0]],
       secondCity: cityData[provinceData[0]][0],
@@ -64,13 +64,6 @@ class Bank extends React.Component {
           title: '序号',
           dataIndex: 'index',
           key: 'index',
-          align: 'center',
-          render: text => <span>{text}</span>
-        },
-        {
-          title: '类型',
-          dataIndex: 'type',
-          key: 'type',
           align: 'center',
           render: text => <span>{text}</span>
         },
@@ -100,7 +93,7 @@ class Bank extends React.Component {
           dataIndex: 'reasion',
           key: 'reasion',
           align: 'center',
-          render: text => <span className='error'>{text || '无'}</span>
+          render: text => <span className='danger'>{text || '无'}</span>
         },
         {
           title: '操作',
@@ -109,7 +102,7 @@ class Bank extends React.Component {
           align: 'center',
           render: (text, record) => <div>
             <Button className='bank-alter-btn' type='primary' size='small' onClick={this.showBank.bind(this, 1, record.id)}>修改</Button>
-            <Button type='danger' size='small' onClick={this.delete}>删除</Button>
+            <Button type='danger' size='small' onClick={this.delete.bind(this, record.id)}>删除</Button>
           </div>
         }
       ],
@@ -126,7 +119,6 @@ class Bank extends React.Component {
       data.push({
         key: i,
         index: i,
-        type: '银行卡',
         name: '陈进帮',
         bank_num: '152456456746454878',
         status: 1,
@@ -149,29 +141,25 @@ class Bank extends React.Component {
     })
   }
 
-  countDown() {
-    console.log(11)
-
-  }
-
   // 获取验证码
-  getCode = () => {
-    this.setState({
-      codeTime: 60
-    })
+  // getCode = () => {
+  //   this.setState({
+  //     codeTime: 60
+  //   })
 
-    let interval = window.setInterval(() => {
-      if (this.state.codeTime === 0) {
-        window.clearInterval(interval)
-      } else {
-        this.setState(state => ({
-          codeTime: state.codeTime - 1
-        }))
-      }
-    }, 1000)
-  }
+  //   let interval = window.setInterval(() => {
+  //     if (this.state.codeTime === 0) {
+  //       window.clearInterval(interval)
+  //     } else {
+  //       this.setState(state => ({
+  //         codeTime: state.codeTime - 1
+  //       }))
+  //     }
+  //   }, 1000)
+  // }
 
-  delete = () => {
+  // 删除银行卡
+  delete = (id) => {
     // console.log(e)
     Modal.confirm({
       content: '是否删除该银行卡？',
@@ -222,7 +210,7 @@ class Bank extends React.Component {
 
   render() {
     const {
-      loading, visible, bankOperation, codeTime,
+      loading, visible, bankOperation,
       columns, data, cities
     } = this.state
     const { getFieldDecorator } = this.props.form
@@ -293,7 +281,11 @@ class Bank extends React.Component {
                 getFieldDecorator('bank_num', {
                   // initialValue: '',
                   validateTrigger: 'onBlur',
-                  rules: [{ required: true, message: '请输入银行卡号' }, { validator: /^([1-9]{1})(\d{14}|\d{18})$/, message: '请输入正确的银行卡格式' }]
+                  // normalize: (value) => { return Number(value) || '' },
+                  rules: [
+                    { required: true, message: '请输入银行卡号' },
+                    // { validator: /^([1-9]{1})(\d{14}|\d{18})$/, message: '请输入正确的银行卡格式' }
+                  ]
                 })(
                   <Input placeholder='请输入银行卡号' />
                 )
@@ -310,7 +302,7 @@ class Bank extends React.Component {
                 )
               }
             </Form.Item>
-            <Form.Item label='手机号'>
+            {/* <Form.Item label='手机号'>
               {
                 getFieldDecorator('mobile', {
                   // initialValue: '',
@@ -332,8 +324,9 @@ class Bank extends React.Component {
                 )
               }
               <Button type='dashed' onClick={this.getCode} disabled={codeTime}>{codeTime ? `倒计时(${codeTime}s)` : '获取验证码'}</Button>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item wrapperCol={{ offset: 6 }}>
+              <p className='bank-note'>注意：请正确填写银行卡信息，若因为银行卡的问题导致提现不成功，平台不承担责任</p>
               <Button type='primary' htmlType='submit' loading={loading}>提交审核</Button>
             </Form.Item>
           </Form>

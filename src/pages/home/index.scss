@@ -8,10 +8,14 @@
     margin-left: 20px;
     border-left: 1px solid #ccc;
     flex: 1;
+    overflow: hidden;
 
     // 搜索
     .ant-form {
       margin-top: 20px;
+      .ant-form-item {
+        margin-bottom: 10px;
+      }
       .form-note {
         margin-left: 10px;
       }
@@ -25,6 +29,21 @@
     // 表格
     .ant-table-wrapper {
       margin-top: 20px;
+
+      // 上传图片组件的样式
+      .upload-img {
+        > div {
+          margin: auto;
+        }
+      }
+
+      // 表格中的图片
+      .upload-img {
+        > div {
+          width: 30px;
+          height: 30px;
+        }
+      }
     }
   }
 }
