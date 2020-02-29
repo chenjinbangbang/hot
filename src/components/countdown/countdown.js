@@ -7,25 +7,30 @@ class CountDown extends React.Component {
     super(props)
     this.state = {
       // time: props.time,
-      countdownTime: '24小时00分00秒',
-      interval: null
+      countdownTime: ''
     }
   }
 
   UNSAFE_componentWillMount() {
     // time作为闭包进行倒计时递减计算
-    let { time } = this.props
+    let { time, type } = this.props
     let interval = setInterval(() => {
       if (time > 0) {
         time--
 
-        // 计算倒计时
-        let hour = Math.floor(time / 60 / 60 / 1000)
-        let minute = Math.floor(time / 60 / 24 / 1000)
-        let second = time % 60
-        let countdownTime = `${this.zeroFn(hour)}小时${this.zeroFn(minute)}分${this.zeroFn(second)}秒`
+        let countdownTime = ''
+        if (type === 0) {
+          // 计算倒计时
+          let hour = Math.floor(time / 60 / 60)
+          let minute = Math.floor((time - hour * 60 * 60) / 60)
+          let second = time % 60
+          countdownTime = `${this.zeroFn(hour)}小时${this.zeroFn(minute)}分${this.zeroFn(second)}秒`
+        } else {
+          countdownTime = this.zeroFn(time)
+          this.props.onChange(time)
+        }
 
-        this.setState({ countdownTime, interval })
+        this.setState({ countdownTime })
       } else {
         clearInterval(interval)
       }
@@ -55,6 +60,12 @@ class CountDown extends React.Component {
       <span className='countdown'>{countdownTime}</span>
     )
   }
+}
+
+CountDown.defaultProps = {
+  time: 0, // 时间倒计时
+  type: 0, // 0：返回00小时00分钟00秒，1：返回数字
+  onChange() { } // 值改变触发事件
 }
 
 export default CountDown

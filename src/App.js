@@ -26,7 +26,12 @@ import TaskAdmin from '@/pages/admin/task/task' // 任务管理
 import BankAdmin from '@/pages/admin/bank/bank' // 银行卡管理
 import PlatformAdmin from '@/pages/admin/platform/platform' // 账号管理
 
-// 任务中心
+// 任务中心 - 刷手
+import Usertask from '@/pages/task/user_task/user_task' // 可接任务（刷手）
+import Usertasklist from '@/pages/task/user_tasklist/user_tasklist' // 任务列表（刷手）
+import Usertaskdetail from '@/pages/task/user_taskdetail/user_taskdetail' // 任务详情（刷手）
+
+// 任务中心 - 创作者
 import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表（创作者）
 import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务（创作者）
 import Taskdetail from '@/pages/task/taskdetail/taskdetail' // 任务详情（创作者）
@@ -109,8 +114,22 @@ class App extends React.Component {
         component: Home,
         routes: [
 
+          // 任务中心 - 刷手
+          {
+            path: '/home/user/task',
+            component: Usertask
+          },
+          {
+            path: '/home/user/tasklist',
+            component: Usertasklist
+          },
+          {
+            path: '/home/user/taskdetail',
+            component: Usertaskdetail
+          },
 
-          // 任务中心
+
+          // 任务中心 - 创作者
           {
             path: '/home',
             component: Tasklist

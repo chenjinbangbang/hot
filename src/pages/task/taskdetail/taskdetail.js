@@ -51,10 +51,15 @@ class TaskDetail extends React.Component {
         statusNum2: 2,
         statusNum3: 4
       },
-      taskInfo: {}, // 某个任务的数据
 
-      status_reasonVisible: true,  // 审核不通过的原因浮层的显示与隐藏
-      status_reason: [], // 审核不通过的原因
+      // 某个任务的数据
+      taskInfo: {
+        status_reason: [], // 审核不通过的原因
+        status_reason_imgs: [], // 审核不通过图片
+      },
+
+      status_reasonVisible: false,  // 审核不通过的原因浮层的显示与隐藏
+      status_reasonDetail: false, // 审核不通过的原因浮层，是否是详情
 
       // selectedRowKeys: [], // 表格选中项
       current: 1, // 当前页
@@ -134,6 +139,7 @@ class TaskDetail extends React.Component {
           render: (text, record) => <div className='tasklist-table1'>
             <p><span></span><span className={task_dict_class[text]}>{dict.task_dict[text]}</span></p>
             {
+              // 待审核时显示
               record.status === 2 &&
               <p className='danger'>
                 <span>审核倒计时：</span>
@@ -143,7 +149,11 @@ class TaskDetail extends React.Component {
                 </Tooltip>
               </p>
             }
-
+            {
+              // 审核不通过时显示
+              record.status === 4 &&
+              <p><Button className='status-btn' type='primary' size='small' onClick={this.showCheckStatus.bind(this, record, 1)}>审核详情</Button></p>
+            }
           </div >
         },
         {
@@ -163,7 +173,7 @@ class TaskDetail extends React.Component {
                 {
                   // 任务状态为审核不通过时不显示
                   record.status !== 4 &&
-                  <Button type="danger" size='small' style={{ marginLeft: 10 }} onClick={this.showCheckStatus.bind(this, record)}>不通过</Button>
+                  <Button type="danger" size='small' style={{ marginLeft: 10 }} onClick={this.showCheckStatus.bind(this, record, 0)}>不通过</Button>
                 }
               </React.Fragment>
             }
@@ -195,8 +205,11 @@ class TaskDetail extends React.Component {
         taskover_platform: 'sdusdu',
         taskover_qq: '905690338',
         takeover_time: '2019-12-22 22:22:10',
-        countdown_time: Math.round(Math.random() * 24) * 60 * 60 * 1000,
+        countdown_time: Math.round(Math.random() * 24) * 60 * 60,
         complete_time: '2019-12-22 22:22:10',
+
+        status_reason: [1],
+        status_reason_imgs: ['http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png'],
 
         status: Math.round(Math.random() * 4),
       })
@@ -204,12 +217,25 @@ class TaskDetail extends React.Component {
     this.setState({ data })
   }
 
+  // 任务审核不通过原因浮层的隐藏
+  hideCheckStatus = () => {
+    this.setState(state => ({
+      status_reasonVisible: false,
+    }), () => {
+      setTimeout(() => {
+        this.setState(state => ({
+          taskInfo: { ...state.taskInfo, status_reason: [], status_reason_imgs: [] }
+        }))
+      }, 500)
+    })
+  }
 
-  // 任务审核不通过原因浮层的显示
-  showCheckStatus(record) {
+  // 任务审核不通过原因浮层的显示（type：0：操作，1：详情）
+  showCheckStatus(record, type) {
     this.setState({
       taskInfo: record,
-      status_reasonVisible: true
+      status_reasonVisible: true,
+      status_reasonDetail: type === 1
     })
   }
 
@@ -221,13 +247,27 @@ class TaskDetail extends React.Component {
 
   // 任务审核不通过
   checkCancel = () => {
-    const { taskInfo, status_reason } = this.state
-    console.log(status_reason)
+    const { taskInfo, status_reasonDetail } = this.state
+    // console.log(taskInfo)
+
+    // 是详情时，则不操作
+    if (status_reasonDetail) {
+      // 任务审核不通过原因浮层的隐藏
+      this.hideCheckStatus()
+      return
+    }
+
     message.warning('审核不通过')
-    this.setState({
-      status_reasonVisible: false,
-      status_reason: [] // 审核不通过的原因初始化
-    })
+
+    // 任务审核不通过原因浮层的隐藏
+    this.hideCheckStatus()
+  }
+
+  // 审核不通过图片，支持多张图片
+  taskImageFileUpload = (src) => {
+    this.setState(state => ({
+      taskInfo: { ...state.taskInfo, status_reason_imgs: src }
+    }))
   }
 
   // 批量任务审核不通过原因浮层的显示
@@ -278,7 +318,7 @@ class TaskDetail extends React.Component {
   render() {
     const {
       detail,
-      status_reasonVisible, status_reason,
+      taskInfo, status_reasonVisible, status_reasonDetail,
       columns, data, current
     } = this.state
     const { getFieldDecorator } = this.props.form
@@ -288,28 +328,40 @@ class TaskDetail extends React.Component {
         <Title title='任务详情' />
 
         {/* 审核不通过时，填写审核不通过原因的浮层 */}
-        <Modal title='请填写审核不通过的原因' visible={status_reasonVisible} onCancel={() => { this.setState({ status_reasonVisible: false, status_reason: '' }) }} onOk={this.checkCancel}>
-          {/* <Input.TextArea value={status_reason} placeholder='最多输入50个字，如没有关注，没有收藏，没有转发等' autoSize={{ minRows: 6, maxRows: 6 }} maxLength={50} onChange={(e) => { this.setState({ status_reason: e.target.value }) }}></Input.TextArea> */}
-
-          {/* <Radio.Group value={status_reason} onChange={(e) => { this.setState({ status_reason: e.target.value }) }}>
+        <Modal className='modal-reason-style' width={550} title={`${status_reasonDetail ? '' : '请填写'}审核不通过的原因`} visible={status_reasonVisible} onCancel={this.hideCheckStatus} onOk={this.checkCancel}>
+          <div>{status_reasonDetail ? '' : '请选择'}审核不通过的原因：<span className='danger'>{status_reasonDetail ? '' : '（可多选）'}</span></div>
+          <Checkbox.Group value={taskInfo.status_reason} onChange={(checkedValue) => { !status_reasonDetail && this.setState(state => ({ taskInfo: { ...state.taskInfo, status_reason: checkedValue } })) }}>
             {
               Object.values(dict.task_status_reason_dict).map((item, index) => {
-                return <Radio style={{ marginTop: 20 }} value={index} key={index}>{item}</Radio>
+                // 平台类型为今日头条，则没有收藏选项
+                if (detail.platform_type === 0 && index === 2) {
+                  return null
+                } else {
+                  return <Checkbox value={index} key={index} disabled={status_reasonDetail && !taskInfo.status_reason.includes(index)}>{item}</Checkbox>
+                }
               })
             }
-          </Radio.Group> */}
+          </Checkbox.Group>
 
-          <Checkbox.Group options={Object.values(dict.task_status_reason_dict)} value={status_reason} onChange={(checkedValue) => { this.setState({ status_reason: checkedValue }) }}></Checkbox.Group>
+          <div className='modal-reason-label'>{status_reasonDetail ? '' : '请上传'}审核截图：<span className='danger'>{status_reasonDetail ? '' : '（最多上传3张图片）'}</span></div>
+          {
+            // 不是详情，或者图片数量大于0时显示
+            !status_reasonDetail || taskInfo.status_reason_imgs.length > 0 ?
+              <UploadImg isDetail={status_reasonDetail} img_src={taskInfo.status_reason_imgs} fileUpload={this.taskImageFileUpload.bind(this)} multiple={true} size={3}></UploadImg>
+              :
+              '无'
+          }
+
         </Modal>
 
         <div className='taskdetail-info'>
           <div className='taskdetail-info-left'>
             <div className='taskdetail-img'>
-              <p>截图示例1</p>
+              <p>任务截图1</p>
               <UploadImg isDetail={true} img_src={detail.task_img1 || userImg} ></UploadImg>
             </div>
             <div className='taskdetail-img'>
-              <p>截图示例2</p>
+              <p>任务截图2</p>
               <UploadImg isDetail={true} img_src={detail.task_img2 || userImg} ></UploadImg>
             </div>
           </div>
@@ -325,12 +377,14 @@ class TaskDetail extends React.Component {
               <li><p>任务发布时间：</p><p>{detail.create_time}</p></li>
               <li><p>任务发布数：</p><p><span className='danger'>{detail.task_num}</span>个</p></li>
               <li><p>任务要求：</p><p className='danger'>关注，点赞，{detail.platform_type === 0 && '收藏，'}评论</p></li>
-              <li><p>关注保留时间：</p><p>{dict.attention_time_dict[detail.attention_time]}</p></li>
+              <li style={{ width: '100%', lineHeight: '22px' }}>
+                <p>关注保留时间：</p>
+                <p>
+                  {dict.attention_time_dict[detail.attention_time]}
+                  <span className='danger'>（若刷手在该时间内取消关注，则可联系平台客服进行投诉，投诉成功即可返回{detail.attention_time + 1}金币赔偿，该赔偿由刷手承担。若存在恶意投诉行为，将冻结创作者账号一个月，并扣除10金币）</span>
+                </p>
+              </li>
               <li style={{ width: '100%', lineHeight: '22px' }}><p>任务备注：</p><p>{detail.remark}</p></li>
-              {/* <li><p>未开始：</p><p>{detail.statusNum0}个</p></li>
-              <li><p>进行中：</p><p>{detail.statusNum1}个</p></li>
-              <li><p>待审核：</p><p>{detail.statusNum2}个</p></li>
-              <li><p>审核通过：</p><p>{detail.statusNum3}个</p></li> */}
               <li className='taskdetail-status' style={{ width: '100%' }}>
                 <span>未开始：<span className='danger'>{detail.statusNum0}</span>个</span>
                 <span>进行中：<span className='danger'>{detail.statusNum1}</span>个</span>

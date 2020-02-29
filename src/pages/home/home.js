@@ -46,8 +46,11 @@ class Home extends React.Component {
             <Menu.Item key='/admin/platform'>账号管理</Menu.Item>
           </SubMenu>
           <SubMenu key='task' title={<span><Icon type="appstore" /><span>任务中心</span></span>}>
-            <Menu.Item key='/home'>任务列表</Menu.Item>
-            <Menu.Item key='/home/task/publish'>发布任务</Menu.Item>
+            <Menu.Item key='/home/user/task'>可接任务0</Menu.Item>
+            <Menu.Item key='/home/user/tasklist'>任务列表0</Menu.Item>
+
+            <Menu.Item key='/home'>任务列表1</Menu.Item>
+            <Menu.Item key='/home/task/publish'>发布任务1</Menu.Item>
           </SubMenu>
           <SubMenu key='wealth' title={<span><Icon type="property-safety" /><span>钱包中心</span></span>}>
             <Menu.Item key='/home/pay'>充值</Menu.Item>

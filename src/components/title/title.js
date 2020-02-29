@@ -6,7 +6,6 @@ class Title extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    // console.log(this.props)
   }
 
   render() {
@@ -17,4 +16,4 @@ class Title extends React.Component {
   }
 }
 
-export default Title;
+export default Title

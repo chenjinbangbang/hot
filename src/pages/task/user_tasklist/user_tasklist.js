@@ -1,14 +1,23 @@
 import React from 'react'
 import './index.scss'
 // import { Link } from 'react-router-dom'
-import { Form, Table, Select, DatePicker, Button, Modal, message } from 'antd'
+import { Form, Table, Select, Button, Modal, message, Input } from 'antd'
 import Title from '@/components/title/title'
 import dict from '@/util/dict'
 
 let { Option } = Select
-let { RangePicker } = DatePicker
 
-class Tasklist extends React.Component {
+// 任务状态的样式
+let task_dict_class = {
+  0: '',
+  1: 'danger',
+  2: 'warning',
+  3: 'success',
+  4: 'danger'
+}
+
+
+class UserTasklist extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,56 +40,47 @@ class Tasklist extends React.Component {
           render: text => <span>{text}</span>
         },
         {
+          title: '任务编号',
+          dataIndex: 'id',
+          key: 'id',
+          align: 'center',
+          render: text => <span>{text}</span>
+        },
+        {
           title: '任务信息',
           dataIndex: 'taskInfo',
           key: 'taskInfo',
           align: 'center',
           render: (text, record) => <div className='tasklist-table'>
-            <p>平台类型：{dict.platform_dict[record.platform_type]}</p>
-            <p>平台账号：{record.platform_name}</p>
-            <p>金币数：<span className='danger'>{record.gold}</span>金币</p>
-            {
-              record.cancel_status === 1 &&
-              <p className='danger'>任务已取消</p>
-            }
+            <p>发布方：{record.username}</p>
+            <p>活动平台：{dict.platform_dict[record.platform_type]}</p>
+            <p>发布平台账号：{record.platform_name}</p>
+            <p>佣金：<span className='danger'>{record.user_gold}</span>金币</p>
+            <p>发布时间：{record.create_time}</p>
           </div >
         },
         {
-          title: '任务状态',
+          title: '接手状态',
           dataIndex: 'status',
           key: 'status',
           align: 'center',
           render: (text, record) => <div className='tasklist-table'>
-            <p>任务数：<span className='danger'>{record.task_num}</span></p>
-            <p>
-              <span>未开始：<span className='danger'>{record.statusNum0}</span></span>
-              <span style={{ marginLeft: '10px' }}> 进行中：<span className='danger'>{record.statusNum1}</span></span>
-            </p >
-            <p>
-              <span>待审核：<span className='danger'>{record.statusNum2}</span></span>
-              <span style={{ marginLeft: '10px' }}> 审核通过：<span className='danger'>{record.statusNum3}</span></span >
-            </p >
-          </div >
-        },
-        {
-          title: '发布时间',
-          dataIndex: 'create_time',
-          key: 'create_time',
-          align: 'center',
-          render: text => <span>{text}</span>
+            <p>状态：<span className={task_dict_class[text]}>{dict.task_dict[text]}</span></p>
+            <p>接手平台账号：{record.taskover_platform}</p>
+            <p>接手时间：{record.takeover_time}</p>
+            {
+              record.status === 3 &&
+              <p className='success'>完成时间：{record.complete_time}</p>
+            }
+          </div>
         },
         {
           title: '操作',
           dataIndex: 'operation',
           key: 'operation',
           align: 'center',
-          render: (text, record) => <div style={{ textAlign: 'left' }}>
-            <Button type='primary' size='small' className='success-btn' onClick={() => { this.props.history.push({ pathname: '/home/task/detail', state: { task_id: record.task_id } }) }}>详情</Button>
-            {
-              // 未开始任务数为0时，并且是未取消状态时，隐藏取消任务按钮
-              (record.statusNum0 !== 0 && record.cancel_status === 0) &&
-              <Button type='danger' size='small' style={{ marginLeft: 10 }} onClick={this.cancelTask.bind(this, record.task_id, record.statusNum0)}>取消</Button>
-            }
+          render: (text, record) => <div>
+            <Button type='link' size='small' onClick={() => { this.props.history.push({ pathname: '/home/user/taskdetail', state: { id: record.id } }) }}>查看详情</Button>
           </div>
         }
       ],
@@ -98,18 +98,19 @@ class Tasklist extends React.Component {
       data.push({
         key: i,
         index: i,
-        task_id: 100000 + i,
+        id: 100000 + i,
+        username: '我的唯一',
         platform_type: Math.round(Math.random() * 3),
-        platform_id: Math.round(Math.random() * 1),
-        platform_name: 'sudsdus',
-        gold: 100,
-        cancel_status: Math.round(Math.random() * 1),
-        task_num: 10,
-        statusNum0: 4,
-        statusNum1: 2,
-        statusNum2: 2,
-        statusNum3: 2,
+        platform_id: 100000 + i,
+        platform_name: '我的唯一',
+        user_gold: 0.5,
         create_time: '2019-12-22 22:22:10',
+
+        taskover_user_id: 100000 + i,
+        taskover_platform: 'sdusdu',
+        takeover_time: '2019-12-22 22:22:10',
+        complete_time: '2019-12-22 22:22:10',
+        status: Math.round(Math.random() * 4),
       })
     }
     this.setState({ data })
@@ -141,11 +142,29 @@ class Tasklist extends React.Component {
     const { platform_info, columns, data, current } = this.state
     const { getFieldDecorator } = this.props.form
     return (
-      <div className='tasklist'>
+      <div className='user-tasklist'>
         <Title title='任务列表' />
 
         {/* 搜索 */}
         <Form layout='inline' onSubmit={this.handleSubmit}>
+          <Form.Item label='发布方'>
+            {
+              getFieldDecorator('username', {
+                initialValue: ''
+              })(
+                <Input />
+              )
+            }
+          </Form.Item>
+          <Form.Item label='发布平台账号'>
+            {
+              getFieldDecorator('platform_name', {
+                initialValue: ''
+              })(
+                <Input />
+              )
+            }
+          </Form.Item>
           <Form.Item label='平台类型'>
             {
               getFieldDecorator('platform_type', {
@@ -178,12 +197,19 @@ class Tasklist extends React.Component {
               )
             }
           </Form.Item>
-          <Form.Item label='发布时间'>
+          <Form.Item label='任务状态'>
             {
-              getFieldDecorator('create_time', {
-                // initialValue: [moment('2015/01/01', 'YYYY/MM/DD'), moment('2015/01/02', 'YYYY/MM/DD')]
+              getFieldDecorator('status', {
+                initialValue: ''
               })(
-                <RangePicker format='YYYY/MM/DD'></RangePicker>
+                <Select style={{ width: 150 }}>
+                  <Option value=''>全部</Option>
+                  {
+                    Object.values(dict.task_dict).map((item, index) => {
+                      return <Option value={index} key={index}>{item}</Option>
+                    })
+                  }
+                </Select>
               )
             }
           </Form.Item>
@@ -199,6 +225,6 @@ class Tasklist extends React.Component {
   }
 }
 
-const TasklistForm = Form.create({})(Tasklist)
+const UserTasklistForm = Form.create({})(UserTasklist)
 
-export default TasklistForm;
+export default UserTasklistForm;

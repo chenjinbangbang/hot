@@ -234,11 +234,11 @@ class Bank extends React.Component {
         <Title title='银行卡管理' />
 
         {/* 审核不通过时，选择审核不通过原因的浮层 */}
-        <Modal title='请选择审核不通过的原因' visible={reasonVisible} onCancel={() => { this.setState({ reasonVisible: false, reason: 0 }) }} onOk={this.checkCancel} width={400}>
+        <Modal className='modal-reason-style' title='请选择审核不通过的原因' visible={reasonVisible} onCancel={() => { this.setState({ reasonVisible: false, reason: 0 }) }} onOk={this.checkCancel} width={400}>
           <Radio.Group value={reason} onChange={(e) => { this.setState({ reason: e.target.value }) }}>
             {
               Object.values(dict.bank_reason_dict).map((item, index) => {
-                return <Radio style={{ display: 'block', marginTop: 20 }} value={index} key={index}>{item}</Radio>
+                return <Radio value={index} key={index}>{item}</Radio>
               })
             }
           </Radio.Group>

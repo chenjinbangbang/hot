@@ -18,7 +18,7 @@ code {
   color: $theme;
 }
 
-.font-color {
+.fontColor {
   color: $fontColor;
 }
 
@@ -26,7 +26,7 @@ code {
   color: $gray;
 }
 
-.font-color1 {
+.fontColor1 {
   color: $fontColor1;
 }
 
@@ -132,6 +132,33 @@ code {
 .ant-modal-root {
   .ant-modal-title {
     text-align: center;
+  }
+
+  // 审核不通过原因等浮层
+  .modal-reason-style {
+    .modal-reason-label {
+      margin: 40px 0 20px 0;
+    }
+    .ant-radio-group {
+      .ant-radio-wrapper {
+        display: block;
+        margin-top: 20px;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+    .ant-checkbox-group {
+      .ant-checkbox-wrapper {
+        // display: block;
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 10px;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
   }
 
   // 发布任务的

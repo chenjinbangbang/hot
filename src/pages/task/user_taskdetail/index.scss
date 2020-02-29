@@ -1,0 +1,73 @@
+.user-taskdetail {
+  .user-taskdetail-step {
+    margin: 60px;
+  }
+
+  .taskdetail-info {
+    margin-top: 20px;
+    display: flex;
+    .taskdetail-info-left {
+      margin: 0 40px;
+      .taskdetail-img {
+        text-align: center;
+        &:nth-child(2) {
+          margin-top: 20px;
+        }
+        p {
+          margin-bottom: 10px;
+        }
+        .upload-img-file {
+          width: 220px;
+          height: 220px;
+        }
+      }
+    }
+
+    .taskdetail-info-right {
+      .taskdetail-cancel {
+        color: $gray;
+        display: flex;
+        // justify-content: center;
+        margin-top: 30px;
+        .danger {
+          font-size: 20px;
+        }
+        // p {
+        //   &:nth-child(3) {
+        //     font-size: 14px;
+        //     color: $fontColor1;
+        //     margin-top: auto;
+        //   }
+        // }
+      }
+      ul {
+        // display: flex;
+        // flex-wrap: wrap;
+        li {
+          // width: 50%;
+          display: flex;
+          margin-top: 30px;
+          align-items: center;
+          &.taskdetail-status {
+            > span {
+              margin-right: 20px;
+            }
+          }
+          .ant-input {
+            width: 200px;
+          }
+          p {
+            &:nth-child(1) {
+              // width: 120px;
+            }
+            &:nth-child(2) {
+              // line-height: 20px;
+              flex: 1;
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

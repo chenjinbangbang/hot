@@ -183,7 +183,6 @@ class Taskpublish extends React.Component {
         task_img2: src
       })
     }
-
   }
 
   // 发布任务数校验
@@ -553,7 +552,7 @@ class Taskpublish extends React.Component {
 
             <span className='taskpublish-gold' style={{ marginLeft: '0' }}><span className='gold'>{form.getFieldValue('attention_time') * 10 * 0.1 / 10}金币</span></span>
             <br />
-            <span className='font-color1'>关注必须保留3个月，创作者可在3个月内随机抽查刷手是否取消关注。若3个月内查不到该刷手，则扣除用户0.2金币给创作者，并记录一次违规。若选择了其他时间，刷手在该时间内取消关注，则在扣除0.2金币的基础上再扣除对应的金币，如半年扣除0.3金币，1年扣除0.4金币，以此内推，并记录一次违规</span>
+            <span className='fontColor1'>关注必须保留3个月，创作者可在3个月内随机抽查刷手是否取消关注。若3个月内查不到该刷手，则扣除1金币给创作者，并记录一次违规。若选择了其他时间，刷手在该时间内取消关注，则在扣除n+1个金币，如半年扣除2金币，1年扣除3金币，2年扣除4金币，3年扣除5金币，并记录一次违规</span>
           </Form.Item>
           <Form.Item label='是否点赞' required>
             {
