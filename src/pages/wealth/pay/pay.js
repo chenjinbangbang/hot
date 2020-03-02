@@ -125,7 +125,9 @@ class Pay extends React.Component {
             // 支付宝充值
             pay_type === 0 &&
             <div className='pay-content-home'>
-              <img src={payImg} alt='' />
+              <div>
+                <img src={payImg} alt='' />
+              </div>
               <div className='pay-detail'>
                 <p>1. 扫描图中支付宝二维码</p>
                 <p>2. 输入充值金额</p>

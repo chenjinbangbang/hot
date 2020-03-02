@@ -1,4 +1,21 @@
 .user-tasklist {
+  .tasklist-stat {
+    @extend .bgFrame;
+    margin-top: 20px;
+    p {
+      margin-top: 20px;
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+      &:nth-child(2) {
+        .danger {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   .tasklist-table {
     p {
       margin-top: 6px;

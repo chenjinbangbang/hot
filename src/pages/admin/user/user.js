@@ -82,6 +82,13 @@ class User extends React.Component {
           render: text => <span>{text}</span>
         },
         {
+          title: '推广数',
+          dataIndex: 'referrer_num',
+          key: 'referrer_num',
+          align: 'center',
+          render: text => <span>{text}</span>
+        },
+        {
           title: 'E-mail',
           dataIndex: 'email',
           key: 'email',
@@ -238,6 +245,7 @@ class User extends React.Component {
         role: Math.round(Math.random() * 2),
         head_thumb: '',
         referrer_username: '我的唯一',
+        referrer_num: Math.round(Math.random() * 1000),
         email: '905690338@qq.com',
         qq: '905690338',
         mobile: '13570648992',
@@ -537,7 +545,7 @@ class User extends React.Component {
         </Form>
 
         {/* 列表 */}
-        <Table columns={columns} loading={tableLoading} size='middle' scroll={{ x: true }} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
+        <Table columns={columns} loading={tableLoading} scroll={{ x: true }} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
       </div >
     )
   }

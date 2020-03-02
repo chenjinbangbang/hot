@@ -49,7 +49,10 @@ class TaskDetail extends React.Component {
         statusNum0: 2,
         statusNum1: 2,
         statusNum2: 2,
-        statusNum3: 4
+        statusNum3: 4,
+        statusNum4: 4,
+        statusNum5: 4,
+        statusNum6: 4,
       },
 
       // 某个任务的数据
@@ -295,6 +298,13 @@ class TaskDetail extends React.Component {
   //   })
   // }
 
+  // 根据任务状态搜索
+  searchStatus(status) {
+    // 设置一组输入控件的值
+    this.props.form.setFieldsValue({ status })
+  }
+
+
   // 提交表单 - 点击搜索
   handleSubmit = e => {
     e.preventDefault();
@@ -386,10 +396,13 @@ class TaskDetail extends React.Component {
               </li>
               <li style={{ width: '100%', lineHeight: '22px' }}><p>任务备注：</p><p>{detail.remark}</p></li>
               <li className='taskdetail-status' style={{ width: '100%' }}>
-                <span>未开始：<span className='danger'>{detail.statusNum0}</span>个</span>
-                <span>进行中：<span className='danger'>{detail.statusNum1}</span>个</span>
-                <span>待审核：<span className='danger'>{detail.statusNum2}</span>个</span>
-                <span>审核通过：<span className='danger'>{detail.statusNum3}</span>个</span >
+                <span>未开始：<span className='danger' onClick={this.searchStatus.bind(this, 0)}>{detail.statusNum0}</span>个</span>
+                <span>进行中：<span className='danger' onClick={this.searchStatus.bind(this, 1)}>{detail.statusNum1}</span>个</span>
+                <span>待审核：<span className='danger' onClick={this.searchStatus.bind(this, 2)}>{detail.statusNum2}</span>个</span>
+                <span>审核通过：<span className='danger' onClick={this.searchStatus.bind(this, 3)}>{detail.statusNum3}</span>个</span>
+                <span>审核不通过：<span className='danger' onClick={this.searchStatus.bind(this, 4)}>{detail.statusNum4}</span>个</span>
+                <span>违规：<span className='danger' onClick={this.searchStatus.bind(this, 5)}>{detail.statusNum5}</span>个</span>
+                <span>已取消：<span className='danger' onClick={this.searchStatus.bind(this, 6)}>{detail.statusNum6}</span>个</span>
               </li >
             </ul >
           </div >

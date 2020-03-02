@@ -31,6 +31,10 @@
           &.taskdetail-status {
             > span {
               margin-right: 20px;
+              .danger {
+                text-decoration: underline;
+                cursor: pointer;
+              }
             }
           }
           p {

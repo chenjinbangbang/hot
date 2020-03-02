@@ -302,7 +302,7 @@ class Bank extends React.Component {
         </Form>
 
         {/* 列表 */}
-        <Table columns={columns} loading={tableLoading} size='middle' scroll={{ x: true }} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
+        <Table columns={columns} loading={tableLoading} scroll={{ x: true }} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
       </div>
     )
   }

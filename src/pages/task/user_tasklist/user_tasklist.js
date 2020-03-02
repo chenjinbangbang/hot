@@ -116,10 +116,24 @@ class UserTasklist extends React.Component {
     this.setState({ data })
   }
 
+  // 根据任务状态搜索
+  searchStatus(status) {
+    // 设置一组输入控件的值
+    this.props.form.setFieldsValue({ status })
+
+    // 设置一组输入控件的值与错误状态
+    // this.props.form.setFields({
+    //   status: {
+    //     value: status,
+    //     errors: [new Error('xxx')]
+    //   }
+    // })
+  }
+
   // 提交表单 - 点击搜索
   handleSubmit = e => {
     e.preventDefault()
-    // console.log(this.props.form)
+    console.log(this.props.form.getFieldsValue())
   }
 
   // 取消任务
@@ -144,6 +158,17 @@ class UserTasklist extends React.Component {
     return (
       <div className='user-tasklist'>
         <Title title='任务列表' />
+
+        <div className='tasklist-stat'>
+          <p>已接任务数：<span className='danger'>20</span>个，赚取金币数：<span className='danger link'>200</span>金币</p>
+          <p>
+            进行中：<span className='danger' onClick={this.searchStatus.bind(this, 1)}>4</span>个，
+            待审核：<span className='danger' onClick={this.searchStatus.bind(this, 2)}>4</span>个，
+            审核通过：<span className='danger' onClick={this.searchStatus.bind(this, 3)}>4</span>个，
+            审核不通过：<span className='danger' onClick={this.searchStatus.bind(this, 4)}>4</span>个，
+            违规：<span className='danger' onClick={this.searchStatus.bind(this, 5)}>4</span>个
+            </p>
+        </div>
 
         {/* 搜索 */}
         <Form layout='inline' onSubmit={this.handleSubmit}>
@@ -183,7 +208,7 @@ class UserTasklist extends React.Component {
           </Form.Item>
           <Form.Item label='平台账号'>
             {
-              getFieldDecorator('platform_id', {
+              getFieldDecorator('takeover_platform_id', {
                 initialValue: ''
               })(
                 <Select style={{ width: 150 }}>
@@ -206,7 +231,12 @@ class UserTasklist extends React.Component {
                   <Option value=''>全部</Option>
                   {
                     Object.values(dict.task_dict).map((item, index) => {
-                      return <Option value={index} key={index}>{item}</Option>
+                      return (
+                        (index !== 0 && index !== 6) ?
+                          <Option value={index} key={index}>{item}</Option>
+                          :
+                          null
+                      )
                     })
                   }
                 </Select>
@@ -225,6 +255,14 @@ class UserTasklist extends React.Component {
   }
 }
 
-const UserTasklistForm = Form.create({})(UserTasklist)
+const UserTasklistForm = Form.create({
+  // mapPropsToFields: (props) => {
+  //   console.log(props)
+  // },
+  // name: 'xxx',
+  // onFieldsChange: (props, changedFields, allFields) => {
+  //   console.log(props, changedFields, allFields)
+  // }
+})(UserTasklist)
 
 export default UserTasklistForm;

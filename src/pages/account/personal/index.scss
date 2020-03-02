@@ -1,10 +1,7 @@
 .personal {
   .personal-home {
     margin: 20px;
-    padding: 20px;
-    border: 1px solid $theme;
-    border-radius: 10px;
-    background-color: rgba(248, 78, 78, 0.02);
+    @extend .bgFrame;
     .personal-title {
       height: 40px;
       font-size: 16px;

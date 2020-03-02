@@ -27,8 +27,8 @@ class CountDown extends React.Component {
           countdownTime = `${this.zeroFn(hour)}小时${this.zeroFn(minute)}分${this.zeroFn(second)}秒`
         } else {
           countdownTime = this.zeroFn(time)
-          this.props.onChange(time)
         }
+        this.props.onChange(time)
 
         this.setState({ countdownTime })
       } else {
@@ -57,7 +57,7 @@ class CountDown extends React.Component {
   render() {
     const { countdownTime } = this.state
     return (
-      <span className='countdown'>{countdownTime}</span>
+      <span className='countdown'>{countdownTime || '--'}</span>
     )
   }
 }

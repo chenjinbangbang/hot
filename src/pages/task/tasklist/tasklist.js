@@ -40,8 +40,11 @@ class Tasklist extends React.Component {
             <p>平台账号：{record.platform_name}</p>
             <p>金币数：<span className='danger'>{record.gold}</span>金币</p>
             {
-              record.cancel_status === 1 &&
-              <p className='danger'>任务已取消</p>
+              record.status === 5 &&
+              <p>
+                <span className='danger'>任务已取消</span>
+                <span style={{ marginLeft: '10px' }}>已取消：<span className='danger'>{record.statusNum5}</span></span>
+              </p>
             }
           </div >
         },
@@ -59,8 +62,11 @@ class Tasklist extends React.Component {
             <p>
               <span>待审核：<span className='danger'>{record.statusNum2}</span></span>
               <span style={{ marginLeft: '10px' }}> 审核通过：<span className='danger'>{record.statusNum3}</span></span >
-            </p >
-          </div >
+            </p>
+            <p>
+              <span>审核不通过：<span className='danger'>{record.statusNum4}</span></span>
+            </p>
+          </div>
         },
         {
           title: '发布时间',
@@ -78,7 +84,7 @@ class Tasklist extends React.Component {
             <Button type='primary' size='small' className='success-btn' onClick={() => { this.props.history.push({ pathname: '/home/task/detail', state: { task_id: record.task_id } }) }}>详情</Button>
             {
               // 未开始任务数为0时，并且是未取消状态时，隐藏取消任务按钮
-              (record.statusNum0 !== 0 && record.cancel_status === 0) &&
+              (record.statusNum0 !== 0 && record.status !== 5) &&
               <Button type='danger' size='small' style={{ marginLeft: 10 }} onClick={this.cancelTask.bind(this, record.task_id, record.statusNum0)}>取消</Button>
             }
           </div>
@@ -103,22 +109,30 @@ class Tasklist extends React.Component {
         platform_id: Math.round(Math.random() * 1),
         platform_name: 'sudsdus',
         gold: 100,
-        cancel_status: Math.round(Math.random() * 1),
+        status: Math.round(Math.random() * 5),
         task_num: 10,
         statusNum0: 4,
         statusNum1: 2,
         statusNum2: 2,
         statusNum3: 2,
+        statusNum4: 2,
+        statusNum5: 10,
         create_time: '2019-12-22 22:22:10',
       })
     }
     this.setState({ data })
   }
 
+  // 根据任务状态搜索
+  searchStatus(status) {
+    // 设置一组输入控件的值
+    this.props.form.setFieldsValue({ status })
+  }
+
   // 提交表单 - 点击搜索
   handleSubmit = e => {
     e.preventDefault()
-    // console.log(this.props.form)
+    console.log(this.props.form.getFieldsValue())
   }
 
   // 取消任务
@@ -143,6 +157,19 @@ class Tasklist extends React.Component {
     return (
       <div className='tasklist'>
         <Title title='任务列表' />
+
+        <div className='tasklist-stat'>
+          <p>发布任务数：<span className='danger'>20</span>个，发布金币数：<span className='danger'>200</span>金币</p>
+          <p>
+            未开始：<span className='danger' onClick={this.searchStatus.bind(this, 0)}>4</span>个，
+            进行中：<span className='danger' onClick={this.searchStatus.bind(this, 1)}>4</span>个，
+            待审核：<span className='danger' onClick={this.searchStatus.bind(this, 2)}>4</span>个，
+            审核通过：<span className='danger' onClick={this.searchStatus.bind(this, 3)}>4</span>个，
+            审核不通过：<span className='danger' onClick={this.searchStatus.bind(this, 4)}>4</span>个，
+            违规：<span className='danger' onClick={this.searchStatus.bind(this, 5)}>10</span>个，
+            已取消：<span className='danger' onClick={this.searchStatus.bind(this, 6)}>10</span>个
+            </p>
+        </div>
 
         {/* 搜索 */}
         <Form layout='inline' onSubmit={this.handleSubmit}>
@@ -187,10 +214,28 @@ class Tasklist extends React.Component {
               )
             }
           </Form.Item>
+          <Form.Item label='任务状态'>
+            {
+              getFieldDecorator('status', {
+                initialValue: ''
+              })(
+                <Select style={{ width: 150 }}>
+                  <Option value=''>全部</Option>
+                  {
+                    Object.values(dict.task_dict).map((item, index) => {
+                      return <Option value={index} key={index}>{item}</Option>
+                    })
+                  }
+                </Select>
+              )
+            }
+          </Form.Item>
           <Form.Item>
             <Button type='primary' htmlType='submit'>搜索</Button>
           </Form.Item>
         </Form>
+
+
 
         <Table columns={columns} dataSource={data} pagination={{ current, showQuickJumper: true, onChange: this.changePage }}></Table>
 
