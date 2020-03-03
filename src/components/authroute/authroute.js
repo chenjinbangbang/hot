@@ -22,8 +22,8 @@ class AuthRoute extends React.Component {
     const publicList = ['/login', '/register']
     const pathname = this.props.location.pathname
     // console.log(pathname)
-    console.log('登录')
-    console.log(this.props)
+    // console.log('登录')
+    // console.log(this.props)
 
     // 判断是否登录，已登录时：若是登录页面，则跳转到首页，否则不跳转。未登录时：除了登录注册页面，其他页面都需要跳转到登录页面
     if (this.props.username) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import qs from 'qs'
 import './index.scss'
 // import { Link } from 'react-router-dom'
 import { request } from '@/util/api'
@@ -21,6 +22,7 @@ class Register extends React.Component {
       //   password: ''
       // },
       loading: false, // 登录按钮加载
+      referrer_user_id: '' // 师傅的user_id
     }
     // console.log(this.props.form)
   }
@@ -36,6 +38,17 @@ class Register extends React.Component {
 
   UNSAFE_componentWillMount() {
     // this.checkUsername()
+    console.log(this.props)
+
+    let search = this.props.location.search
+    if (search) {
+      console.log(qs.parse(search.replace('?', '')))
+      let uid = qs.parse(search.replace('?', '')).uid
+      this.setState({
+        referrer_user_id: uid
+      })
+    }
+
   }
 
   // 用户名校验
@@ -177,7 +190,7 @@ class Register extends React.Component {
     // console.log(this.state)
     // 经过getFieldDecorator包装的控件，表单控件会自动添加value（或valuePropName指定的其他属性）onChange（或trigger指定的其他属性），数据同步将被Form接管
     const { getFieldDecorator } = this.props.form
-    const { loading } = this.state
+    const { loading, referrer_user_id } = this.state
     return (
       <div className='login'>
 
@@ -185,7 +198,7 @@ class Register extends React.Component {
 
         <Form onSubmit={this.handleSubmit} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} className='login-form'>
           <Form.Item label='推荐人'>
-            <p className='theme'>我的唯一</p>
+            <p className='theme'>{referrer_user_id || '无'}</p>
           </Form.Item>
           <Form.Item label='用户名' hasFeedback>
             {

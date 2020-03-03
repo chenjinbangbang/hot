@@ -186,9 +186,9 @@ class Referrer extends React.Component {
 
         <div className='referrer-note'>
           <p>
-            分享链接：<span className='theme'>http://www.redu.com/register?uid=100000</span>
+            分享链接：<span className='theme'>http://localhost:3000/register?uid=100000</span>
             <span id='clip' className='clip' onClick={this.clipboard}>复制</span>
-            <input ref="clip" defaultValue='http://www.redu.com/register?uid=100000' style={{ position: 'fixed', top: '-1000px' }} />
+            <input ref="clip" defaultValue='http://localhost:3000/register?uid=100000' style={{ position: 'fixed', top: '-1000px' }} />
           </p>
           <p>推荐人：<span className='theme'>陈进帮</span></p>
           <p className='theme' style={{ fontWeight: 'bold' }}>分享奖励规则：</p>
