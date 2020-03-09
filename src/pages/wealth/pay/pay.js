@@ -95,7 +95,7 @@ class Pay extends React.Component {
         account: '陈进帮',
         deal_num: '152456456746454878',
         time: '2019-10-10 10:20:20',
-         : Math.round(Math.random() * 2),
+        status: Math.round(Math.random() * 2),
         wealth: 200
       })
     }
