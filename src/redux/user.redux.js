@@ -3,7 +3,6 @@ import { message } from 'antd'
 
 const AUTH_SUCCESS = 'AUTH_SUCCESS' // 登录，注册成功
 const LOGOUT = 'LOGOUT' // 退出登录
-// const LOAD_DATA = 'LOAD_DATA' // 重新获取用户信息
 const ERROR_MSG = 'ERROR_MSG' // 处理错误
 
 const initState = {
@@ -26,11 +25,6 @@ export function user(state = initState, action) {
         ...initState,
         redirectTo: '/login'
       }
-    // case LOAD_DATA:
-    //   return {
-    //     ...state,
-    //     username: action.username
-    //   }
     case ERROR_MSG:
       return {
         ...state,
@@ -40,22 +34,7 @@ export function user(state = initState, action) {
     default:
       return state
   }
-
 }
-
-// 登录，注册成功
-// function authSuccess(data) {
-//   return { type: AUTH_SUCCESS, payload: data }
-// }
-
-// export function loadData(data) {
-//   return {}
-// }
-
-// function errorMsg(msg) {
-//   return {  }
-// }
-
 
 
 // 登录
@@ -81,7 +60,6 @@ export function register({ username, password }) {
 }
 // 退出登录
 export function logout(val) {
-
   return dispatch => {
     setTimeout(() => {
       localStorage.clear()
@@ -90,7 +68,6 @@ export function logout(val) {
           dispatch({ type: LOGOUT })
         }
       })
-
     })
   }
 }

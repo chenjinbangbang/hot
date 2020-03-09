@@ -4,7 +4,7 @@ import './index.scss'
 // import { Link } from 'react-router-dom'
 import { request } from '@/util/api'
 
-import { Form, Input, Button, message } from 'antd'
+import { Form, Input, Button, message, Radio, Tooltip, Icon } from 'antd'
 
 import { connect } from 'react-redux'
 import { register } from '@/redux/user.redux'
@@ -194,11 +194,26 @@ class Register extends React.Component {
     return (
       <div className='login'>
 
-        <div className='login-title'>创作者注册</div>
+        <div className='login-title'>用户注册</div>
 
         <Form onSubmit={this.handleSubmit} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }} className='login-form'>
           <Form.Item label='推荐人'>
             <p className='theme'>{referrer_user_id || '无'}</p>
+          </Form.Item>
+          <Form.Item label='选择角色' required>
+            {
+              getFieldDecorator('role', {
+                initialValue: 0,
+              })(
+                <Radio.Group buttonStyle='solid'>
+                  <Radio.Button value={0}>刷手</Radio.Button>
+                  <Radio.Button value={1}>创作者</Radio.Button>
+                </Radio.Group>
+              )
+            }
+            <Tooltip placement='top' title='刷手可接任务赚佣金，创作者可发布任务增加粉丝，角色选择后不可更改，请谨慎选择'>
+              <Icon className='question-circle' type="question-circle" />
+            </Tooltip>
           </Form.Item>
           <Form.Item label='用户名' hasFeedback>
             {

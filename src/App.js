@@ -11,7 +11,7 @@ import './App.scss'
 // import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
 import { logout } from '@/redux/user.redux'
-import AuthRoute from '@/components/authroute/authroute'
+import CheckLogin from '@/components/checkLogin/checkLogin'
 
 import { BrowserRouter as Router, Switch, Link, NavLink, Route } from 'react-router-dom'
 import { message, Menu, Dropdown, Icon } from 'antd'
@@ -221,7 +221,7 @@ class App extends React.Component {
             <Redirect to='/home' />
           } */}
 
-          <AuthRoute />
+          <CheckLogin />
 
           <header className="header">
             <div className="header-contain">

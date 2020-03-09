@@ -11,7 +11,7 @@ import { message } from 'antd'
   state => state.user,
   {}
 )
-class AuthRoute extends React.Component {
+class checkLogin extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -20,10 +20,11 @@ class AuthRoute extends React.Component {
 
   componentDidMount() {
     const publicList = ['/login', '/register']
+    // console.log(this.props)
     const pathname = this.props.location.pathname
     // console.log(pathname)
     // console.log('登录')
-    // console.log(this.props)
+    // console.log(this.props) 
 
     // 判断是否登录，已登录时：若是登录页面，则跳转到首页，否则不跳转。未登录时：除了登录注册页面，其他页面都需要跳转到登录页面
     if (this.props.username) {
@@ -45,13 +46,13 @@ class AuthRoute extends React.Component {
 
   render() {
     // const { pathname } = this.props.location
+    // return null
     return (
       <React.Fragment>
-        {/* 当redirectTo变化时，就会执行 */}
         {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null}
       </React.Fragment>
     )
   }
 }
 
-export default withRouter(AuthRoute)
+export default withRouter(checkLogin)

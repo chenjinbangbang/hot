@@ -5,8 +5,17 @@ import './index.scss'
 // import { Link } from 'react-router-dom'
 import { Button, Table } from 'antd'
 import Title from '@/components/title/title'
+import dict from '@/util/dict'
 
 import payImg from '@/assets/imgs/pay.jpg'
+
+// 充值状态的样式
+let pay_status_dict_class = {
+  0: 'warning',
+  1: 'danger',
+  2: 'success'
+}
+
 
 class Pay extends React.Component {
   constructor(props) {
@@ -60,7 +69,7 @@ class Pay extends React.Component {
           dataIndex: 'status',
           key: 'status',
           align: 'center',
-          render: text => <span className={text === 1 ? 'success' : 'danger'} > {text === 0 ? '已充值，未到账' : '充值成功'}</span >
+          render: text => <span className={pay_status_dict_class[text]} >{dict.pay_status_dict[text]}</span>
         },
         {
           title: '充值金额',
@@ -82,11 +91,11 @@ class Pay extends React.Component {
       data.push({
         key: i,
         index: i,
-        pay_type: 0,
+        pay_type: Math.round(Math.random() * 1),
         account: '陈进帮',
         deal_num: '152456456746454878',
         time: '2019-10-10 10:20:20',
-        status: 0,
+         : Math.round(Math.random() * 2),
         wealth: 200
       })
     }

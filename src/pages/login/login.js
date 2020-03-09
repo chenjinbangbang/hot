@@ -6,9 +6,11 @@ import { Form, Input, Button, message, Modal } from 'antd'
 
 import { connect } from 'react-redux'
 import { login } from '@/redux/user.redux'
+// import { addGun, removeGun, addGunAsync } from '@/redux/index.redux'
 
 @connect(
   state => state.user,
+  // { login, addGun, removeGun, addGunAsync }
   { login }
 )
 class Login extends React.Component {
@@ -21,7 +23,7 @@ class Login extends React.Component {
       // },
       loading: false // 登录按钮加载
     }
-    console.log('login：', this.props)
+    // console.log('login：', this.props)
   }
 
   // 表单数据的双向绑定
@@ -86,7 +88,12 @@ class Login extends React.Component {
 
         {/* {this.props.redirectTo ? <Redirect to={this.props.redirectTo} /> : null} */}
 
-        <div className='login-title'>登录</div>
+        {/* <div>现在有机关枪：{this.props.counter}</div>
+        <Button onClick={this.props.addGun}>申请武器</Button>
+        <Button onClick={this.props.removeGun}>上交武器</Button>
+        <Button onClick={this.props.addGunAsync}>拖两天再给</Button> */}
+
+        <div className='login-title'>用户登录</div>
 
         <Form onSubmit={this.handleSubmit} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} className='login-form'>
           <Form.Item label='用户名' hasFeedback>
