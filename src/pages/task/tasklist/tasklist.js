@@ -40,7 +40,8 @@ class Tasklist extends React.Component {
             <p>平台账号：{record.platform_name}</p>
             <p>金币数：<span className='danger'>{record.gold}</span>金币</p>
             {
-              record.status === 5 &&
+              // 当取消任务数大于0时，则说明该父任务已取消，
+              record.statusNum5 > 0 &&
               <p>
                 <span className='danger'>任务已取消</span>
                 <span style={{ marginLeft: '10px' }}>已取消：<span className='danger'>{record.statusNum5}</span></span>
@@ -83,8 +84,8 @@ class Tasklist extends React.Component {
           render: (text, record) => <div style={{ textAlign: 'left' }}>
             <Button type='primary' size='small' className='success-btn' onClick={() => { this.props.history.push({ pathname: '/home/task/detail', state: { task_id: record.task_id } }) }}>详情</Button>
             {
-              // 未开始任务数为0时，并且是未取消状态时，隐藏取消任务按钮
-              (record.statusNum0 !== 0 && record.status !== 5) &&
+              // 未开始任务数大于0，则显示取消任务按钮
+              record.statusNum0 > 0 &&
               <Button type='danger' size='small' style={{ marginLeft: 10 }} onClick={this.cancelTask.bind(this, record.task_id, record.statusNum0)}>取消</Button>
             }
           </div>
@@ -109,7 +110,6 @@ class Tasklist extends React.Component {
         platform_id: Math.round(Math.random() * 1),
         platform_name: 'sudsdus',
         gold: 100,
-        status: Math.round(Math.random() * 5),
         task_num: 10,
         statusNum0: 4,
         statusNum1: 2,
@@ -117,6 +117,7 @@ class Tasklist extends React.Component {
         statusNum3: 2,
         statusNum4: 2,
         statusNum5: 10,
+        statusNum6: 0,
         create_time: '2019-12-22 22:22:10',
       })
     }
