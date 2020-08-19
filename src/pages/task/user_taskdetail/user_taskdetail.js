@@ -19,6 +19,9 @@ let task_dict_class = {
   4: 'danger'
 }
 
+// 任务审核倒计时
+let countdown_time = 24 * 60 * 60
+
 class UserTaskList extends React.Component {
   constructor(props) {
     super(props)
@@ -26,12 +29,13 @@ class UserTaskList extends React.Component {
       // currentStep: 0, // 步骤条索引
       platformVal: '', // 发布平台账号
       checkPlatformVal: false, // 验证发布平台账号是否通过
+      preview_countdown_time: 60, // 任务预览倒计时
       // 任务详情
       detail: {
         id: 100000 + 1,
         // status: Math.round(Math.random() * 3 + 1),
-        status: 5,
-        countdown_time: 24 * 60 * 60,
+        status: 1,
+        // countdown_time: 24 * 60 * 60,
         status_reason: [1, 3, 4],
         status_reason_imgs: ['http://www.ixiupet.com/uploads/allimg/190110/278-1Z110162K1R2.png'],
 
@@ -49,7 +53,7 @@ class UserTaskList extends React.Component {
         complete_countdown_time: Math.round(Math.random() * 5),
         remark: '你一定要预览够时间哦，你一定要预览够时间哦，你一定要预览够时间哦，你一定要预览够时间哦，你一定要预览够时间哦',
         attention_time: Math.round(Math.random() * 4),
-        preview_countdown_time: 60,
+        // preview_countdown_time: 60,
         comment_content: '我知道你一定会评论的是吧',
         transpond: Math.round(Math.random()),
         transpond_type: Math.round(Math.random() * 4),
@@ -126,13 +130,13 @@ class UserTaskList extends React.Component {
   }
 
   render() {
-    const { platformVal, checkPlatformVal, detail } = this.state
+    const { platformVal, checkPlatformVal, preview_countdown_time, detail } = this.state
     return (
       <div className='user-taskdetail'>
         <Title title='任务详情' />
 
         <div className='user-taskdetail-step'>
-          <Steps current={detail.status - 1}>
+          <Steps current={detail.status !== 6 ? detail.status - 1 : 4}>
             <Step title="进行中" />
             {/* <Step title="预览中" /> */}
             <Step title="待审核" />
@@ -156,7 +160,7 @@ class UserTaskList extends React.Component {
           detail.status === 2 &&
           <div className='taskdetail-status-note'>
             <p className='note-title'>任务已完成，等待创作者审核</p>
-            <p className='note-p'>若创作者在 <Countdown time={detail.countdown_time} onChange={this.checkConfirm} /> 内未操作，平台将自动审核通过</p>
+            <p className='note-p'>若创作者在 <Countdown time={countdown_time} onChange={this.checkConfirm} /> 内未操作，平台将自动审核通过</p>
           </div>
         }
         {
@@ -193,8 +197,8 @@ class UserTaskList extends React.Component {
         }
 
         {
-          // 任务进行中时显示
-          detail.status === 5 &&
+          // 任务违规时显示
+          detail.status === 6 &&
           <div className='taskdetail-status-note'>
             <p className='note-title'>任务违规</p>
             <p className='note-p' style={{ fontSize: '16px' }}>编号为<span className='danger'>{detail.id}</span>的任务关注保留时间是<span className='danger'>{dict.attention_time_dict[detail.attention_time]}</span>，创作者抽查到刷手在该时间内取消关注，扣除<span className='danger'>{detail.attention_time + 1}金币</span></p>
@@ -284,18 +288,16 @@ class UserTaskList extends React.Component {
                     <li>
                       <p>预览倒计时：</p>
                       <p>
-                        <Countdown time={detail.preview_countdown_time} type={1} onChange={(val) => {
-                          this.setState(state => ({
-                            detail: { ...state.detail, preview_countdown_time: val }
-                          }))
+                        <Countdown time={preview_countdown_time} type={1} onChange={(val) => {
+                          this.setState({ preview_countdown_time: val })
                         }} />秒
-                  <span className='danger'>（必须预览够60秒，才能够提交任务）</span>
+                        <span className='danger'>（必须预览够60秒，才能够提交任务）</span>
                       </p>
                     </li>
                   </React.Fragment>
                 }
                 <li>
-                  <Button type='primary' disabled={detail.preview_countdown_time > 0} onClick={this.submit}>完成任务</Button>
+                  <Button type='primary' disabled={preview_countdown_time > 0} onClick={this.submit}>完成任务</Button>
                   <Button style={{ marginLeft: '10px' }} type='dashed' onClick={this.giveupTask}>放弃</Button>
                 </li>
               </React.Fragment>
