@@ -1,8 +1,8 @@
 import React from 'react'
 import './index.scss'
 import { Link } from 'react-router-dom'
-
 import { Form, Input, Button, message, Modal } from 'antd'
+import { request } from '@/util/api'
 
 import { connect } from 'react-redux'
 import { login } from '@/redux/user.redux'
@@ -24,6 +24,16 @@ class Login extends React.Component {
       loading: false // 登录按钮加载
     }
     // console.log('login：', this.props)
+  }
+
+  UNSAFE_componentWillMount() { 
+    request('/auth/login', 'post', { username: 'xx', password: 'yy' }).then(res => { 
+      console.log(res)
+    }) 
+  }
+
+  componentDidMount() { 
+    
   }
 
   // 表单数据的双向绑定
@@ -72,7 +82,7 @@ class Login extends React.Component {
 
       } else {
         // console.log(err)
-        message.error('登录失败，请填写正确的用户名和密码')
+        message.error('登录失败，用户名或密码输入格式有误！')
       }
     });
 

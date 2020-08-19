@@ -274,7 +274,7 @@ class User extends React.Component {
 
   // 获取用户列表
   getLists() {
-    request('/api/user/list', 'post', { page: this.state.current, pageNum: 10 }).then(res => {
+    request('/user/list', 'post', { page: this.state.current, pageNum: 10 }).then(res => {
       // console.log(res.data)
       let data = res.data.lists
       data.forEach((item) => {

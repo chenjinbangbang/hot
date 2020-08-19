@@ -41,17 +41,17 @@ class Home extends React.Component {
         <Menu theme='light' onClick={this.handleClick} defaultOpenKeys={['admin', 'task', 'wealth', 'account']} selectedKeys={[this.props.location.pathname]} mode='inline' style={{ width: 160 }}>
           <SubMenu key='admin' title={<span><Icon type="appstore" /><span>后台管理</span></span>}>
             <Menu.Item key='/admin/user'>用户管理</Menu.Item>
-            <Menu.Item key='/admin/task'>任务管理</Menu.Item>
+            {/* <Menu.Item key='/admin/task'>任务管理</Menu.Item> */}
             <Menu.Item key='/admin/bank'>银行卡管理</Menu.Item>
             <Menu.Item key='/admin/platform'>账号管理</Menu.Item>
           </SubMenu>
-          <SubMenu key='task' title={<span><Icon type="appstore" /><span>任务中心</span></span>}>
+          {/* <SubMenu key='task' title={<span><Icon type="appstore" /><span>任务中心</span></span>}>
             <Menu.Item key='/home/user/task'>可接任务0</Menu.Item>
             <Menu.Item key='/home/user/tasklist'>任务列表0</Menu.Item>
 
             <Menu.Item key='/home'>任务列表1</Menu.Item>
             <Menu.Item key='/home/task/publish'>发布任务1</Menu.Item>
-          </SubMenu>
+          </SubMenu> */}
           <SubMenu key='wealth' title={<span><Icon type="property-safety" /><span>钱包中心</span></span>}>
             <Menu.Item key='/home/pay'>充值</Menu.Item>
             <Menu.Item key='/home/buygold'>购买金币</Menu.Item>

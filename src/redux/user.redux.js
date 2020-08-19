@@ -1,5 +1,6 @@
 // import axios from 'axios'
 import { message } from 'antd'
+import { request } from '@/util/api'
 
 const AUTH_SUCCESS = 'AUTH_SUCCESS' // 登录，注册成功
 const LOGOUT = 'LOGOUT' // 退出登录
@@ -41,10 +42,15 @@ export function user(state = initState, action) {
 export function login({ username, password }) {
   return dispatch => {
     // 模拟登录
-    setTimeout(() => {
-      localStorage.setItem('username', username)
-      dispatch({ type: AUTH_SUCCESS, data: { username } })
-    }, 1000)
+    // setTimeout(() => {
+    //   localStorage.setItem('username', username)
+    //   dispatch({ type: AUTH_SUCCESS, data: { username } })
+    // }, 1000)
+
+    request('/auth/login', 'post', { username, password }).then(res => { 
+      console.log(res)
+    })
+
   }
 }
 

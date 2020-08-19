@@ -2,12 +2,17 @@ import instance from './config'
 import { message } from 'antd'
 // import axios from 'axios'
 
-// 请求
+/**
+ * 请求方法
+ * @param {请求路径} url 
+ * @param {请求方式} method 
+ * @param {请求参数} data 
+ */
 export function request(url, method = 'get', data = {}) {
   return new Promise((resolve, reject) => {
 
     let config = {
-      url,
+      url: 'http://localhost:4000' + url,
       method,
       timeout: 10000,
       headers: {

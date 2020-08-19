@@ -22,19 +22,19 @@ import Register from '@/pages/register/register'
 
 // 后台管理
 import UserAdmin from '@/pages/admin/user/user' // 用户管理
-import TaskAdmin from '@/pages/admin/task/task' // 任务管理
+// import TaskAdmin from '@/pages/admin/task/task' // 任务管理
 import BankAdmin from '@/pages/admin/bank/bank' // 银行卡管理
 import PlatformAdmin from '@/pages/admin/platform/platform' // 账号管理
 
 // 任务中心 - 刷手
-import Usertask from '@/pages/task/user_task/user_task' // 可接任务（刷手）
-import Usertasklist from '@/pages/task/user_tasklist/user_tasklist' // 任务列表（刷手）
-import Usertaskdetail from '@/pages/task/user_taskdetail/user_taskdetail' // 任务详情（刷手）
+// import Usertask from '@/pages/task/user_task/user_task' // 可接任务（刷手）
+// import Usertasklist from '@/pages/task/user_tasklist/user_tasklist' // 任务列表（刷手）
+// import Usertaskdetail from '@/pages/task/user_taskdetail/user_taskdetail' // 任务详情（刷手）
 
 // 任务中心 - 创作者
-import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表（创作者）
-import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务（创作者）
-import Taskdetail from '@/pages/task/taskdetail/taskdetail' // 任务详情（创作者）
+// import Tasklist from '@/pages/task/tasklist/tasklist' // 任务列表（创作者）
+// import Taskpublish from '@/pages/task/taskpublish/taskpublish' // 发布任务（创作者）
+// import Taskdetail from '@/pages/task/taskdetail/taskdetail' // 任务详情（创作者）
 
 // 钱包中心
 import Pay from '@/pages/wealth/pay/pay' // 充值
@@ -95,10 +95,10 @@ class App extends React.Component {
             path: '/admin/user',
             component: UserAdmin
           },
-          {
-            path: '/admin/task',
-            component: TaskAdmin
-          },
+          // {
+          //   path: '/admin/task',
+          //   component: TaskAdmin
+          // },
           {
             path: '/admin/bank',
             component: BankAdmin
@@ -115,33 +115,33 @@ class App extends React.Component {
         routes: [
 
           // 任务中心 - 刷手
-          {
-            path: '/home/user/task',
-            component: Usertask
-          },
-          {
-            path: '/home/user/tasklist',
-            component: Usertasklist
-          },
-          {
-            path: '/home/user/taskdetail',
-            component: Usertaskdetail
-          },
+          // {
+          //   path: '/home/user/task',
+          //   component: Usertask
+          // },
+          // {
+          //   path: '/home/user/tasklist',
+          //   component: Usertasklist
+          // },
+          // {
+          //   path: '/home/user/taskdetail',
+          //   component: Usertaskdetail
+          // },
 
 
           // 任务中心 - 创作者
-          {
-            path: '/home',
-            component: Tasklist
-          },
-          {
-            path: '/home/task/publish',
-            component: Taskpublish
-          },
-          {
-            path: '/home/task/detail',
-            component: Taskdetail
-          },
+          // {
+          //   path: '/home',
+          //   component: Tasklist
+          // },
+          // {
+          //   path: '/home/task/publish',
+          //   component: Taskpublish
+          // },
+          // {
+          //   path: '/home/task/detail',
+          //   component: Taskdetail
+          // },
 
           // 钱包中心
           {
